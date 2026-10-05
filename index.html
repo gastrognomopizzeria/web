@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Gastrognomo Pizzeria - Pizza artesanal en Villena."
+    >
+
+    <meta
+        name="theme-color"
+        content="#590404"
+    >
+
+    <title>Gastrognomo Pizzeria | Villena</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+     ========================================================= -->
+
+<header class="header">
+
+    <div class="container nav-container">
+
+        <button
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Abrir menú"
+            aria-expanded="false"
+        >
+            ☰
+        </button>
+
+
+        <nav
+            class="nav"
+            id="nav"
+        >
+
+            <a href="#inicio">
+                Inicio
+            </a>
+
+            <a href="#carta">
+                Carta
+            </a>
+
+            <a href="#historia">
+                Nuestra historia
+            </a>
+
+            <a href="#contacto">
+                Contacto
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+     ========================================================= -->
+
+<section
+    class="hero"
+    id="inicio"
+>
+
+    <div class="container hero-content">
+
+        <span class="eyebrow">
+            PIZZERIA · VILLENA
+        </span>
+
+
+        <h1>
+
+            Pizza con
+
+            <span>
+                alma de gnomo.
+            </span>
+
+        </h1>
+
+
+        <p>
+            Pizzas artesanales hechas con cariño,
+            ingredientes seleccionados y una buena
+            dosis de tradición italiana.
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a
+                href="#carta"
+                class="btn btn-primary"
+            >
+                Ver la carta
+            </a>
+
+
+            <a
+                href="#contacto"
+                class="btn btn-outline"
+            >
+                Ven a vernos
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     DESTACADOS
+     ========================================================= -->
+
+<section class="features">
+
+    <div class="container features-grid">
+
+
+        <div class="feature">
+
+            <img
+                src="logo-horno.png"
+                alt="Estilo napolitano"
+                class="feature-icon"
+            >
+
+            <div>
+
+                <h3>
+                    Estilo napolitano
+                </h3>
+
+                <p>
+                    Elaborada siguiendo el espíritu
+                    y la tradición de la pizza napolitana.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature">
+
+            <img
+                src="logo-oliva.png"
+                alt="Producto de aquí"
+                class="feature-icon"
+            >
+
+            <div>
+
+                <h3>
+                    Producto de aquí
+                </h3>
+
+                <p>
+                    Apostamos por productos de nuestra
+                    tierra y por el sabor de lo cercano.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="feature">
+
+            <img
+                src="logo-castillo.png"
+                alt="Alma villenera"
+                class="feature-icon"
+            >
+
+            <div>
+
+                <h3>
+                    Alma villenera
+                </h3>
+
+                <p>
+                    Una pizza con raíces en Villena
+                    y mucho cariño por nuestra tierra.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CARTA
+     ========================================================= -->
+
+<section
+    class="section menu-section"
+    id="carta"
+>
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="eyebrow">
+                NUESTRA CARTA
+            </span>
+
+            <h2>
+                Elige tu
+                <span>
+                    pizza
+                </span>
+            </h2>
+
+            <p>
+                Descubre nuestras pizzas tradicionales,
+                clásicas, especiales y nuestros postres.
+            </p>
+
+        </div>
+
+
+        <div class="menu-filters">
+
+            <button
+                class="filter-btn active"
+                data-category="todas"
+            >
+                TODAS
+            </button>
+
+            <button
+                class="filter-btn"
+                data-category="tradicionales"
+            >
+                TRADICIONALES
+            </button>
+
+            <button
+                class="filter-btn"
+                data-category="clasicas"
+            >
+                CLÁSICAS
+            </button>
+
+            <button
+                class="filter-btn"
+                data-category="especiales"
+            >
+                ESPECIALES
+            </button>
+
+            <button
+                class="filter-btn"
+                data-category="postres"
+            >
+                POSTRES
+            </button>
+
+        </div>
+
+
+        <div class="pizza-grid">
+
+
+            <!-- TRADICIONALES -->
+
+            <article
+                class="pizza-card"
+                data-category="tradicionales"
+            >
+
+                <div class="pizza-image pizza-marinara"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            MARINARA
+                        </h3>
+
+                        <strong>
+                            7 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, albahaca, ajo morado de Las Pedroñeras, 
+			orégano y aceite "Tesoro de Villena".
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card"
+                data-category="tradicionales"
+            >
+
+                <div class="pizza-image pizza-cosaca"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            COSACA
+                        </h3>
+
+                        <strong>
+                            8 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, albahaca, queso manchego y aceite "Tesoro de Villena".
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card"
+                data-category="tradicionales"
+            >
+
+                <div class="pizza-image pizza-margarita"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            MARGARITA
+                        </h3>
+
+                        <strong>
+                            8 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, albahaca, queso Arzúa-Ulloa, queso "Vaquerito"
+                        y aceite "Tesoro de Villena".
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- CLÁSICAS -->
+
+            <article
+                class="pizza-card"
+                data-category="clasicas"
+            >
+
+                <div class="pizza-image pizza-lacon"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            LACÓN PORTOBELLO
+                        </h3>
+
+                        <strong>
+                            9 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, queso Arzúa-Ulloa, queso "Vaquerito", lacón ahumado, 
+                        champiñón portobello, albahaca y aceite "Tesoro de Villena".
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card"
+                data-category="clasicas"
+            >
+
+                <div class="pizza-image pizza-quesos"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            CUATRO QUESOS
+                        </h3>
+
+                        <strong>
+                            10 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, queso Arzúa-Ulloa, queso "Vaquerito", ricotta, 
+                        queso cabrales, albahaca y aceite "Tesoro de Villena".
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card"
+                data-category="clasicas"
+            >
+
+                <div class="pizza-image pizza-hortelana"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            HORTELANA
+                        </h3>
+
+                        <strong>
+                            10 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, queso Arzúa-Ulloa, queso "Vaquerito, berenjenas, 
+                        alcachofas, cebolla, queso de cabra, albahaca y aceite "Tesoro de Villena".
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card"
+                data-category="clasicas"
+            >
+
+                <div class="pizza-image pizza-cantabrica"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            CANTÁBRICA
+                        </h3>
+
+                        <strong>
+                            10 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, queso Arzúa-Ulloa, queso "Vaquerito", bonito del norte, 
+                        pimiento asado, cebolla y aceite "Tesoro de Villena".
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card"
+                data-category="clasicas"
+            >
+
+                <div class="pizza-image pizza-campera"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            CAMPERA
+                        </h3>
+
+                        <strong>
+                            10 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, queso Arzúa-Ulloa, queso "Vaquerito", berenjena,
+                        pimiento asado, ricotta, panceta, albahaca y aceite "Tesoro de Villena".
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card"
+                data-category="clasicas"
+            >
+
+                <div class="pizza-image pizza-diavola"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            DIÁVOLA
+                        </h3>
+
+                        <strong>
+                            11 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, queso Arzúa-Ulloa, queso "Vaquerito", chorizo de bellota
+                        aceitunas negras y copos de guindilla. 
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card"
+                data-category="clasicas"
+            >
+
+                <div class="pizza-image pizza-menorquina"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            MENORQUINA
+                        </h3>
+
+                        <strong>
+                            11 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, queso Arzúa-Ulloa, queso "Vaquerito, sobrasada etiqueta
+                        negra, queso de mahón y miel.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card"
+                data-category="clasicas"
+            >
+
+                <div class="pizza-image pizza-caprichosa"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            CAPRICHOSA
+                        </h3>
+
+                        <strong>
+                            11 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, queso Arzúa-Ulloa, queso "Vaquerito, lacón ahumado, champiñón
+                        portobello, aceitunas negras, alcachofas, albahaca y aceite "Tesoro de Villena".
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- ESPECIALES -->
+
+            <article
+                class="pizza-card"
+                data-category="especiales"
+            >
+
+                <div class="pizza-image pizza-iberica"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            IBÉRICA
+                        </h3>
+
+                        <strong>
+                            13 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tomate, queso Arzúa-Ulloa, queso "Vaquerito", jamón ibérico, 
+                        tomate cherry, queso manchego, albahaca y aceite "Tesoro de Villena".
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card"
+                data-category="especiales"
+            >
+
+                <div class="pizza-image pizza-carbonara"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            CARBONATA
+                        </h3>
+
+                        <strong>
+                            13 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Nata fresca, queso Arzúa-Ulloa, queso "Vaquerito, panceta, champiñón
+                        portobello, cebolla y queso de mahón.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card"
+                data-category="especiales"
+            >
+
+                <div class="pizza-image pizza-mes">
+
+                    <span class="pizza-tag">
+                        ESPECIAL
+                    </span>
+
+                </div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            PIZZA DEL MES
+                        </h3>
+
+                        <strong>
+                            SM
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Una propuesta especial que cambia
+                        para sorprenderte cada mes.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <!-- POSTRES -->
+
+            <article
+                class="pizza-card dessert-card"
+                data-category="postres"
+            >
+
+                <div class="pizza-image pizza-suspiro"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            SUSPIRO DE LIMÓN
+                        </h3>
+
+                        <strong>
+                            4 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tartaleta con crema de limón y 
+                        merengue suizo flameado.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article
+                class="pizza-card dessert-card"
+                data-category="postres"
+            >
+
+                <div class="pizza-image pizza-tarta"></div>
+
+                <div class="pizza-content">
+
+                    <div class="pizza-title">
+
+                        <h3>
+                            TARTA DE QUESO Y TURRÓN
+                        </h3>
+
+                        <strong>
+                            4 €
+                        </strong>
+
+                    </div>
+
+                    <p>
+                        Tarta de queso al estilo vasco con un toque
+                        de turrón y crocanti de almendras.
+                    </p>
+
+                </div>
+
+            </article>
+
+        </div>
+
+
+        <div
+            class="show-more-container"
+            id="showMoreContainer"
+        >
+
+            <button
+                class="show-more-btn"
+                id="showMoreBtn"
+            >
+                Ver más
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     HISTORIA
+     ========================================================= -->
+
+<section
+    class="story section"
+    id="historia"
+>
+
+    <div class="container story-grid">
+
+
+        <div class="story-image">
+
+            <img
+                src="logo-gastrognomo.png"
+                alt="Gastrognomo Pizzeria"
+                class="story-logo"
+            >
+
+        </div>
+
+
+        <div class="story-content">
+
+            <span class="eyebrow">
+                NUESTRA HISTORIA
+            </span>
+
+
+            <h2>
+
+                De Villena a
+
+                <span>
+                    Napoli
+                </span>
+
+            </h2>
+
+
+            <p class="large">
+
+                En Gastrognomo Pizzeria nos gusta pensar
+                que cada pizza tiene su propia historia
+                y que, a veces, la suerte también
+                se puede cocinar.
+
+            </p>
+
+
+            <p>
+
+                Nacimos en Villena, una tierra con identidad
+                propia, tradición y pequeños tesoros que
+                forman parte de nuestra cultura. Entre ellos
+                está el famoso orejón, un producto que nos
+                recuerda que las cosas sencillas, cuando se
+                hacen bien, pueden convertirse en algo
+                extraordinario.
+
+            </p>
+
+
+            <p>
+
+                Y de ahí nace nuestro gnomo. Un pequeño
+                personaje que representa esa parte mágica
+                de Gastrognomo y que conecta nuestra tierra
+                con una de las tradiciones más conocidas
+                de Nápoles: el cuerno de la suerte napolitano.
+
+            </p>
+
+
+            <p>
+
+                Así mezclamos dos mundos que nos encantan:
+                la esencia de Villena y el espíritu de la pizza
+                napolitana. Una mezcla hecha con cariño,
+                buen producto y muchas ganas de que cada
+                visita tenga un poquito de suerte.
+
+            </p>
+
+
+            <div class="signature">
+
+                <strong>
+                    Buona pizza!
+                </strong>
+
+                <span>
+                    — Gastrognomo Pizzeria
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CONTACTO
+     ========================================================= -->
+
+<section
+    class="section contact-section"
+    id="contacto"
+>
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span class="eyebrow">
+                CONTACTO
+            </span>
+
+            <h2>
+
+                Ven a
+
+                <span>
+                    vernos
+                </span>
+
+            </h2>
+
+            <p>
+                Te esperamos en Gastrognomo Pizzeria.
+            </p>
+
+        </div>
+
+
+        <div class="contact-info-single">
+
+
+            <div class="contact-item">
+
+                <span>
+                    📍
+                </span>
+
+                <div>
+
+                    <h3>
+                        Dirección
+                    </h3>
+
+                    <p>
+
+                        <a
+                            href="https://www.google.com/maps/search/?api=1&query=Ram%C3%B3n+y+Cajal+22%2C+03400+Villena"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+
+                            Ramón y Cajal 22, Bajo A<br>
+                            03400 Villena
+
+                        </a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="contact-item">
+
+                <span>
+                    📞
+                </span>
+
+                <div>
+
+                    <h3>
+                        Teléfono
+                    </h3>
+
+                    <p>
+
+                        <a href="tel:+34624837414">
+                            +34 624 83 74 14
+                        </a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="contact-item">
+
+                <span>
+                    ✉️
+                </span>
+
+                <div>
+
+                    <h3>
+                        Email
+                    </h3>
+
+                    <p>
+
+                        <a href="mailto:gastrognomopizzeria@gmail.com">
+                            gastrognomopizzeria@gmail.com
+                        </a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="contact-item">
+
+                <span>
+                    🕐
+                </span>
+
+                <div>
+
+                    <h3>
+                        Horario
+                    </h3>
+
+                    <p>
+
+                        Jueves a Domingo<br>
+                        19:00 - 23:30
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer class="footer">
+
+    <div class="container footer-grid">
+
+
+        <div>
+
+            <div class="footer-brand">
+
+                <img
+                    src="logo-gastrognomo-2.png"
+                    alt="Gastrognomo Pizzeria"
+                >
+
+            </div>
+
+
+            <p>
+
+                Pizza artesanal en Villena.
+                Hecha con pasión y un poquito de suerte.
+
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <h3>
+                Enlaces
+            </h3>
+
+            <a href="#inicio">
+                Inicio
+            </a>
+
+            <a href="#carta">
+                Carta
+            </a>
+
+            <a href="#historia">
+                Nuestra historia
+            </a>
+
+            <a href="#contacto">
+                Contacto
+            </a>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <h3>
+                Horario
+            </h3>
+
+            <p>
+                Jueves - Domingo
+            </p>
+
+            <p>
+                19:00 - 23:30
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <div class="container">
+
+            <p>
+                © 2026 Gastrognomo Pizzeria.
+                Todos los derechos reservados.
+            </p>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
