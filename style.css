@@ -1,0 +1,1294 @@
+:root {
+
+    --burgundy: #590404;
+    --burgundy-dark: #3d0202;
+
+    --cream: #EFD9C7;
+    --cream-light: #f8eee6;
+
+    --blue: #3D47FC;
+
+    --black: #171111;
+    --gray: #706461;
+    --white: #ffffff;
+
+    --font-title: "Playfair Display", serif;
+    --font-body: "DM Sans", sans-serif;
+
+    --container: 1180px;
+    --radius: 16px;
+}
+
+
+/* =========================================================
+    RESET
+    ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    font-family: var(--font-body);
+    color: var(--black);
+    background: var(--cream);
+    line-height: 1.6;
+}
+
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+    GENERAL
+    ========================================================= */
+
+.container {
+    width: min(100% - 40px, var(--container));
+    margin-inline: auto;
+}
+
+
+.section {
+    padding: 110px 0;
+}
+
+
+.eyebrow {
+    display: inline-block;
+
+    margin-bottom: 16px;
+
+    color: var(--burgundy);
+
+    font-size: 12px;
+    font-weight: 800;
+
+    letter-spacing: 2.5px;
+}
+
+
+h1,
+h2 {
+    font-family: var(--font-title);
+    line-height: 1.05;
+}
+
+
+h2 {
+    font-size: clamp(42px, 5vw, 66px);
+    margin-bottom: 20px;
+}
+
+
+h2 span,
+h1 span {
+    color: var(--burgundy);
+}
+
+
+.section-heading {
+    max-width: 700px;
+
+    margin: 0 auto 55px;
+
+    text-align: center;
+}
+
+
+.section-heading p {
+    color: var(--gray);
+    font-size: 17px;
+}
+
+
+/* =========================================================
+    BUTTONS
+    ========================================================= */
+
+.btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    min-height: 60px;
+
+    padding: 0 34px;
+
+    border-radius: 100px;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    border: 2px solid transparent;
+
+    transition: .25s ease;
+}
+
+
+.btn-primary {
+    background: var(--burgundy);
+    color: var(--white);
+}
+
+
+.btn-primary:hover {
+    background: var(--burgundy-dark);
+    transform: translateY(-2px);
+}
+
+
+.btn-call {
+    background: var(--burgundy);
+    color: var(--white);
+    border-color: rgba(255,255,255,.25);
+}
+
+
+.btn-call:hover {
+    background: var(--burgundy-dark);
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+    HEADER
+    ========================================================= */
+
+.header {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 100;
+
+    color: white;
+}
+
+
+.nav-container {
+    width: 100%;
+    max-width: none;
+    padding-inline: 40px;
+    height: 100px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+/* NAVEGACIÓN */
+
+.nav {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 9px;
+
+    border-radius: 50px;
+
+    background: var(--burgundy);
+
+    border: 1px solid rgba(255,255,255,.28);
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.28),
+        inset 0 1px 0 rgba(255,255,255,.12);
+}
+
+
+.nav a {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 48px;
+
+    padding: 0 22px;
+
+    border-radius: 30px;
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    text-shadow: 0 1px 3px rgba(0,0,0,.4);
+
+    transition: .2s;
+}
+
+
+.nav a:hover {
+    background: var(--cream);
+    color: var(--burgundy);
+
+    text-shadow: none;
+}
+
+.nav-contact-btn {
+    background: var(--burgundy-dark) !important;
+    color: white !important;
+    border: 1px solid rgba(255,255,255,.3);
+    text-shadow: none !important;
+}
+
+.nav-contact-btn:hover {
+    background: var(--black) !important;
+}
+
+
+.menu-toggle {
+    display: none;
+
+    border: 1px solid rgba(255,255,255,.45);
+
+    background: var(--burgundy);
+
+    color: white;
+
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    font-size: 26px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,.3);
+}
+
+
+/* =========================================================
+    HERO
+    ========================================================= */
+
+.hero {
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+}
+
+.hero-video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(20,5,5,.5) 0%,
+        rgba(20,5,5,.2) 55%,
+        rgba(20,5,5,.02) 100%
+    );
+}
+
+/* LOGOTIPO CENTRAL */
+.hero-center-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    width: min(85vw, 540px);
+    pointer-events: none;
+}
+
+.hero-logo-img {
+    width: 100%;
+    height: auto;
+    filter: brightness(0) saturate(100%) invert(26%) sepia(87%) saturate(3532%) hue-rotate(231deg) brightness(101%) contrast(98%);
+}
+
+.hero-bottom-left {
+    position: absolute;
+    bottom: 50px;
+    left: 40px;
+    z-index: 3;
+}
+
+.hero-buttons {
+    display: flex;
+
+    gap: 16px;
+}
+
+/* HORARIO FLOTANTE */
+.hero-schedule-badge {
+    position: absolute;
+    bottom: 50px;
+    right: 40px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    border-radius: 0;
+    color: white;
+    box-shadow: none;
+}
+
+.schedule-days {
+    display: flex;
+    gap: 8px;
+}
+
+.schedule-days .day {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    border: none;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.schedule-days .day.active {
+    background: var(--burgundy);
+    color: white;
+}
+
+.schedule-time {
+    font-size: 16px;
+    font-weight: 700;
+    text-align: right;
+    letter-spacing: 0.5px;
+    color: #f2d4bc;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+
+
+/* =========================================================
+    FEATURES
+    ========================================================= */
+
+.features {
+    background: var(--burgundy);
+
+    color: white;
+
+    padding: 42px 0;
+}
+
+
+.features-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 40px;
+    max-width: 900px;
+    margin-inline: auto;
+}
+
+
+.feature {
+    display: flex;
+
+    align-items: center;
+
+    gap: 22px;
+}
+
+
+.feature-icon {
+    width: 106px;
+    height: 106px;
+
+    object-fit: contain;
+
+    flex-shrink: 0;
+
+    filter: brightness(0) invert(1);
+}
+
+
+.feature h3 {
+    font-size: 20px;
+
+    margin-bottom: 6px;
+}
+
+
+.feature p {
+    font-size: 15px;
+
+    color: rgba(255,255,255,.85);
+}
+
+
+/* =========================================================
+    MENU
+    ========================================================= */
+
+.menu-section {
+    background: var(--white);
+}
+
+
+.menu-filters {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-bottom: 45px;
+
+    flex-wrap: wrap;
+}
+
+
+.filter-btn {
+    border: 2px solid rgba(89,4,4,.25);
+
+    background: transparent;
+
+    color: var(--burgundy);
+
+    padding: 10px 19px;
+
+    border-radius: 50px;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    transition: .2s;
+}
+
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--burgundy);
+
+    color: white;
+
+    border-color: var(--burgundy);
+}
+
+
+/* =========================================================
+    PIZZA GRID
+    ========================================================= */
+
+.pizza-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 24px;
+}
+
+
+.pizza-card {
+    overflow: hidden;
+
+    background: var(--cream);
+
+    border-radius: var(--radius);
+
+    box-shadow: 0 8px 30px rgba(89,4,4,.08);
+
+    transition: .3s;
+}
+
+
+.pizza-card:hover {
+    transform: translateY(-7px);
+
+    box-shadow: 0 15px 40px rgba(89,4,4,.16);
+}
+
+
+.pizza-card.hidden-all {
+    display: none !important;
+}
+
+
+.pizza-image {
+    height: 260px;
+
+    position: relative;
+
+    background-size: cover;
+    background-position: center;
+}
+
+
+/* =========================================================
+    IMÁGENES PIZZAS
+    ========================================================= */
+
+.pizza-marinara {
+    background-image: url("imagenes/pizzas/pizza-marinara.jpg");
+}
+
+
+.pizza-cosaca {
+    background-image: url("imagenes/pizzas/pizza-cosaca.jpg");
+}
+
+
+.pizza-margarita {
+    background-image: url("imagenes/pizzas/pizza-margarita.jpg");
+}
+
+
+.pizza-lacon {
+    background-image: url("imagenes/pizzas/pizza-lacon.jpg");
+}
+
+
+.pizza-quesos {
+    background-image: url("imagenes/pizzas/pizza-quesos.jpg");
+}
+
+
+.pizza-hortelana {
+    background-image: url("imagenes/pizzas/pizza-hortelana.jpg");
+}
+
+
+.pizza-cantabrica {
+    background-image: url("imagenes/pizzas/pizza-cantabrica.jpg");
+}
+
+
+.pizza-campera {
+    background-image: url("imagenes/pizzas/pizza-campera.jpg");
+}
+
+
+.pizza-diavola {
+    background-image: url("imagenes/pizzas/pizza-diavola.jpg");
+}
+
+
+.pizza-menorquina {
+    background-image: url("imagenes/pizzas/pizza-menorquina.jpg");
+}
+
+
+.pizza-caprichosa {
+    background-image: url("imagenes/pizzas/pizza-caprichosa.jpg");
+}
+
+
+.pizza-iberica {
+    background-image: url("imagenes/pizzas/pizza-iberica.jpg");
+}
+
+
+.pizza-carbonara {
+    background-image: url("imagenes/pizzas/pizza-carbonata.jpg");
+}
+
+
+.pizza-mes {
+    background-image: url("imagenes/pizzas/pizza-mes.jpg");
+}
+
+
+.pizza-tarta {
+    background-image: url("imagenes/pizzas/pizza-tarta.jpg");
+}
+
+
+/* =========================================================
+    PIZZA CONTENT
+    ========================================================= */
+
+.pizza-tag {
+    position: absolute;
+
+    top: 15px;
+    left: 15px;
+
+    padding: 7px 12px;
+
+    border-radius: 50px;
+
+    background: var(--blue);
+
+    color: white;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+.pizza-content {
+    padding: 24px;
+}
+
+
+.pizza-title {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+}
+
+
+.pizza-title h3 {
+    font-family: var(--font-title);
+
+    font-size: 24px;
+
+    color: var(--burgundy);
+}
+
+
+.pizza-title strong {
+    color: var(--burgundy);
+
+    white-space: nowrap;
+}
+
+
+.pizza-content p {
+    color: var(--gray);
+
+    font-size: 13px;
+
+    margin: 10px 0 4px;
+}
+
+
+/* =========================================================
+    VER MÁS
+    ========================================================= */
+
+.show-more-container {
+    display: none;
+
+    justify-content: center;
+
+    margin-top: 35px;
+}
+
+
+.show-more-container.visible {
+    display: flex;
+}
+
+
+.show-more-btn {
+    border: 2px solid var(--burgundy);
+
+    background: transparent;
+
+    color: var(--burgundy);
+
+    padding: 12px 28px;
+
+    border-radius: 50px;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    transition: .2s;
+}
+
+
+.show-more-btn:hover {
+    background: var(--blue);
+
+    color: white;
+
+    border-color: var(--blue);
+}
+
+
+/* =========================================================
+    STORY (CARRUSEL)
+    ========================================================= */
+
+.story {
+    background: var(--cream);
+
+    color: var(--black);
+}
+
+
+.story-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    align-items: center;
+
+    gap: 90px;
+}
+
+
+.story-carousel-container {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 570px;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 30px rgba(89,4,4,.12);
+}
+
+
+.story-carousel {
+    position: relative;
+
+    width: 100%;
+
+    height: 100%;
+
+    min-height: 570px;
+}
+
+
+.carousel-slide {
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    opacity: 0;
+
+    transition: opacity 0.6s ease-in-out;
+}
+
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+
+.carousel-slide img {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+.carousel-btn {
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    background: rgba(89, 4, 4, 0.7);
+
+    color: white;
+
+    border: none;
+
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 50%;
+
+    font-size: 18px;
+
+    z-index: 10;
+
+    transition: background 0.3s;
+}
+
+
+.carousel-btn:hover {
+    background: var(--burgundy);
+}
+
+
+.carousel-btn.prev {
+    left: 15px;
+}
+
+
+.carousel-btn.next {
+    right: 15px;
+}
+
+
+.carousel-dots {
+    position: absolute;
+
+    bottom: 20px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+
+    gap: 8px;
+
+    z-index: 10;
+}
+
+
+.carousel-dots .dot {
+    width: 10px;
+
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.5);
+
+    cursor: pointer;
+
+    transition: background 0.3s, transform 0.3s;
+}
+
+
+.carousel-dots .dot.active {
+    background: white;
+
+    transform: scale(1.2);
+}
+
+
+.story-content .eyebrow {
+    color: var(--burgundy);
+}
+
+
+.story-content h2 {
+    color: var(--black);
+}
+
+
+.story-content h2 span {
+    color: var(--burgundy);
+}
+
+
+.story-content p {
+    color: var(--gray);
+
+    margin-bottom: 18px;
+}
+
+
+.story-content .large {
+    color: var(--black);
+
+    font-size: 20px;
+}
+
+
+.signature {
+    margin-top: 35px;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.signature strong {
+    font-family: var(--font-title);
+
+    font-size: 25px;
+
+    color: var(--burgundy);
+}
+
+
+.signature span {
+    color: var(--gray);
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+    FOOTER
+    ========================================================= */
+
+.footer {
+    background: var(--burgundy);
+
+    color: white;
+
+    padding-top: 65px;
+}
+
+
+.footer-grid {
+    display: grid;
+
+    grid-template-columns: 2fr 1fr 1fr;
+
+    gap: 50px;
+
+    padding-bottom: 55px;
+}
+
+
+.footer-brand {
+    display: block;
+}
+
+
+.footer-brand img {
+    width: 162px;
+
+    max-width: 100%;
+
+    height: auto;
+
+    object-fit: contain;
+}
+
+
+.footer-grid > div:first-child p {
+    max-width: 300px;
+
+    color: rgba(255,255,255,.75);
+
+    font-size: 15.6px;
+
+    margin-top: 18px;
+}
+
+
+.footer-links {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.footer-links h3 {
+    font-size: 13px;
+
+    margin-bottom: 10px;
+}
+
+
+.footer-links a,
+.footer-links p {
+    color: rgba(255,255,255,.75);
+
+    font-size: 13px;
+}
+
+
+.footer-links a:hover {
+    color: white;
+}
+
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.15);
+
+    padding: 20px 0;
+}
+
+
+.footer-bottom p {
+    color: rgba(255,255,255,.6);
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+    RESPONSIVE
+    ========================================================= */
+
+@media (max-width: 900px) {
+
+
+    .nav-container {
+        padding-inline: 20px;
+    }
+
+
+    .nav {
+        position: absolute;
+
+        top: 85px;
+
+        left: 20px;
+        right: 20px;
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        padding: 15px;
+
+        background: var(--burgundy);
+
+        border-radius: 15px;
+
+        box-shadow: 0 20px 40px rgba(0,0,0,.4);
+    }
+
+
+    .nav.active {
+        display: flex;
+    }
+
+
+    .nav a {
+        min-height: 48px;
+
+        justify-content: flex-start;
+
+        padding: 8px 16px;
+    }
+
+
+    .menu-toggle {
+        display: block;
+    }
+
+
+    .features-grid,
+    .pizza-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+    .story-grid {
+        grid-template-columns: 1fr;
+
+        gap: 50px;
+    }
+
+
+    .story-carousel-container,
+    .story-carousel {
+        min-height: 400px;
+    }
+
+    .hero-bottom-left {
+        bottom: 30px;
+        left: 20px;
+    }
+
+    .hero-schedule-badge {
+        bottom: 30px;
+        right: 20px;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+
+    .container {
+        width: min(100% - 28px, var(--container));
+    }
+
+
+    .section {
+        padding: 75px 0;
+    }
+
+
+    .hero {
+        min-height: 100vh;
+    }
+
+    /* REDucción 50% ELEMENTOS HERO EN MÓVIL */
+
+    .hero-center-logo {
+        width: min(45vw, 160px);
+    }
+
+    .btn {
+        min-height: 32px;
+        padding: 0 12px;
+        font-size: 11px;
+    }
+
+    .hero-bottom-left {
+        bottom: 60px;
+        left: 15px;
+    }
+
+    .hero-schedule-badge {
+        bottom: 15px;
+        left: 15px;
+        right: auto;
+        width: fit-content;
+        gap: 4px;
+    }
+
+    .schedule-days .day {
+        width: 18px;
+        height: 18px;
+        font-size: 8px;
+        border-radius: 3px;
+    }
+
+    .schedule-time {
+        font-size: 9px;
+        text-align: left;
+    }
+
+    .hero-buttons {
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+    }
+
+
+    .features {
+        padding: 24px 0;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        max-width: 100%;
+    }
+
+
+    .feature {
+        align-items: center;
+        gap: 14px;
+    }
+
+    .feature-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .feature h3 {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+
+    .feature p {
+        font-size: 11px;
+    }
+
+
+    /* CARTA A 1 SOLA COLUMNA EN MÓVIL */
+
+    .pizza-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .pizza-image {
+        height: 240px;
+    }
+
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+    }
+
+
+    .footer-brand img {
+        width: 144px;
+    }
+
+
+    .brand {
+        width: 125px;
+    }
+
+
+    .nav {
+        top: 80px;
+    }
+
+}
