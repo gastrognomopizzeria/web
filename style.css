@@ -582,81 +582,81 @@ h1 span {
 
 
 /* =========================================================
-    IMÁGENES PIZZAS
+    IMÁGENES PIZZAS (RUTAS CORREGIDAS A 'pizzas/')
     ========================================================= */
 
 .pizza-marinara {
-    background-image: url("imagenes/pizzas/pizza-marinara.jpg");
+    background-image: url("pizzas/pizza-marinara.jpg");
 }
 
 
 .pizza-cosaca {
-    background-image: url("imagenes/pizzas/pizza-cosaca.jpg");
+    background-image: url("pizzas/pizza-cosaca.jpg");
 }
 
 
 .pizza-margarita {
-    background-image: url("imagenes/pizzas/pizza-margarita.jpg");
+    background-image: url("pizzas/pizza-margarita.jpg");
 }
 
 
 .pizza-lacon {
-    background-image: url("imagenes/pizzas/pizza-lacon.jpg");
+    background-image: url("pizzas/pizza-lacon.jpg");
 }
 
 
 .pizza-quesos {
-    background-image: url("imagenes/pizzas/pizza-quesos.jpg");
+    background-image: url("pizzas/pizza-quesos.jpg");
 }
 
 
 .pizza-hortelana {
-    background-image: url("imagenes/pizzas/pizza-hortelana.jpg");
+    background-image: url("pizzas/pizza-hortelana.jpg");
 }
 
 
 .pizza-cantabrica {
-    background-image: url("imagenes/pizzas/pizza-cantabrica.jpg");
+    background-image: url("pizzas/pizza-cantabrica.jpg");
 }
 
 
 .pizza-campera {
-    background-image: url("imagenes/pizzas/pizza-campera.jpg");
+    background-image: url("pizzas/pizza-campera.jpg");
 }
 
 
 .pizza-diavola {
-    background-image: url("imagenes/pizzas/pizza-diavola.jpg");
+    background-image: url("pizzas/pizza-diavola.jpg");
 }
 
 
 .pizza-menorquina {
-    background-image: url("imagenes/pizzas/pizza-menorquina.jpg");
+    background-image: url("pizzas/pizza-menorquina.jpg");
 }
 
 
 .pizza-caprichosa {
-    background-image: url("imagenes/pizzas/pizza-caprichosa.jpg");
+    background-image: url("pizzas/pizza-caprichosa.jpg");
 }
 
 
 .pizza-iberica {
-    background-image: url("imagenes/pizzas/pizza-iberica.jpg");
+    background-image: url("pizzas/pizza-iberica.jpg");
 }
 
 
 .pizza-carbonara {
-    background-image: url("imagenes/pizzas/pizza-carbonata.jpg");
+    background-image: url("pizzas/pizza-carbonata.jpg");
 }
 
 
 .pizza-mes {
-    background-image: url("imagenes/pizzas/pizza-mes.jpg");
+    background-image: url("pizzas/pizza-mes.jpg");
 }
 
 
 .pizza-tarta {
-    background-image: url("imagenes/pizzas/pizza-tarta.jpg");
+    background-image: url("pizzas/pizza-tarta.jpg");
 }
 
 
@@ -1183,7 +1183,7 @@ h1 span {
         min-height: 100vh;
     }
 
-    /* REDucción 50% ELEMENTOS HERO EN MÓVIL */
+    /* REDUCCIÓN 50% ELEMENTOS HERO EN MÓVIL */
 
     .hero-center-logo {
         width: min(45vw, 160px);
