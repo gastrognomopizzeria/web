@@ -1296,14 +1296,17 @@ h1 span {
         height: 100svh;
     }
 
+    /* ELEMENTOS HERO EN MÓVIL (Logotipo un 10% más grande: 165px -> ~181.5px) */
+
     .hero-center-logo {
-        width: min(49.5vw, 165px);
+        width: min(54.45vw, 181.5px);
     }
 
+    /* Botones un 10% más pequeños (min-height: 32px -> ~28.8px, font-size: 11px -> ~9.9px, padding ajustado) */
     .btn {
-        min-height: 32px;
-        padding: 0 12px;
-        font-size: 11px;
+        min-height: 28.8px;
+        padding: 0 10.8px;
+        font-size: 9.9px;
     }
 
     .hero-bottom-left {
@@ -1311,23 +1314,24 @@ h1 span {
         left: 15px;
     }
 
+    /* Horario un 10% más pequeño */
     .hero-schedule-badge {
         bottom: 12px;
         right: 15px;
         left: auto;
         width: fit-content;
-        gap: 3px;
+        gap: 2.7px;
     }
 
     .schedule-days .day {
-        width: 15px;
-        height: 15px;
-        font-size: 7px;
-        border-radius: 2px;
+        width: 13.5px;
+        height: 13.5px;
+        font-size: 6.3px;
+        border-radius: 1.8px;
     }
 
     .schedule-time {
-        font-size: 8px;
+        font-size: 7.2px;
         text-align: right;
     }
 
