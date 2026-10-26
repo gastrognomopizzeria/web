@@ -6,14 +6,14 @@
     --cream: #EFD9C7;
     --cream-light: #f8eee6;
 
-    --blue: #3D47FC;
+    --blue: #3D47FC; /* Azul #3D47FC exacto */
 
     --black: #171111;
     --gray: #706461;
     --white: #ffffff;
 
-    --font-title: "Playfair Display", serif;
-    --font-body: "DM Sans", sans-serif;
+    --font-title: "Galter", "Cabinet Grotesk", sans-serif;
+    --font-body: "Montserrat", sans-serif;
 
     --container: 1180px;
     --radius: 16px;
@@ -240,6 +240,7 @@ h1 span {
     display: inline-flex;
 
     align-items: center;
+
     justify-content: center;
 
     min-height: 48px;
@@ -342,7 +343,7 @@ h1 span {
     );
 }
 
-/* LOGOTIPO CENTRAL */
+/* LOGOTIPO CENTRAL (#3D47FC) */
 .hero-center-logo {
     position: absolute;
     top: 50%;
@@ -356,12 +357,12 @@ h1 span {
 .hero-logo-img {
     width: 100%;
     height: auto;
-    filter: brightness(0) saturate(100%) invert(26%) sepia(87%) saturate(3532%) hue-rotate(231deg) brightness(101%) contrast(98%);
+    filter: invert(31%) sepia(87%) saturate(3000%) hue-rotate(222deg) brightness(98%) contrast(102%);
 }
 
 .hero-bottom-left {
     position: absolute;
-    bottom: 50px;
+    bottom: 65px;
     left: 40px;
     z-index: 3;
 }
@@ -470,6 +471,7 @@ h1 span {
 
 
 .feature h3 {
+    font-family: var(--font-title);
     font-size: 20px;
 
     margin-bottom: 6px;
@@ -1002,9 +1004,9 @@ h1 span {
 .footer-grid {
     display: grid;
 
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;
 
-    gap: 50px;
+    gap: 40px; /* Separación aumentada */
 
     padding-bottom: 55px;
 }
@@ -1016,24 +1018,13 @@ h1 span {
 
 
 .footer-brand img {
-    width: 162px;
+    width: 324px;
 
     max-width: 100%;
 
     height: auto;
 
     object-fit: contain;
-}
-
-
-.footer-grid > div:first-child p {
-    max-width: 300px;
-
-    color: rgba(255,255,255,.75);
-
-    font-size: 15.6px;
-
-    margin-top: 18px;
 }
 
 
@@ -1046,8 +1037,11 @@ h1 span {
 }
 
 
-.footer-links h3 {
-    font-size: 13px;
+.footer-links h3,
+.footer-links h3 a {
+    font-family: var(--font-title);
+    font-size: 15px;
+    font-weight: 700;
 
     margin-bottom: 10px;
 }
@@ -1154,13 +1148,17 @@ h1 span {
     }
 
     .hero-bottom-left {
-        bottom: 30px;
+        bottom: 45px;
         left: 20px;
     }
 
     .hero-schedule-badge {
         bottom: 30px;
         right: 20px;
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
 }
@@ -1183,10 +1181,10 @@ h1 span {
         min-height: 100vh;
     }
 
-    /* REDUCCIÓN 50% ELEMENTOS HERO EN MÓVIL */
+    /* ELEMENTOS HERO EN MÓVIL (LOGOTIPO 10% MÁS GRANDE) */
 
     .hero-center-logo {
-        width: min(45vw, 160px);
+        width: min(49.5vw, 165px);
     }
 
     .btn {
@@ -1196,34 +1194,35 @@ h1 span {
     }
 
     .hero-bottom-left {
-        bottom: 60px;
+        bottom: 22px;
         left: 15px;
     }
 
+    /* HORARIO EN MÓVIL */
     .hero-schedule-badge {
-        bottom: 15px;
-        left: 15px;
-        right: auto;
+        bottom: 12px;
+        right: 15px;
+        left: auto;
         width: fit-content;
-        gap: 4px;
+        gap: 3px;
     }
 
     .schedule-days .day {
-        width: 18px;
-        height: 18px;
-        font-size: 8px;
-        border-radius: 3px;
+        width: 15px;
+        height: 15px;
+        font-size: 7px;
+        border-radius: 2px;
     }
 
     .schedule-time {
-        font-size: 9px;
-        text-align: left;
+        font-size: 8px;
+        text-align: right;
     }
 
     .hero-buttons {
         flex-direction: row;
         align-items: center;
-        gap: 6px;
+        gap: 5px;
     }
 
 
@@ -1270,15 +1269,20 @@ h1 span {
     }
 
 
+    /* FOOTER MÓVIL: Logo centrado, separación y 2 columnas x 2 líneas para apartados */
     .footer-grid {
-        grid-template-columns: 1fr;
-
-        gap: 35px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 45px; /* Separación ampliada respecto al logo */
     }
 
+    .footer-col-brand {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: center;
+    }
 
     .footer-brand img {
-        width: 144px;
+        margin: 0 auto;
     }
 
 
@@ -1291,4 +1295,10 @@ h1 span {
         top: 80px;
     }
 
-}
+    /* FILTROS DE CARTA */
+    .menu-filters {
+        max-width: 270px;
+        margin-inline: auto;
+    }
+
+}g
