@@ -308,7 +308,7 @@ h1 span {
 
     width: 100%;
     min-height: 100vh;
-    min-height: 100dvh; /* Altura dinámica real en móviles */
+    min-height: 100svh; /* Usamos svh para garantizar que quepa con las barras del móvil abiertas */
 
     display: flex;
     align-items: flex-end;
@@ -321,7 +321,7 @@ h1 span {
     left: 0;
     width: 100%;
     height: 100vh;
-    height: 100dvh;
+    height: 100svh;
     z-index: 1;
 }
 
@@ -1181,12 +1181,12 @@ h1 span {
 
     .hero {
         min-height: 100vh;
-        min-height: 100dvh;
+        min-height: 100svh;
     }
 
     .hero-video-container {
         height: 100vh;
-        height: 100dvh;
+        height: 100svh;
     }
 
     /* ELEMENTOS HERO EN MÓVIL (LOGOTIPO 10% MÁS GRANDE) */
