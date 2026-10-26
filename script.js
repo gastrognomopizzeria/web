@@ -72,24 +72,6 @@ const showMoreBtn =
 
 
 
-/*
-    Estado actual de la carta.
-
-    En TODAS:
-    - Se muestran inicialmente las 3 pizzas marcadas
-      con data-default="true":
-        · Margarita
-        · Lacón Portobello
-        · Menorquina
-    - VER MÁS muestra todos los productos.
-    - VER MENOS vuelve a mostrar únicamente esas 3.
-
-    En cualquier otra categoría:
-    - Se muestran todos los productos.
-    - El botón desaparece.
-*/
-
-
 let currentCategory = "todas";
 
 let expanded = false;
@@ -126,11 +108,6 @@ function showCategory(category) {
         }
 
 
-        /*
-            En TODAS se muestran únicamente las tres
-            pizzas marcadas como destacadas inicialmente.
-        */
-
         if (
             category === "todas" &&
             card.dataset.default !== "true"
@@ -146,10 +123,6 @@ function showCategory(category) {
     });
 
 
-
-    /* =====================================================
-       TODAS
-       ===================================================== */
 
     if (category === "todas") {
 
@@ -173,10 +146,6 @@ function showCategory(category) {
 
     }
 
-
-    /* =====================================================
-       OTRAS CATEGORÍAS
-       ===================================================== */
 
     else {
 
@@ -251,12 +220,6 @@ if (showMoreBtn) {
         if (expanded) {
 
 
-            /* =============================================
-               MOSTRAR TODOS LOS PRODUCTOS
-
-               Se mantiene exactamente el orden del HTML.
-               ============================================= */
-
             pizzaCards.forEach(card => {
 
                 card.style.display = "block";
@@ -276,10 +239,6 @@ if (showMoreBtn) {
 
         } else {
 
-
-            /* =============================================
-               VOLVER A MOSTRAR LAS 3 DESTACADAS
-               ============================================= */
 
             pizzaCards.forEach(card => {
 
@@ -310,11 +269,6 @@ if (showMoreBtn) {
             showMoreBtn.dataset.expanded =
                 "false";
 
-
-            /*
-               Volver al comienzo de la sección
-               de carta.
-            */
 
             document
                 .getElementById("carta")
@@ -394,6 +348,40 @@ if (slides.length) {
     });
 
     startCarouselTimer();
+}
+
+
+
+/* =========================================================
+   VENTANA MODAL AVISO LEGAL
+   ========================================================= */
+
+const openLegalModal = document.getElementById("openLegalModal");
+const legalModal = document.getElementById("legalModal");
+const closeLegalModal = document.getElementById("closeLegalModal");
+const legalBackdrop = document.getElementById("legalBackdrop");
+
+if (openLegalModal && legalModal) {
+    openLegalModal.addEventListener("click", (e) => {
+        e.preventDefault();
+        legalModal.classList.add("active");
+        document.body.style.overflow = "hidden"; // Evita el scroll del fondo
+    });
+
+    const closeModalFunc = () => {
+        legalModal.classList.remove("active");
+        document.body.style.overflow = "";
+    };
+
+    if (closeLegalModal) closeLegalModal.addEventListener("click", closeModalFunc);
+    if (legalBackdrop) legalBackdrop.addEventListener("click", closeModalFunc);
+
+    // Cerrar también pulsando la tecla ESC
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && legalModal.classList.contains("active")) {
+            closeModalFunc();
+        }
+    });
 }
 
 
