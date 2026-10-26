@@ -25,7 +25,7 @@
     RESET
     ========================================================= */
 
-* {
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -356,14 +356,14 @@ h1 span {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
-    width: min(76.5vw, 486px); /* Reducido un 10% respecto a 85vw / 540px */
+    width: min(65.025vw, 413.1px); /* Reducido un 15% adicional respecto a 76.5vw / 486px */
     pointer-events: none;
 }
 
 .hero-logo-img {
     width: 100%;
     height: auto;
-    filter: brightness(0) invert(1); /* Cambiado a color blanco puro */
+    filter: brightness(0) saturate(100%) invert(20%) sepia(98%) saturate(3781%) hue-rotate(231deg) brightness(101%) contrast(101%); /* Aplicado color azul corporativo #3D47FC */
 }
 
 .hero-bottom-left {
@@ -1301,10 +1301,10 @@ h1 span {
         height: 100svh;
     }
 
-    /* ELEMENTOS HERO EN MÓVIL (Logotipo reducido un 10% adicional tras el cambio general) */
+    /* ELEMENTOS HERO EN MÓVIL (Logotipo reducido un 15% adicional) */
 
     .hero-center-logo {
-        width: min(49.005vw, 163.35px);
+        width: min(41.654vw, 138.8475px);
     }
 
     /* Botones un 10% más pequeños (min-height: 32px -> ~28.8px, font-size: 11px -> ~9.9px, padding ajustado) */
