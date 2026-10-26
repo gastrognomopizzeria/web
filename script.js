@@ -73,20 +73,20 @@ const showMoreBtn =
 
 
 /*
-   Estado actual de la carta.
+    Estado actual de la carta.
 
-   En TODAS:
-   - Se muestran inicialmente las 3 pizzas marcadas
-     con data-default="true":
-       · Margarita
-       · Lacón Portobello
-       · Menorquina
-   - VER MÁS muestra todos los productos.
-   - VER MENOS vuelve a mostrar únicamente esas 3.
+    En TODAS:
+    - Se muestran inicialmente las 3 pizzas marcadas
+      con data-default="true":
+        · Margarita
+        · Lacón Portobello
+        · Menorquina
+    - VER MÁS muestra todos los productos.
+    - VER MENOS vuelve a mostrar únicamente esas 3.
 
-   En cualquier otra categoría:
-   - Se muestran todos los productos.
-   - El botón desaparece.
+    En cualquier otra categoría:
+    - Se muestran todos los productos.
+    - El botón desaparece.
 */
 
 
@@ -472,4 +472,4 @@ if ("IntersectionObserver" in window) {
 
     });
 
-}g
+}
