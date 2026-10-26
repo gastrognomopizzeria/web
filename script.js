@@ -1,6 +1,6 @@
 /* =========================================================
-   MENÚ MÓVIL
-   ========================================================= */
+    MENÚ MÓVIL
+    ========================================================= */
 
 const menuToggle = document.getElementById("menuToggle");
 const nav = document.getElementById("nav");
@@ -52,8 +52,8 @@ if (menuToggle && nav) {
 
 
 /* =========================================================
-   FILTROS DE CARTA
-   ========================================================= */
+    FILTROS DE CARTA
+    ========================================================= */
 
 const filterButtons =
     document.querySelectorAll(".filter-btn");
@@ -79,8 +79,8 @@ let expanded = false;
 
 
 /* =========================================================
-   MOSTRAR CATEGORÍA
-   ========================================================= */
+    MOSTRAR CATEGORÍA
+    ========================================================= */
 
 function showCategory(category) {
 
@@ -160,16 +160,16 @@ function showCategory(category) {
 
 
 /* =========================================================
-   INICIALIZAR CARTA
-   ========================================================= */
+    INICIALIZAR CARTA
+    ========================================================= */
 
 showCategory("todas");
 
 
 
 /* =========================================================
-   CAMBIAR CATEGORÍA
-   ========================================================= */
+    CAMBIAR CATEGORÍA
+    ========================================================= */
 
 filterButtons.forEach(button => {
 
@@ -199,8 +199,8 @@ filterButtons.forEach(button => {
 
 
 /* =========================================================
-   BOTÓN VER MÁS / VER MENOS
-   ========================================================= */
+    BOTÓN VER MÁS / VER MENOS
+    ========================================================= */
 
 if (showMoreBtn) {
 
@@ -286,8 +286,8 @@ if (showMoreBtn) {
 
 
 /* =========================================================
-   CARRUSEL HISTORIA
-   ========================================================= */
+    CARRUSEL HISTORIA
+    ========================================================= */
 
 const slides = document.querySelectorAll(".carousel-slide");
 const dots = document.querySelectorAll(".carousel-dots .dot");
@@ -353,8 +353,8 @@ if (slides.length) {
 
 
 /* =========================================================
-   VENTANA MODAL AVISO LEGAL
-   ========================================================= */
+    VENTANA MODAL AVISO LEGAL
+    ========================================================= */
 
 const openLegalModal = document.getElementById("openLegalModal");
 const legalModal = document.getElementById("legalModal");
@@ -387,8 +387,8 @@ if (openLegalModal && legalModal) {
 
 
 /* =========================================================
-   ANIMACIÓN AL HACER SCROLL
-   ========================================================= */
+    ANIMACIÓN AL HACER SCROLL
+    ========================================================= */
 
 const animatedElements =
     document.querySelectorAll(

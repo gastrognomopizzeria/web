@@ -12,7 +12,8 @@
     --gray: #706461;
     --white: #ffffff;
 
-    --font-title: "Galter", "Cabinet Grotesk", sans-serif;
+    --font-title: "Montserrat", sans-serif;
+    --font-galter: "Galter", "Cabinet Grotesk", sans-serif;
     --font-body: "Montserrat", sans-serif;
 
     --container: 1180px;
@@ -109,6 +110,10 @@ h2 {
     margin-bottom: 20px;
 }
 
+h2.font-galter {
+    font-family: var(--font-galter);
+}
+
 
 h2 span,
 h1 span {
@@ -173,7 +178,7 @@ h1 span {
 .btn-call {
     background: var(--burgundy);
     color: var(--white);
-    border-color: rgba(255,255,255,.25);
+    border: none;
 }
 
 
@@ -228,7 +233,7 @@ h1 span {
 
     background: var(--burgundy);
 
-    border: 1px solid rgba(255,255,255,.28);
+    border: none;
 
     box-shadow:
         0 8px 25px rgba(0,0,0,.28),
@@ -270,7 +275,7 @@ h1 span {
 .nav-contact-btn {
     background: var(--burgundy-dark) !important;
     color: white !important;
-    border: 1px solid rgba(255,255,255,.3);
+    border: none !important;
     text-shadow: none !important;
 }
 
@@ -282,7 +287,7 @@ h1 span {
 .menu-toggle {
     display: none;
 
-    border: 1px solid rgba(255,255,255,.45);
+    border: none;
 
     background: var(--burgundy);
 
@@ -351,14 +356,14 @@ h1 span {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
-    width: min(85vw, 540px);
+    width: min(76.5vw, 486px); /* Reducido un 10% respecto a 85vw / 540px */
     pointer-events: none;
 }
 
 .hero-logo-img {
     width: 100%;
     height: auto;
-    filter: invert(31%) sepia(87%) saturate(3000%) hue-rotate(222deg) brightness(98%) contrast(102%);
+    filter: brightness(0) invert(1); /* Cambiado a color blanco puro */
 }
 
 .hero-bottom-left {
@@ -1296,10 +1301,10 @@ h1 span {
         height: 100svh;
     }
 
-    /* ELEMENTOS HERO EN MÓVIL (Logotipo un 10% más grande: 165px -> ~181.5px) */
+    /* ELEMENTOS HERO EN MÓVIL (Logotipo reducido un 10% adicional tras el cambio general) */
 
     .hero-center-logo {
-        width: min(54.45vw, 181.5px);
+        width: min(49.005vw, 163.35px);
     }
 
     /* Botones un 10% más pequeños (min-height: 32px -> ~28.8px, font-size: 11px -> ~9.9px, padding ajustado) */
