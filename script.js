@@ -9,6 +9,53 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let cart = [];
 
+// FUNCIÓN AUXILIAR: Limpia tildes, eñes y símbolos para impresoras POS-80
+function limpiarTextoParaImpresora(texto) {
+    if (!texto) return "";
+    return texto
+        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") // Elimina acentos/tildes
+        .replace(/[Ñ]/g, "N")
+        .replace(/[ñ]/g, "n")
+        .replace(/[€]/g, "EUR")
+        .replace(/[¡!]/g, "!") 
+        .replace(/[ºª]/g, "");
+}
+
+// FUNCIÓN AUXILIAR: Ajusta y corta texto de forma estricta (incluso palabras sin espacios) para NUNCA superar los 42 caracteres
+function ajustarAnchoPOS80(texto, maxChars = 42, indent = "") {
+    if (!texto) return "";
+    let palabras = texto.split(" ");
+    let lineas = [];
+    let lineaActual = indent;
+
+    palabras.forEach(palabra => {
+        while (palabra.length > maxChars - indent.length) {
+            let espacioRestante = maxChars - lineaActual.length;
+            let parte = palabra.substring(0, espacioRestante);
+            lineaActual += parte;
+            lineas.push(lineaActual);
+            lineaActual = indent;
+            palabra = palabra.substring(espacioRestante);
+        }
+
+        let espacioNecesario = (lineaActual === indent ? 0 : 1) + palabra.length;
+        if (lineaActual.length + espacioNecesario <= maxChars) {
+            if (lineaActual !== indent) lineaActual += " ";
+            lineaActual += palabra;
+        } else {
+            lineas.push(lineaActual);
+            lineaActual = indent + palabra;
+        }
+    });
+
+    if (lineaActual.trim() !== "") {
+        lineas.push(lineaActual);
+    }
+    return lineas.join("\n");
+}
+
 /* =========================================================
    MENÚ MÓVIL
    ========================================================= */
@@ -241,10 +288,9 @@ const modalTotalPrice = document.getElementById("modalTotalPrice");
 let currentSelectedPizza = null;
 let currentQuantity = 1;
 
-// Ocultar botón flotante al inicio si no hay artículos
 if (cartFloatingBtn) cartFloatingBtn.style.display = "none";
 
-// 1. ABRIR MODAL DE PERSONALIZACIÓN AL CLICAR "AÑADIR AL PEDIDO"
+// 1. ABRIR MODAL DE PERSONALIZACIÓN AL CLICAR "AÑADIR YA"
 document.addEventListener("click", (e) => {
     if (e.target.classList.contains("btn-add-cart")) {
         const name = e.target.dataset.name;
@@ -254,9 +300,8 @@ document.addEventListener("click", (e) => {
         currentQuantity = 1;
         modalQtyValue.textContent = currentQuantity;
         modalPizzaTitle.textContent = name;
-        modalPizzaPrice.textContent = `Precio base: ${basePrice.toFixed(2)} €`;
+        modalPizzaPrice.textContent = `Precio base: ${basePrice.toFixed(2)} EUR`;
 
-        // Limpiar extras y notas previas
         extraCheckboxes.forEach(cb => cb.checked = false);
         modalItemNotes.value = "";
         calcularPrecioModal();
@@ -266,7 +311,6 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// Control de cantidad en el modal
 if (modalQtyPlus) {
     modalQtyPlus.addEventListener("click", () => {
         currentQuantity++;
@@ -299,36 +343,31 @@ function calcularPrecioModal() {
     });
 
     const total = unitPrice * currentQuantity;
-    modalTotalPrice.textContent = `${total.toFixed(2)} €`;
+    modalTotalPrice.textContent = `${total.toFixed(2)} EUR`;
 }
 
 // 2. CONFIRMAR Y AÑADIR AL CARRITO
 if (confirmAddToCartBtn) {
     confirmAddToCartBtn.addEventListener("click", () => {
         let unitPrice = currentSelectedPizza.basePrice;
-        let extrasText = [];
+        let extrasList = [];
 
         extraCheckboxes.forEach(cb => {
             if (cb.checked) {
                 unitPrice += parseFloat(cb.dataset.price);
-                extrasText.push(cb.dataset.name);
+                extrasList.push(cb.dataset.name);
             }
         });
 
         const notes = modalItemNotes.value.trim();
-        const fullName = extrasText.length > 0 ? `${currentSelectedPizza.name} (+ ${extrasText.join(", ")})` : currentSelectedPizza.name;
 
-        const existingItem = cart.find(item => item.name === fullName && item.notes === notes);
-        if (existingItem) {
-            existingItem.quantity += currentQuantity;
-        } else {
-            cart.push({
-                name: fullName,
-                price: unitPrice,
-                quantity: currentQuantity,
-                notes: notes
-            });
-        }
+        cart.push({
+            name: currentSelectedPizza.name,
+            price: unitPrice,
+            quantity: currentQuantity,
+            extras: extrasList,
+            notes: notes
+        });
 
         customModal.classList.remove("active");
         document.body.style.overflow = "";
@@ -337,7 +376,6 @@ if (confirmAddToCartBtn) {
     });
 }
 
-// Cerrar modal de personalización
 const closeCustomModalFunc = () => {
     customModal.classList.remove("active");
     document.body.style.overflow = "";
@@ -345,7 +383,6 @@ const closeCustomModalFunc = () => {
 if (closeCustomModal) closeCustomModal.addEventListener("click", closeCustomModalFunc);
 if (customBackdrop) customBackdrop.addEventListener("click", closeCustomModalFunc);
 
-// 3. ABRIR / CERRAR MODAL DEL CARRITO PRINCIPAL
 if (cartFloatingBtn && cartModal) {
     cartFloatingBtn.addEventListener("click", () => {
         cartModal.classList.add("active");
@@ -363,7 +400,6 @@ if (cartFloatingBtn && cartModal) {
     if (cartBackdrop) cartBackdrop.addEventListener("click", closeCartFunc);
 }
 
-// Recargo de 1€ a domicilio gestionado al cambiar el selector de tipo de pedido
 if (orderTypeSelect && addressGroup) {
     orderTypeSelect.addEventListener("change", (e) => {
         const isDomicilio = e.target.value === "domicilio";
@@ -375,7 +411,7 @@ if (orderTypeSelect && addressGroup) {
             document.getElementById("clientAddress").required = false;
         }
         actualizarHorasDisponibles();
-        renderCart(); // Recalcula los precios con o sin recargo de domicilio
+        renderCart();
     });
 }
 
@@ -389,7 +425,7 @@ function updateCartBadge() {
 
 function renderCart() {
     if (cart.length === 0) {
-        cartItemsList.innerHTML = `<p class="cart-empty-msg">Tu carrito está vacío.</p>`;
+        cartItemsList.innerHTML = `<p class="cart-empty-msg">Tu carrito esta vacio.</p>`;
         if (cartFooter) cartFooter.style.display = "none";
         if (cartFloatingBtn) cartFloatingBtn.style.display = "none";
         return;
@@ -407,12 +443,19 @@ function renderCart() {
         const subtotal = precioFinalUnitario * item.quantity;
         total += subtotal;
 
+        let extrasHtml = "";
+        if (item.extras && item.extras.length > 0) {
+            extrasHtml += `<br><small style="color: #444; padding-left: 15px;">+ Extras: ${item.extras.join(", ")}</small>`;
+        }
+        if (item.notes) {
+            extrasHtml += `<br><small style="color: #666; padding-left: 15px;">- Nota: ${item.notes}</small>`;
+        }
+
         html += `
-            <div class="cart-item" style="margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+            <div class="cart-item" style="margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
                 <div class="cart-item-info">
-                    <h4>${item.name}</h4>
-                    ${item.notes ? `<small style="color: #666;">Nota: ${item.notes}</small><br>` : ''}
-                    <span>${item.quantity}x ${precioFinalUnitario.toFixed(2)} € ${isDomicilio ? '<small>(+1€ domicilio)</small>' : ''} = <strong>${subtotal.toFixed(2)} €</strong></span>
+                    <h4>${item.quantity}x ${item.name} - ${subtotal.toFixed(2)} EUR ${isDomicilio ? '<small>(+1 EUR dom.)</small>' : ''}</h4>
+                    ${extrasHtml}
                 </div>
                 <div class="cart-item-controls" style="margin-top: 5px;">
                     <button type="button" onclick="changeQuantity(${index}, -1)" style="padding:2px 8px;">-</button>
@@ -424,7 +467,7 @@ function renderCart() {
     });
 
     cartItemsList.innerHTML = html;
-    if (cartTotalPrice) cartTotalPrice.textContent = `${total.toFixed(2)} €`;
+    if (cartTotalPrice) cartTotalPrice.textContent = `${total.toFixed(2)} EUR`;
 }
 
 window.changeQuantity = function(index, change) {
@@ -438,13 +481,8 @@ window.changeQuantity = function(index, change) {
 
 function inicializarSelectorFechasYHoras() {
     if (!orderDateInput) return;
-    
     const today = new Date().toISOString().split('T')[0];
     orderDateInput.value = today;
-    orderDateInput.min = today;
-
-    orderDateInput.removeEventListener("change", actualizarHorasDisponibles);
-    orderDateInput.addEventListener("change", actualizarHorasDisponibles);
     actualizarHorasDisponibles();
 }
 
@@ -455,7 +493,7 @@ async function actualizarHorasDisponibles() {
     const tipo = orderTypeSelect ? orderTypeSelect.value : "recoger"; 
     const intervaloMinutos = (tipo === "recoger") ? 15 : 30;
 
-    const { data: bloqueados, error } = await supabaseClient
+    const { data: bloqueados } = await supabaseClient
         .from('horarios_bloqueados')
         .select('hora')
         .eq('fecha', fecha)
@@ -474,9 +512,7 @@ async function actualizarHorasDisponibles() {
         let mins = m % 60;
         let horaStr = `${horas.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
 
-        if (horasBloqueadas.includes(horaStr)) {
-            continue; 
-        }
+        if (horasBloqueadas.includes(horaStr)) continue; 
 
         hayDisponibles = true;
         optionsHtml += `<option value="${horaStr}">${horaStr}</option>`;
@@ -489,25 +525,39 @@ async function actualizarHorasDisponibles() {
     orderTimeSelect.innerHTML = optionsHtml;
 }
 
+// PROCESAR Y ENVIAR CON ANCHO ESTRICTO DE 42 CARACTERES Y RECUPERACIÓN DE ID
 if (checkoutForm) {
     checkoutForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         if (cart.length === 0) {
-            alert("Tu carrito está vacío.");
+            alert("Tu carrito esta vacio.");
             return;
         }
 
-        const name = document.getElementById("clientName").value.trim();
-        const phone = document.getElementById("clientPhone").value.trim();
+        const name = limpiarTextoParaImpresora(document.getElementById("clientName").value.trim());
+        const phone = limpiarTextoParaImpresora(document.getElementById("clientPhone").value.trim());
         const orderType = orderTypeSelect.value;
-        const address = document.getElementById("clientAddress") ? document.getElementById("clientAddress").value.trim() : "";
+        const address = limpiarTextoParaImpresora(document.getElementById("clientAddress") ? document.getElementById("clientAddress").value.trim() : "");
         const fecha = orderDateInput.value;
         const hora = orderTimeSelect.value;
-        const notes = document.getElementById("clientNotes").value.trim();
+        const notes = limpiarTextoParaImpresora(document.getElementById("clientNotes").value.trim());
 
         if (!hora) {
-            alert("Por favor, selecciona una hora válida para el pedido.");
+            alert("Por favor, selecciona una hora valida para el pedido.");
+            return;
+        }
+
+        const { data: checkBloqueados } = await supabaseClient
+            .from('horarios_bloqueados')
+            .select('hora')
+            .eq('fecha', fecha)
+            .eq('tipo', orderType)
+            .eq('hora', hora);
+
+        if (checkBloqueados && checkBloqueados.length > 0) {
+            alert(`¡Lo sentimos! La hora ${hora} acaba de ser completada o cerrada por el local.`);
+            await actualizarHorasDisponibles();
             return;
         }
 
@@ -516,40 +566,91 @@ if (checkoutForm) {
 
         let detalleTexto = "";
         let total = 0;
+
         cart.forEach(item => {
             const precioFinalUnitario = item.price + recargoDomicilio;
             const sub = precioFinalUnitario * item.quantity;
             total += sub;
-            detalleTexto += `${item.quantity}x ${item.name} (${sub.toFixed(2)} €)`;
-            if (item.notes) detalleTexto += ` [Nota: ${item.notes}]`;
-            detalleTexto += `\n`;
-        });
-        detalleTexto += `TOTAL: ${total.toFixed(2)} €`;
 
-        const { error } = await supabaseClient
+            let lineaItem = `${item.quantity}x ${limpiarTextoParaImpresora(item.name)} (${sub.toFixed(2)} EUR)`;
+            detalleTexto += ajustarAnchoPOS80(lineaItem, 42) + "\n";
+            
+            if (item.extras && item.extras.length > 0) {
+                let lineaExtras = `+ Extras: ${limpiarTextoParaImpresora(item.extras.join(", "))}`;
+                detalleTexto += ajustarAnchoPOS80(lineaExtras, 42, "   ") + "\n";
+            }
+            if (item.notes) {
+                let textoNotaLimpio = limpiarTextoParaImpresora(item.notes);
+                let lineaNota = ajustarAnchoPOS80(`- Nota: ${textoNotaLimpio}`, 42, "   ");
+                detalleTexto += lineaNota + "\n";
+            }
+        });
+        detalleTexto += `TOTAL: ${total.toFixed(2)} EUR`;
+
+        const direccionTexto = isDomicilio ? address : 'Local - Ramon y Cajal 22';
+        const horaEntregaTexto = `${fecha} a las ${hora}`;
+        const tipoEntregaTextoLimpio = orderType === 'domicilio' ? 'DOMICILIO' : 'RECOGER EN LOCAL';
+
+        // 1. Insertar el pedido en Supabase para obtener el ID real generado
+        const { data: insertedData, error } = await supabaseClient
             .from('pedidos')
             .insert([{
                 nombre: name,
                 telefono: phone,
                 tipo_entrega: orderType,
-                direccion: isDomicilio ? address : 'Recogida en local',
-                hora_entrega: `${fecha} a las ${hora}`,
-                detalle_pedido: detalleTexto,
+                direccion: direccionTexto,
+                hora_entrega: horaEntregaTexto,
+                detalle_pedido: "PENDIENTE",
                 notas: notes,
                 impreso: false
-            }]);
+            }])
+            .select();
 
-        if (error) {
+        if (error || !insertedData || insertedData.length === 0) {
             console.error("Error al enviar pedido:", error);
-            alert("Hubo un error al procesar tu pedido. Por favor, inténtalo de nuevo o llámanos.");
+            alert("Hubo un error al procesar tu pedido. Por favor, intentalo de nuevo.");
             return;
         }
 
-        alert("¡Pedido realizado con éxito! En breve lo prepararemos en Gastrognomo.");
-        cart = [];
-        updateCartBadge();
-        cartModal.classList.remove("active");
-        document.body.style.overflow = "";
-        checkoutForm.reset();
+        const pedidoId = insertedData[0].id;
+        
+        // 2. Construir el ticket oficial incluyendo el número de pedido real (#ID)
+        let textoImpresionDirecto = "==========================================\n";
+        textoImpresionDirecto += "           GASTROGNOMO PIZZERIA           \n";
+        textoImpresionDirecto += "         Ramon y Cajal 22, Villena        \n";
+        textoImpresionDirecto += "==========================================\n";
+        textoImpresionDirecto += `PEDIDO #${pedidoId} - ${tipoEntregaTextoLimpio}\n`;
+        textoImpresionDirecto += ajustarAnchoPOS80(`Cliente: ${name}`, 42) + "\n";
+        textoImpresionDirecto += `Telefono: ${phone}\n`;
+        textoImpresionDirecto += ajustarAnchoPOS80(`Direccion: ${direccionTexto}`, 42) + "\n";
+        textoImpresionDirecto += `Hora Entrega: ${horaEntregaTexto}\n`;
+        textoImpresionDirecto += "------------------------------------------\n";
+        textoImpresionDirecto += "DETALLE:\n";
+        textoImpresionDirecto += detalleTexto + "\n";
+        textoImpresionDirecto += "------------------------------------------\n";
+        if (notes) {
+            textoImpresionDirecto += "NOTAS:\n" + ajustarAnchoPOS80(notes, 42, "   ") + "\n";
+            textoImpresionDirecto += "------------------------------------------\n";
+        }
+        textoImpresionDirecto += "Gracias por confiar en nosotros!\n";
+
+        // 3. Actualizar el registro en Supabase con el ticket ya estructurado
+        await supabaseClient
+            .from('pedidos')
+            .update({ detalle_pedido: textoImpresionDirecto })
+            .eq('id', pedidoId);
+
+        // Redirigir a la página de éxito pasando el ID y los datos
+        const queryParams = new URLSearchParams({
+            id: pedidoId,
+            nombre: name,
+            telefono: phone,
+            tipo: orderType,
+            direccion: direccionTexto,
+            hora: horaEntregaTexto,
+            detalle: textoImpresionDirecto
+        });
+
+        window.location.href = `exito.html?${queryParams.toString()}`;
     });
 }

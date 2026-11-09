@@ -540,7 +540,7 @@ h1 span {
 
 
 /* =========================================================
-   PIZZA GRID
+   PIZZA GRID Y TARJETAS
    ========================================================= */
 
 .pizza-grid {
@@ -562,6 +562,9 @@ h1 span {
     box-shadow: 0 8px 30px rgba(89,4,4,.08);
 
     transition: .3s;
+
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -667,7 +670,7 @@ h1 span {
 
 
 /* =========================================================
-   PIZZA CONTENT
+   PIZZA CONTENT & BOTÓN "AÑADIR YA" OVALADO
    ========================================================= */
 
 .pizza-tag {
@@ -694,6 +697,9 @@ h1 span {
 
 .pizza-content {
     padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 
@@ -728,7 +734,32 @@ h1 span {
 
     font-size: 13px;
 
-    margin: 10px 0 4px;
+    margin: 10px 0 15px;
+    flex-grow: 1;
+}
+
+/* Alineación inferior derecha para el botón "Añadir ya" */
+.pizza-action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+}
+
+.btn-add-cart {
+    background: var(--burgundy);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-add-cart:hover {
+    background: var(--burgundy-dark);
+    transform: translateY(-2px);
 }
 
 
@@ -1188,7 +1219,7 @@ h1 span {
 
 
 /* =========================================================
-   ESTILOS NUEVOS: BOTÓN FLOTANTE Y MODALES (CARRITO Y PERSONALIZACIÓN)
+   BOTÓN FLOTANTE Y MODALES (CARRITO Y PERSONALIZACIÓN)
    ========================================================= */
 
 .cart-floating-btn {
