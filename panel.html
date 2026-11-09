@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Gastrognomo Pizzeria</title>
+    <style>
+        :root {
+            --burgundy: #590404;
+            --cream: #EFD9C7;
+            --green: #2ecc71;
+            --red: #e74c3c;
+            --gray: #706461;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f4f6f8;
+            color: #171111;
+            padding: 20px;
+            margin: 0;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: var(--burgundy);
+            font-size: 28px;
+        }
+        .date-selector {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        input[type="date"] {
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .column {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .column h2 {
+            font-size: 20px;
+            color: var(--burgundy);
+            border-bottom: 2px solid var(--cream);
+            padding-bottom: 10px;
+            margin-top: 0;
+            text-align: center;
+        }
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .slot-btn {
+            padding: 12px 5px;
+            font-size: 15px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+        .slot-btn:active {
+            transform: scale(0.95);
+        }
+        .slot-available {
+            background-color: var(--green);
+        }
+        .slot-blocked {
+            background-color: var(--red);
+            opacity: 0.85;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+    </style>
+    <!-- Incluimos la librería de Supabase para JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <header>
+        <h1>🍕 Gestión de Horarios - Gastrognomo</h1>
+        <p>Haz clic en una hora para bloquearla (rojo) o desbloquearla (verde)</p>
+    </header>
+
+    <div class="date-selector">
+        <label for="selectDate"><strong>Fecha seleccionada: </strong></label>
+        <input type="date" id="selectDate">
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background: var(--green);"></div> Disponible</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--red);"></div> Completo / Bloqueado</div>
+    </div>
+
+    <div class="grid-container">
+        <!-- Columna Recoger (Franjas de 15 min) -->
+        <div class="column">
+            <h2>🛍️ Recoger en Local (cada 15 min)</h2>
+            <div id="slotsRecoger" class="slots-grid"></div>
+        </div>
+
+        <!-- Columna Domicilio (Franjas de 30 min) -->
+        <div class="column">
+            <h2>🛵 Domicilio (cada 30 min)</h2>
+            <div id="slotsDomicilio" class="slots-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN DE SUPABASE (Sustituye por tus datos)
+        const SUPABASE_URL = 'https://refrscscreylowmocfcx.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_XiXjP4gjaQUXf84U6-5QZw_Dw-YhdSu';
+        
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const dateInput = document.getElementById('selectDate');
+        
+        // Poner la fecha de hoy por defecto
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+
+        // Horario de apertura: 19:30 a 23:30
+        const horaInicio = 19 * 60 + 30; // 19:30 en minutos
+        const horaFin = 23 * 60 + 30;    // 23:30 en minutos
+
+        function generarFranjas(minutosIntervalo) {
+            let franjas = [];
+            for (let m = horaInicio; m <= horaFin; m += minutosIntervalo) {
+                let horas = Math.floor(m / 60);
+                let mins = m % 60;
+                let horaStr = `${horas.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+                franjas.push(horaStr);
+            }
+            return franjas;
+        }
+
+        const franjasRecoger = generarFranjas(15);
+        const franjasDomicilio = generarFranjas(30);
+
+        async function cargarHorariosBloqueados() {
+            const fecha = dateInput.value;
+            
+            // Consultar a Supabase los bloqueos de este día
+            const { data, error } = await supabaseClient
+                .from('horarios_bloqueados')
+                .select('*')
+                .eq('fecha', fecha);
+
+            if (error) {
+                console.error('Error al cargar bloqueos:', error);
+                return [];
+            }
+            return data; // Devuelve lista de bloqueados
+        }
+
+        async function renderizarCuadricula() {
+            const fecha = dateInput.value;
+            const bloqueados = await cargarHorariosBloqueados();
+
+            // Renderizar Recoger
+            const containerRecoger = document.getElementById('slotsRecoger');
+            containerRecoger.innerHTML = '';
+            franjasRecoger.forEach(hora => {
+                const estaBloqueado = bloqueados.some(b => b.hora === hora && b.tipo === 'recoger');
+                
+                const btn = document.createElement('button');
+                btn.className = `slot-btn ${estaBloqueado ? 'slot-blocked' : 'slot-available'}`;
+                btn.textContent = hora;
+                btn.onclick = () => alternarBloqueo(fecha, hora, 'recoger', estaBloqueado);
+                containerRecoger.appendChild(btn);
+            });
+
+            // Renderizar Domicilio
+            const containerDomicilio = document.getElementById('slotsDomicilio');
+            containerDomicilio.innerHTML = '';
+            franjasDomicilio.forEach(hora => {
+                const estaBloqueado = bloqueados.some(b => b.hora === hora && b.tipo === 'domicilio');
+                
+                const btn = document.createElement('button');
+                btn.className = `slot-btn ${estaBloqueado ? 'slot-blocked' : 'slot-available'}`;
+                btn.textContent = hora;
+                btn.onclick = () => alternarBloqueo(fecha, hora, 'domicilio', estaBloqueado);
+                containerDomicilio.appendChild(btn);
+            });
+        }
+
+        async function alternarBloqueo(fecha, hora, tipo, estaBloqueado) {
+            if (estaBloqueado) {
+                // Si está bloqueado, lo borramos (vuelve a verde/disponible)
+                await supabaseClient
+                    .from('horarios_bloqueados')
+                    .delete()
+                    .eq('fecha', fecha)
+                    .eq('hora', hora)
+                    .eq('tipo', tipo);
+            } else {
+                // Si está verde, lo insertamos como bloqueado (rojo)
+                await supabaseClient
+                    .from('horarios_bloqueados')
+                    .insert([{ fecha, hora, tipo }]);
+            }
+            // Recargar cuadrícula al instante
+            renderizarCuadricula();
+        }
+
+        dateInput.addEventListener('change', renderizarCuadricula);
+
+        // Cargar al iniciar
+        renderizarCuadricula();
+    </script>
+</body>
+</html>
