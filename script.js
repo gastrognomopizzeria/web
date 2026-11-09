@@ -491,6 +491,9 @@ async function actualizarHorasDisponibles() {
 
     const fecha = orderDateInput.value;
     const tipo = orderTypeSelect ? orderTypeSelect.value : "recoger"; 
+    
+    // HORA DE INICIO: Recogida a las 19:30 (19*60+30), Domicilio a las 20:00 (20*60)
+    const horaInicio = (tipo === "recoger") ? (19 * 60 + 30) : (20 * 60);
     const intervaloMinutos = (tipo === "recoger") ? 15 : 30;
 
     const { data: bloqueados } = await supabaseClient
@@ -501,7 +504,6 @@ async function actualizarHorasDisponibles() {
 
     const horasBloqueadas = bloqueados ? bloqueados.map(b => b.hora) : [];
 
-    const horaInicio = 19 * 60 + 30;
     const horaFin = 23 * 60 + 30;
     
     let optionsHtml = "";
