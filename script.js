@@ -296,6 +296,9 @@ document.addEventListener("click", (e) => {
         const name = e.target.dataset.name;
         const basePrice = parseFloat(e.target.dataset.price);
 
+        const pizzaCard = e.target.closest(".pizza-card");
+        const category = pizzaCard ? pizzaCard.dataset.category : "";
+
         currentSelectedPizza = { name, basePrice };
         currentQuantity = 1;
         modalQtyValue.textContent = currentQuantity;
@@ -304,6 +307,16 @@ document.addEventListener("click", (e) => {
 
         extraCheckboxes.forEach(cb => cb.checked = false);
         modalItemNotes.value = "";
+
+        const extrasContainer = document.getElementById("extrasContainer");
+        if (extrasContainer) {
+            if (category === "postres" || name.toUpperCase().includes("TARTA")) {
+                extrasContainer.style.display = "none";
+            } else {
+                extrasContainer.style.display = "flex";
+            }
+        }
+
         calcularPrecioModal();
 
         customModal.classList.add("active");
@@ -425,7 +438,7 @@ function updateCartBadge() {
 
 function renderCart() {
     if (cart.length === 0) {
-        cartItemsList.innerHTML = `<p class="cart-empty-msg">Tu carrito esta vacio.</p>`;
+        cartItemsList.innerHTML = `<p class="cart-empty-msg">Tu carrito está vacío.</p>`;
         if (cartFooter) cartFooter.style.display = "none";
         if (cartFloatingBtn) cartFloatingBtn.style.display = "none";
         return;
@@ -492,7 +505,6 @@ async function actualizarHorasDisponibles() {
     const fecha = orderDateInput.value;
     const tipo = orderTypeSelect ? orderTypeSelect.value : "recoger"; 
     
-    // HORA DE INICIO: Recogida a las 19:30 (19*60+30), Domicilio a las 20:00 (20*60)
     const horaInicio = (tipo === "recoger") ? (19 * 60 + 30) : (20 * 60);
     const intervaloMinutos = (tipo === "recoger") ? 15 : 30;
 
@@ -527,26 +539,49 @@ async function actualizarHorasDisponibles() {
     orderTimeSelect.innerHTML = optionsHtml;
 }
 
-// PROCESAR Y ENVIAR CON ANCHO ESTRICTO DE 42 CARACTERES Y RECUPERACIÓN DE ID
+// PROCESAR Y ENVIAR PEDIDO
 if (checkoutForm) {
     checkoutForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         if (cart.length === 0) {
-            alert("Tu carrito esta vacio.");
+            alert("Tu carrito está vacío.");
             return;
         }
 
-        const name = limpiarTextoParaImpresora(document.getElementById("clientName").value.trim());
-        const phone = limpiarTextoParaImpresora(document.getElementById("clientPhone").value.trim());
         const orderType = orderTypeSelect.value;
+
+        // 🍕 VALIDACIÓN DE LÍMITE DE PIZZAS
+        const totalPizzas = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        if (orderType === "recoger" && totalPizzas > 15) {
+            alert("Para pedidos a recoger de más de 15 pizzas, por favor llamen por teléfono.");
+            return;
+        }
+
+        if (orderType === "domicilio" && totalPizzas > 8) {
+            alert("Para pedidos a domicilio de más de 8 pizzas, por favor llamen por teléfono.");
+            return;
+        }
+
+        // 📞 VALIDACIÓN ESTRICTA DE TELÉFONO (Exactamente 9 dígitos numéricos)
+        const phoneInput = document.getElementById("clientPhone").value.trim();
+        const prefixSelect = document.getElementById("clientPrefix").value;
+
+        if (!/^\d{9}$/.test(phoneInput)) {
+            alert("Por favor, introduce un número de teléfono válido de exactamente 9 dígitos.");
+            return;
+        }
+
+        const phone = limpiarTextoParaImpresora(`${prefixSelect} ${phoneInput}`);
+        const name = limpiarTextoParaImpresora(document.getElementById("clientName").value.trim());
         const address = limpiarTextoParaImpresora(document.getElementById("clientAddress") ? document.getElementById("clientAddress").value.trim() : "");
         const fecha = orderDateInput.value;
         const hora = orderTimeSelect.value;
         const notes = limpiarTextoParaImpresora(document.getElementById("clientNotes").value.trim());
 
         if (!hora) {
-            alert("Por favor, selecciona una hora valida para el pedido.");
+            alert("Por favor, selecciona una hora válida para el pedido.");
             return;
         }
 
@@ -579,11 +614,11 @@ if (checkoutForm) {
             
             if (item.extras && item.extras.length > 0) {
                 let lineaExtras = `+ Extras: ${limpiarTextoParaImpresora(item.extras.join(", "))}`;
-                detalleTexto += ajustarAnchoPOS80(lineaExtras, 42, "   ") + "\n";
+                detalleTexto += ajustarAnchoPOS80(lineaExtras, 42, "    ") + "\n";
             }
             if (item.notes) {
                 let textoNotaLimpio = limpiarTextoParaImpresora(item.notes);
-                let lineaNota = ajustarAnchoPOS80(`- Nota: ${textoNotaLimpio}`, 42, "   ");
+                let lineaNota = ajustarAnchoPOS80(`- Nota: ${textoNotaLimpio}`, 42, "    ");
                 detalleTexto += lineaNota + "\n";
             }
         });
@@ -610,7 +645,7 @@ if (checkoutForm) {
 
         if (error || !insertedData || insertedData.length === 0) {
             console.error("Error al enviar pedido:", error);
-            alert("Hubo un error al procesar tu pedido. Por favor, intentalo de nuevo.");
+            alert("Hubo un error al procesar tu pedido. Por favor, inténtalo de nuevo.");
             return;
         }
 
@@ -631,7 +666,7 @@ if (checkoutForm) {
         textoImpresionDirecto += detalleTexto + "\n";
         textoImpresionDirecto += "------------------------------------------\n";
         if (notes) {
-            textoImpresionDirecto += "NOTAS:\n" + ajustarAnchoPOS80(notes, 42, "   ") + "\n";
+            textoImpresionDirecto += "NOTAS:\n" + ajustarAnchoPOS80(notes, 42, "    ") + "\n";
             textoImpresionDirecto += "------------------------------------------\n";
         }
         textoImpresionDirecto += "Gracias por confiar en nosotros!\n";

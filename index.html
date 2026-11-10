@@ -504,15 +504,18 @@
             <button type="button" id="modalQtyPlus" style="width:35px; height:35px; font-size:1.2rem; font-weight:bold; cursor:pointer; background:var(--cream); border:1px solid rgba(89,4,4,0.2); border-radius:6px;">+</button>
         </div>
 
-        <div class="extras-group" style="margin: 15px 0; display:flex; flex-direction:column; gap:8px;">
+        <div class="extras-group" id="extrasContainer" style="margin: 15px 0; display:flex; flex-direction:column; gap:8px;">
             <label><strong>Ingredientes Extra:</strong></label>
             <label style="cursor:pointer; display:flex; align-items:center; gap:8px;"><input type="checkbox" class="extra-checkbox" data-name="Extra (1€)" data-price="1.00"> Extra (+1,00 €)</label>
             <label style="cursor:pointer; display:flex; align-items:center; gap:8px;"><input type="checkbox" class="extra-checkbox" data-name="Extra Carne (2€)" data-price="2.00"> Extra Carne (+2,00 €)</label>
+            <small style="color: var(--burgundy); font-weight: 600; font-size: 0.85rem; margin-top: 4px; line-height: 1.3;">
+                💡 Por favor, especifica exactamente qué ingredientes extras deseas añadir en el cuadro inferior de observaciones.
+            </small>
         </div>
 
         <div class="form-group" style="margin-top: 15px; display:flex; flex-direction:column; gap:5px;">
             <label for="modalItemNotes"><strong>Observaciones para este artículo:</strong></label>
-            <textarea id="modalItemNotes" placeholder="Ej. Sin cebolla, bien hecha..." style="width:100%; padding:10px; border-radius:8px; border:1px solid rgba(89,4,4,0.2); background:var(--cream-light); outline:none; resize:vertical; min-height:60px;"></textarea>
+            <textarea id="modalItemNotes" placeholder="Ej. Especificar extra (bacon, champiñones...), sin cebolla, bien hecha..." style="width:100%; padding:10px; border-radius:8px; border:1px solid rgba(89,4,4,0.2); background:var(--cream-light); outline:none; resize:vertical; min-height:60px;"></textarea>
         </div>
 
         <button type="button" id="confirmAddToCartBtn" class="btn btn-primary" style="width: 100%; margin-top: 15px; background: var(--burgundy); color:white; border:none; padding:12px; border-radius:100px; font-weight:bold; cursor:pointer;">
@@ -551,7 +554,18 @@
                 </div>
                 <div class="form-group">
                     <label for="clientPhone">Teléfono de contacto *</label>
-                    <input type="tel" id="clientPhone" required placeholder="600 000 000">
+                    <div style="display: flex; gap: 8px;">
+                        <select id="clientPrefix" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-family: inherit; background: #fff;">
+                            <option value="+34" selected>España (+34)</option>
+                            <option value="+33">Francia (+33)</option>
+                            <option value="+351">Portugal (+351)</option>
+                            <option value="+44">Reino Unido (+44)</option>
+                            <option value="+49">Alemania (+49)</option>
+                            <option value="+39">Italia (+39)</option>
+                            <option value="+1">EE.UU. / Canadá (+1)</option>
+                        </select>
+                        <input type="tel" id="clientPhone" required placeholder="600123456" maxlength="9" pattern="[0-9]{9}" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-family: inherit;">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="orderType">Tipo de pedido *</label>
@@ -573,7 +587,6 @@
                     <select id="orderTime" required>
                         <option value="">Selecciona hora...</option>
                     </select>
-                    <!-- NOTA INFORMATIVA AÑADIDA -->
                     <small style="color: var(--burgundy); font-weight: 600; margin-top: 4px; line-height: 1.4;">
                         💡 Nota: Si no hay hora disponible para el envío a domicilio, prueba a seleccionar "Recoger en local", ya que hay mayor disponibilidad.
                     </small>

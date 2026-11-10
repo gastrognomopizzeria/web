@@ -1,143 +1,115 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedido Realizado | Gastrognomo Pizzeria</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>¡Pedido Exitoso! - Gastrognomo Pizzeria</title>
     <style>
-        .success-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-            background: var(--cream);
+        :root {
+            --burgundy: #590404;
+            --cream: #EFD9C7;
+            --green: #2ecc71;
+            --dark: #171111;
         }
-        .success-card {
-            background: var(--white);
-            padding: 40px;
-            border-radius: var(--radius);
-            box-shadow: 0 15px 40px rgba(89,4,4,0.12);
-            max-width: 600px;
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f4f6f8;
+            color: var(--dark);
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .success-container {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            max-width: 500px;
             width: 100%;
+            box-sizing: border-box;
             text-align: center;
         }
-        .success-card h1 {
+        h1 {
             color: var(--burgundy);
-            font-size: clamp(26px, 4vw, 34px);
-            margin-bottom: 5px;
-            font-family: var(--font-title);
+            font-size: 24px;
+            margin-bottom: 10px;
         }
-        .order-number-badge {
-            display: inline-block;
-            background: var(--burgundy);
-            color: white;
-            font-size: 18px;
-            font-weight: 700;
-            padding: 6px 16px;
-            border-radius: 50px;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-        }
-        .success-card p.subtitle {
-            color: var(--gray);
-            margin-bottom: 15px;
+        p {
             font-size: 15px;
+            color: #444;
+            line-height: 1.5;
         }
-        .phone-alert-box {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
-            padding: 12px 15px;
+        .ticket-box {
+            background: #faf8f5;
+            border: 1px dashed #d1c2b4;
+            padding: 15px;
             border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-        .order-details-box {
-            background: var(--cream-light);
-            border: 1px solid rgba(89,4,4,0.15);
-            border-radius: 12px;
-            padding: 25px;
+            margin-top: 20px;
             text-align: left;
-            margin-bottom: 30px;
+            
+            /* FORMATO TICKET PERFECTO */
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            line-height: 1.3;
+            white-space: pre;         /* Mantiene las líneas exactas de 42 caracteres sin romperlas */
+            overflow-x: auto;         /* Permite hacer scroll lateral suave en móvil */
+            color: #222;
+            width: 100%;
+            box-sizing: border-box;
         }
-        .order-details-box h3 {
-            color: var(--burgundy);
-            margin-bottom: 15px;
-            font-size: 18px;
-            border-bottom: 1px solid rgba(89,4,4,0.1);
-            padding-bottom: 8px;
+        /* Estilo estético para la barra de desplazamiento en móviles */
+        .ticket-box::-webkit-scrollbar {
+            height: 6px;
         }
-        .order-details-box p {
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: var(--black);
+        .ticket-box::-webkit-scrollbar-thumb {
+            background: #d1c2b4;
+            border-radius: 4px;
         }
-        .order-details-box pre {
-            background: white;
-            padding: 12px;
+
+        .btn-volver {
+            display: inline-block;
+            margin-top: 25px;
+            background-color: var(--burgundy);
+            color: white;
+            padding: 12px 25px;
             border-radius: 8px;
-            font-family: inherit;
-            font-size: 13px;
-            white-space: pre-wrap;
-            margin-top: 10px;
-            border: 1px solid rgba(0,0,0,0.05);
-            color: var(--gray);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            transition: opacity 0.2s;
+        }
+        .btn-volver:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
-
 <body>
 
-<main class="success-container">
-    <div class="success-card">
-        <h1>¡PEDIDO REALIZADO!</h1>
-        <div class="order-number-badge" id="resBadgeId">PEDIDO #...</div>
-        <p class="subtitle">Muchas gracias por confiar en Gastrognomo Pizzeria. En breve empezaremos a preparar tu pedido.</p>
-        
-        <div class="phone-alert-box">
-            📱 ¡Atento al teléfono por si te llamamos con alguna duda!
-        </div>
+    <div class="success-container">
+        <h1>🎉 ¡Pedido Realizado con Éxito!</h1>
+        <p>Gracias por confiar en nosotros. Tu pedido ha sido registrado correctamente y ya se está procesando en el local.</p>
 
-        <div class="order-details-box" id="orderDetailsBox">
-            <h3>Datos de tu comanda</h3>
-            <p><strong>Nombre:</strong> <span id="resNombre">-</span></p>
-            <p><strong>Teléfono:</strong> <span id="resTelefono">-</span></p>
-            <p><strong>Tipo de entrega:</strong> <span id="resTipo">-</span></p>
-            <p><strong>Dirección / Local:</strong> <span id="resDireccion">-</span></p>
-            <p><strong>Hora prevista:</strong> <span id="resHora">-</span></p>
-            <p style="margin-top: 15px;"><strong>Detalle:</strong></p>
-            <pre id="resDetalle">-</pre>
-        </div>
+        <!-- Contenedor del ticket con scroll horizontal limpio -->
+        <div id="ticketContainer" class="ticket-box">Cargando detalles del pedido...</div>
 
-        <a href="index.html" class="btn btn-primary" style="display: inline-flex; text-decoration: none;">Volver al inicio</a>
+        <a href="index.html" class="btn-volver">Volver al Inicio</a>
     </div>
-</main>
 
-<script>
-    // Recuperar los datos pasados por la URL
-    const params = new URLSearchParams(window.location.search);
-    
-    const pedidoId = params.get("id");
-    if (pedidoId && pedidoId !== "null" && pedidoId !== "undefined") {
-        document.getElementById("resBadgeId").textContent = `PEDIDO #${pedidoId}`;
-    } else {
-        document.getElementById("resBadgeId").textContent = `PEDIDO REALIZADO`;
-    }
+    <script>
+        // Leer los parámetros de la URL enviados desde script.js
+        const urlParams = new URLSearchParams(window.location.search);
+        const detalleTexto = urlParams.get('detalle');
 
-    document.getElementById("resNombre").textContent = params.get("nombre") || "No especificado";
-    document.getElementById("resTelefono").textContent = params.get("telefono") || "No especificado";
-    document.getElementById("resTipo").textContent = params.get("tipo") === "domicilio" ? "A domicilio" : "Recogida en local";
-    document.getElementById("resDireccion").textContent = params.get("direccion") || "-";
-    document.getElementById("resHora").textContent = params.get("hora") || "-";
-    document.getElementById("resDetalle").textContent = params.get("detalle") || "Sin detalles";
-</script>
+        const ticketContainer = document.getElementById('ticketContainer');
 
+        if (detalleTexto) {
+            // Decodificar y mostrar el ticket respetando el formato de 42 caracteres
+            ticketContainer.textContent = decodeURIComponent(detalleTexto);
+        } else {
+            ticketContainer.textContent = "No se pudieron cargar los detalles del ticket.";
+        }
+    </script>
 </body>
 </html>
