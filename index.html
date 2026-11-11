@@ -17,6 +17,83 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <link rel="stylesheet" href="style.css">
+
+    <!-- Estilos adicionales para modales legales y el banner de cookies -->
+    <style>
+        @media (min-width: 768px) {
+            #clientPrefix {
+                width: 130px !important;
+                flex: 0 0 130px !important;
+                font-size: 0.85rem !important;
+            }
+        }
+
+        /* Banner de Cookies */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            border-top: 2px solid var(--burgundy, #590404);
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
+            padding: 15px 20px;
+            z-index: 9999;
+            display: none;
+        }
+        .cookie-banner-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        @media (min-width: 768px) {
+            .cookie-banner-container {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+        .cookie-banner p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #333;
+            line-height: 1.4;
+        }
+        .cookie-banner p a {
+            color: var(--burgundy, #590404);
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        .cookie-banner-btns {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+        .btn-cookie {
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: 1px solid var(--burgundy, #590404);
+        }
+        .btn-cookie-accept {
+            background: var(--burgundy, #590404);
+            color: #fff;
+        }
+        .btn-cookie-reject {
+            background: #fdfbf7;
+            color: var(--burgundy, #590404);
+        }
+        .btn-cookie-config {
+            background: transparent;
+            color: #555;
+            border-color: #ccc;
+        }
+    </style>
 </head>
 
 <body>
@@ -436,8 +513,13 @@
             <p><a href="https://instagram.com/gastrognomopizzeria" target="_blank" rel="noopener">@gastrognomopizzeria</a></p>
         </div>
 
+        <!-- COLUMNA UNIFICADA DE TEXTOS LEGALES Y COOKIES -->
         <div class="footer-links">
-            <h3><a href="#" id="openLegalModal">Aviso legal</a></h3>
+            <h3>Legalidad</h3>
+            <p><a href="#" id="openLegalModal">Aviso Legal</a></p>
+            <p><a href="#" id="openPrivacyModal">Política de Privacidad</a></p>
+            <p><a href="#" id="openCookiesModal">Política de Cookies</a></p>
+            <p><a href="#" id="openCookieConfig">Configuración de Cookies</a></p>
         </div>
 
         <div class="footer-links">
@@ -455,7 +537,7 @@
 </footer>
 
 <!-- =========================================================
-    VENTANA MODAL (AVISO LEGAL)
+    VENTANA MODAL: AVISO LEGAL
     ========================================================= -->
 <div class="legal-modal" id="legalModal" aria-hidden="true">
     <div class="legal-modal-backdrop" id="legalBackdrop"></div>
@@ -483,6 +565,86 @@
             <p>DEEP GASTROGNOMOS S.L. se reserva el derecho de efectuar sin previo aviso las modificaciones que considere oportunas.</p>
             <h3>6. Legislación Aplicable y Jurisdicción</h3>
             <p>La relación entre DEEP GASTROGNOMOS S.L. y el USUARIO se regirá por la normativa española vigente.</p>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================
+    VENTANA MODAL: POLÍTICA DE PRIVACIDAD
+    ========================================================= -->
+<div class="legal-modal" id="privacyModal" aria-hidden="true">
+    <div class="legal-modal-backdrop" id="privacyBackdrop"></div>
+    <div class="legal-modal-container">
+        <button class="legal-modal-close" id="closePrivacyModal" aria-label="Cerrar política de privacidad">✕</button>
+        <div class="legal-modal-body">
+            <h2>Política de Privacidad</h2>
+            <p>En DEEP GASTROGNOMOS S.L. garantizamos la máxima protección de tus datos personales conforme al Reglamento General de Protección de Datos (RGPD UE 2016/679) y la LOPDGDD 3/2018.</p>
+            
+            <h3>1. Responsable del Tratamiento</h3>
+            <ul>
+                <li><strong>Identidad:</strong> DEEP GASTROGNOMOS S.L. (NIF: B24897894)</li>
+                <li><strong>Dirección:</strong> Ramón y Cajal 22, Bajo A, 03400 Villena (Alicante).</li>
+                <li><strong>Email:</strong> gastrognomopizzeria@gmail.com</li>
+            </ul>
+
+            <h3>2. Finalidad del Tratamiento de Datos</h3>
+            <p>Recopilamos tus datos únicamente con el fin de:</p>
+            <ul>
+                <li>Procesar, gestionar y entregar tus pedidos de pizza a domicilio o recogida en el local.</li>
+                <li>Contactarte por teléfono o mensajería en caso de incidencias con tu pedido o la entrega.</li>
+                <li>Cumplir con las obligaciones legales y de facturación correspondientes.</li>
+            </ul>
+
+            <h3>3. Legitimación</h3>
+            <p>La base legal para el tratamiento de tus datos es la **ejecución de la relación contractual** al solicitar un pedido de comida online a través de nuestro sitio web.</p>
+
+            <h3>4. Destinatarios de los Datos</h3>
+            <p>Tus datos personales no serán cedidos a terceros salvo obligación legal o cuando sea necesario para la prestación del servicio (por ejemplo, nuestros repartidores locales o nuestra plataforma de datos segura Supabase).</p>
+
+            <h3>5. Derechos del Usuario</h3>
+            <p>Tienes derecho a acceder, rectificar, limitar, oponerte o solicitar la supresión de tus datos personales enviando un correo electrónico a <strong>gastrognomopizzeria@gmail.com</strong> adjuntando una copia de tu documento de identidad.</p>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================
+    VENTANA MODAL: POLÍTICA DE COOKIES
+    ========================================================= -->
+<div class="legal-modal" id="cookiesModal" aria-hidden="true">
+    <div class="legal-modal-backdrop" id="cookiesBackdrop"></div>
+    <div class="legal-modal-container">
+        <button class="legal-modal-close" id="closeCookiesModal" aria-label="Cerrar política de cookies">✕</button>
+        <div class="legal-modal-body">
+            <h2>Política de Cookies</h2>
+            <p>Este sitio web utiliza cookies técnicas y funcionales esenciales para garantizar una experiencia de navegación adecuada y permitir la correcta conservación de los elementos seleccionados en tu pedido.</p>
+
+            <h3>1. ¿Qué son las Cookies?</h3>
+            <p>Una cookie es un pequeño archivo de texto que se almacena en tu navegador cuando visitas casi cualquier página web. Su utilidad es que la web sea capaz de recordar tu visita cuando vuelvas a navegar por esa página.</p>
+
+            <h3>2. Tipos de Cookies que utilizamos</h3>
+            <ul>
+                <li><strong>Cookies Técnicas (Estrictamente necesarias):</strong> Necesarias para el funcionamiento del sitio web, la gestión de sesiones de usuario y el funcionamiento correcto del carrito de compra (`localStorage`). No se pueden desactivar.</li>
+                <li><strong>Cookies de Análisis / Medición (Opcionales):</strong> Nos ayudan a saber cómo interactúan los visitantes con la web para mejorar la experiencia general de usuario.</li>
+            </ul>
+
+            <h3>3. Gestión y Desactivación de Cookies</h3>
+            <p>Puedes configurar, aceptar o rechazar el uso de cookies no esenciales en cualquier momento mediante nuestra herramienta de <a href="#" id="modalCookieConfigTrigger" style="color: var(--burgundy); font-weight: bold;">Configuración de Cookies</a> o ajustando las preferencias de tu navegador web.</p>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================
+    BANNER INTERACTIVO DE CONFIGURACIÓN DE COOKIES
+    ========================================================= -->
+<div class="cookie-banner" id="cookieBanner">
+    <div class="cookie-banner-container">
+        <p>
+            Utilizamos cookies propias necesarias para procesar tus pedidos y ofrecerte la mejor experiencia en nuestra web. Puedes aceptar todas las cookies, rechazarlas o configurarlas. Más información en nuestra <a href="#" id="bannerCookiesLink">Política de Cookies</a>.
+        </p>
+        <div class="cookie-banner-btns">
+            <button type="button" class="btn-cookie btn-cookie-accept" id="btnAcceptCookies">Aceptar todas</button>
+            <button type="button" class="btn-cookie btn-cookie-reject" id="btnRejectCookies">Rechazar no esenciales</button>
+            <button type="button" class="btn-cookie btn-cookie-config" id="btnConfigCookies">Configuración</button>
         </div>
     </div>
 </div>
@@ -555,16 +717,161 @@
                 <div class="form-group">
                     <label for="clientPhone">Teléfono de contacto *</label>
                     <div style="display: flex; gap: 8px;">
-                        <select id="clientPrefix" style="padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-family: inherit; background: #fff;">
+                        <select id="clientPrefix" style="width: 105px; flex: 0 0 105px; padding: 10px 2px; border-radius: 8px; border: 1px solid rgba(89,4,4,0.2); font-family: inherit; font-size: 0.76rem; background: var(--cream-light, #fdfbf7); color: var(--burgundy, #590404); outline: none;">
                             <option value="+34" selected>España (+34)</option>
+                            <option value="+93">Afganistán (+93)</option>
+                            <option value="+355">Albania (+355)</option>
+                            <option value="+213">Argelia (+213)</option>
+                            <option value="+376">Andorra (+376)</option>
+                            <option value="+244">Angola (+244)</option>
+                            <option value="+54">Argentina (+54)</option>
+                            <option value="+374">Armenia (+374)</option>
+                            <option value="+61">Australia (+61)</option>
+                            <option value="+43">Austria (+43)</option>
+                            <option value="+994">Azerbaiyán (+994)</option>
+                            <option value="+973">Baréin (+973)</option>
+                            <option value="+880">Bangladés (+880)</option>
+                            <option value="+375">Bielorrusia (+375)</option>
+                            <option value="+32">Bélgica (+32)</option>
+                            <option value="+501">Belice (+501)</option>
+                            <option value="+229">Benín (+229)</option>
+                            <option value="+591">Bolivia (+591)</option>
+                            <option value="+387">Bosnia y Herzegovina (+387)</option>
+                            <option value="+267">Botsuana (+267)</option>
+                            <option value="+55">Brasil (+55)</option>
+                            <option value="+673">Brunéi (+673)</option>
+                            <option value="+359">Bulgaria (+359)</option>
+                            <option value="+226">Burkina Faso (+226)</option>
+                            <option value="+257">Burundi (+257)</option>
+                            <option value="+238">Cabo Verde (+238)</option>
+                            <option value="+855">Camboya (+855)</option>
+                            <option value="+237">Camerún (+237)</option>
+                            <option value="+1">Canadá / EE.UU. (+1)</option>
+                            <option value="+235">Chad (+235)</option>
+                            <option value="+56">Chile (+56)</option>
+                            <option value="+86">China (+86)</option>
+                            <option value="+357">Chipre (+357)</option>
+                            <option value="+57">Colombia (+57)</option>
+                            <option value="+269">Comoras (+269)</option>
+                            <option value="+242">Congo (+242)</option>
+                            <option value="+850">Corea del Norte (+850)</option>
+                            <option value="+82">Corea del Sur (+82)</option>
+                            <option value="+506">Costa Rica (+506)</option>
+                            <option value="+385">Croacia (+385)</option>
+                            <option value="+53">Cuba (+53)</option>
+                            <option value="+45">Dinamarca (+45)</option>
+                            <option value="+253">Yibuti (+253)</option>
+                            <option value="+1-767">Dominica (+1-767)</option>
+                            <option value="+593">Ecuador (+593)</option>
+                            <option value="+20">Egipto (+20)</option>
+                            <option value="+503">El Salvador (+503)</option>
+                            <option value="+971">Emiratos Árabes Unidos (+971)</option>
+                            <option value="+291">Eritrea (+291)</option>
+                            <option value="+421">Eslovaquia (+421)</option>
+                            <option value="+386">Eslovenia (+386)</option>
+                            <option value="+372">Estonia (+372)</option>
+                            <option value="+251">Etiopía (+251)</option>
+                            <option value="+63">Filipinas (+63)</option>
+                            <option value="+358">Finlandia (+358)</option>
                             <option value="+33">Francia (+33)</option>
-                            <option value="+351">Portugal (+351)</option>
-                            <option value="+44">Reino Unido (+44)</option>
+                            <option value="+241">Gabón (+241)</option>
+                            <option value="+220">Gambia (+220)</option>
+                            <option value="+995">Georgia (+995)</option>
                             <option value="+49">Alemania (+49)</option>
+                            <option value="+233">Ghana (+233)</option>
+                            <option value="+30">Grecia (+30)</option>
+                            <option value="+502">Guatemala (+502)</option>
+                            <option value="+224">Guinea (+224)</option>
+                            <option value="+245">Guinea-Bisáu (+245)</option>
+                            <option value="+592">Guyana (+592)</option>
+                            <option value="+509">Haití (+509)</option>
+                            <option value="+504">Honduras (+504)</option>
+                            <option value="+36">Hungría (+36)</option>
+                            <option value="+354">Islandia (+354)</option>
+                            <option value="+91">India (+91)</option>
+                            <option value="+62">Indonesia (+62)</option>
+                            <option value="+98">Irán (+98)</option>
+                            <option value="+964">Iraq (+964)</option>
+                            <option value="+353">Irlanda (+353)</option>
+                            <option value="+972">Israel (+972)</option>
                             <option value="+39">Italia (+39)</option>
-                            <option value="+1">EE.UU. / Canadá (+1)</option>
+                            <option value="+1-876">Jamaica (+1-876)</option>
+                            <option value="+81">Japón (+81)</option>
+                            <option value="+962">Jordania (+962)</option>
+                            <option value="+7">Kazajistán / Rusia (+7)</option>
+                            <option value="+254">Kenia (+254)</option>
+                            <option value="+965">Kuwait (+965)</option>
+                            <option value="+996">Kirguistán (+996)</option>
+                            <option value="+856">Laos (+856)</option>
+                            <option value="+371">Letonia (+371)</option>
+                            <option value="+961">Líbano (+961)</option>
+                            <option value="+266">Lesoto (+266)</option>
+                            <option value="+231">Liberia (+231)</option>
+                            <option value="+218">Libia (+218)</option>
+                            <option value="+423">Liechtenstein (+423)</option>
+                            <option value="+370">Lituania (+370)</option>
+                            <option value="+352">Luxemburgo (+352)</option>
+                            <option value="+389">Macedonia del Norte (+389)</option>
+                            <option value="+261">Madagascar (+261)</option>
+                            <option value="+265">Malaui (+265)</option>
+                            <option value="+60">Malasia (+60)</option>
+                            <option value="+960">Maldivas (+960)</option>
+                            <option value="+223">Mali (+223)</option>
+                            <option value="+356">Malta (+356)</option>
+                            <option value="+212">Marruecos (+212)</option>
+                            <option value="+230">Mauricio (+230)</option>
+                            <option value="+52">México (+52)</option>
+                            <option value="+373">Moldavia (+373)</option>
+                            <option value="+377">Mónaco (+377)</option>
+                            <option value="+976">Mongolia (+976)</option>
+                            <option value="+382">Montenegro (+382)</option>
+                            <option value="+258">Mozambique (+258)</option>
+                            <option value="+95">Birmania / Myanmar (+95)</option>
+                            <option value="+264">Namibia (+264)</option>
+                            <option value="+977">Nepal (+977)</option>
+                            <option value="+31">Países Bajos (+31)</option>
+                            <option value="+64">Nueva Zelanda (+64)</option>
+                            <option value="+505">Nicaragua (+505)</option>
+                            <option value="+227">Níger (+227)</option>
+                            <option value="+234">Nigeria (+234)</option>
+                            <option value="+47">Noruega (+47)</option>
+                            <option value="+968">Omán (+968)</option>
+                            <option value="+92">Pakistán (+92)</option>
+                            <option value="+507">Panamá (+507)</option>
+                            <option value="+675">Papúa Nueva Guinea (+675)</option>
+                            <option value="+595">Paraguay (+595)</option>
+                            <option value="+51">Perú (+51)</option>
+                            <option value="+48">Polonia (+48)</option>
+                            <option value="+351">Portugal (+351)</option>
+                            <option value="+974">Catar (+974)</option>
+                            <option value="+44">Reino Unido (+44)</option>
+                            <option value="+40">Rumanía (+40)</option>
+                            <option value="+250">Ruanda (+250)</option>
+                            <option value="+966">Arabia Saudí (+966)</option>
+                            <option value="+221">Senegal (+221)</option>
+                            <option value="+381">Serbia (+381)</option>
+                            <option value="+65">Singapur (+65)</option>
+                            <option value="+27">Sudáfrica (+27)</option>
+                            <option value="+46">Suecia (+46)</option>
+                            <option value="+41">Suiza (+41)</option>
+                            <option value="+963">Siria (+963)</option>
+                            <option value="+886">Taiwán (+886)</option>
+                            <option value="+992">Tayikistán (+992)</option>
+                            <option value="+255">Tanzania (+255)</option>
+                            <option value="+66">Tailandia (+66)</option>
+                            <option value="+228">Togo (+228)</option>
+                            <option value="+216">Túnez (+216)</option>
+                            <option value="+90">Turquía (+90)</option>
+                            <option value="+380">Ucrania (+380)</option>
+                            <option value="+598">Uruguay (+598)</option>
+                            <option value="+998">Uzbekistán (+998)</option>
+                            <option value="+58">Venezuela (+58)</option>
+                            <option value="+84">Vietnam (+84)</option>
+                            <option value="+967">Yemen (+967)</option>
+                            <option value="+260">Zambia (+260)</option>
+                            <option value="+263">Zimbabue (+263)</option>
                         </select>
-                        <input type="tel" id="clientPhone" required placeholder="600123456" maxlength="9" pattern="[0-9]{9}" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-family: inherit;">
+                        <input type="tel" id="clientPhone" required placeholder="600123456" maxlength="9" pattern="[0-9]{9}" style="flex: 1; min-width: 0;">
                     </div>
                 </div>
                 <div class="form-group">

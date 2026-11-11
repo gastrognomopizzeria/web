@@ -7,7 +7,26 @@ const SUPABASE_URL = 'https://refrscscreylowmocfcx.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_XiXjP4gjaQUXf84U6-5QZw_Dw-YhdSu';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// RECUPERAR CARRITO GUARDADO EN EL NAVEGADOR (SI EXISTE)
 let cart = [];
+try {
+    const savedCart = localStorage.getItem('gastrognomo_cart');
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+    }
+} catch (e) {
+    console.error("Error al cargar el carrito guardado:", e);
+    cart = [];
+}
+
+// FUNCIÓN AUXILIAR: Guarda el carrito actual en el almacenamiento local del navegador
+function guardarCarrito() {
+    try {
+        localStorage.setItem('gastrognomo_cart', JSON.stringify(cart));
+    } catch (e) {
+        console.error("Error al guardar el carrito:", e);
+    }
+}
 
 // FUNCIÓN AUXILIAR: Limpia tildes, eñes y símbolos para impresoras POS-80
 function limpiarTextoParaImpresora(texto) {
@@ -225,34 +244,93 @@ if (slides.length) {
 }
 
 /* =========================================================
-   VENTANA MODAL AVISO LEGAL
+   VENTANAS MODALES LEGALES Y POLÍTICA DE COOKIES
    ========================================================= */
-const openLegalModal = document.getElementById("openLegalModal");
-const legalModal = document.getElementById("legalModal");
-const closeLegalModal = document.getElementById("closeLegalModal");
-const legalBackdrop = document.getElementById("legalBackdrop");
+function setupModal(triggerId, modalId, closeId, backdropId) {
+    const trigger = document.getElementById(triggerId);
+    const modal = document.getElementById(modalId);
+    const close = document.getElementById(closeId);
+    const backdrop = document.getElementById(backdropId);
 
-if (openLegalModal && legalModal) {
-    openLegalModal.addEventListener("click", (e) => {
+    if (trigger && modal) {
+        trigger.addEventListener("click", (e) => {
+            e.preventDefault();
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        });
+
+        const closeModal = () => {
+            modal.classList.remove("active");
+            document.body.style.overflow = "";
+        };
+
+        if (close) close.addEventListener("click", closeModal);
+        if (backdrop) backdrop.addEventListener("click", closeModal);
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && modal.classList.contains("active")) {
+                closeModal();
+            }
+        });
+    }
+}
+
+// Inicializar Modales Legales
+setupModal("openLegalModal", "legalModal", "closeLegalModal", "legalBackdrop");
+setupModal("openPrivacyModal", "privacyModal", "closePrivacyModal", "privacyBackdrop");
+setupModal("openCookiesModal", "cookiesModal", "closeCookiesModal", "cookiesBackdrop");
+
+// Enlace alternativo a la Política de Cookies desde el Banner
+const bannerCookiesLink = document.getElementById("bannerCookiesLink");
+if (bannerCookiesLink) {
+    bannerCookiesLink.addEventListener("click", (e) => {
         e.preventDefault();
-        legalModal.classList.add("active");
-        document.body.style.overflow = "hidden";
-    });
-
-    const closeModalFunc = () => {
-        legalModal.classList.remove("active");
-        document.body.style.overflow = "";
-    };
-
-    if (closeLegalModal) closeLegalModal.addEventListener("click", closeModalFunc);
-    if (legalBackdrop) legalBackdrop.addEventListener("click", closeModalFunc);
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && legalModal.classList.contains("active")) {
-            closeModalFunc();
+        const cookiesModal = document.getElementById("cookiesModal");
+        if (cookiesModal) {
+            cookiesModal.classList.add("active");
+            document.body.style.overflow = "hidden";
         }
     });
 }
+
+/* =========================================================
+   GESTIÓN DEL BANNER Y CONFIGURACIÓN DE COOKIES
+   ========================================================= */
+const cookieBanner = document.getElementById("cookieBanner");
+const btnAcceptCookies = document.getElementById("btnAcceptCookies");
+const btnRejectCookies = document.getElementById("btnRejectCookies");
+const btnConfigCookies = document.getElementById("btnConfigCookies");
+const openCookieConfigFooter = document.getElementById("openCookieConfig");
+const modalCookieConfigTrigger = document.getElementById("modalCookieConfigTrigger");
+
+// Comprobar la preferencia guardada de cookies
+const cookiePreference = localStorage.getItem("gastrognomo_cookie_consent");
+if (!cookiePreference && cookieBanner) {
+    cookieBanner.style.display = "block";
+}
+
+function setCookieConsent(status) {
+    localStorage.setItem("gastrognomo_cookie_consent", status);
+    if (cookieBanner) cookieBanner.style.display = "none";
+}
+
+if (btnAcceptCookies) btnAcceptCookies.addEventListener("click", () => setCookieConsent("accepted"));
+if (btnRejectCookies) btnRejectCookies.addEventListener("click", () => setCookieConsent("rejected"));
+
+const showConfigAction = (e) => {
+    if (e) e.preventDefault();
+    if (cookieBanner) cookieBanner.style.display = "block";
+    const cookiesModal = document.getElementById("cookiesModal");
+    if (cookiesModal && cookiesModal.classList.contains("active")) {
+        cookiesModal.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+};
+
+if (btnConfigCookies) btnConfigCookies.addEventListener("click", showConfigAction);
+if (openCookieConfigFooter) openCookieConfigFooter.addEventListener("click", showConfigAction);
+if (modalCookieConfigTrigger) modalCookieConfigTrigger.addEventListener("click", showConfigAction);
+
 
 /* =========================================================
    CARRITO Y MODALES DE PEDIDOS
@@ -288,7 +366,8 @@ const modalTotalPrice = document.getElementById("modalTotalPrice");
 let currentSelectedPizza = null;
 let currentQuantity = 1;
 
-if (cartFloatingBtn) cartFloatingBtn.style.display = "none";
+// Inicializar el estado visual del botón flotante según si hay elementos guardados al cargar
+updateCartBadge();
 
 // 1. ABRIR MODAL DE PERSONALIZACIÓN AL CLICAR "AÑADIR YA"
 document.addEventListener("click", (e) => {
@@ -381,6 +460,8 @@ if (confirmAddToCartBtn) {
             extras: extrasList,
             notes: notes
         });
+
+        guardarCarrito(); // Guardar en localStorage
 
         customModal.classList.remove("active");
         document.body.style.overflow = "";
@@ -488,6 +569,7 @@ window.changeQuantity = function(index, change) {
     if (cart[index].quantity <= 0) {
         cart.splice(index, 1);
     }
+    guardarCarrito(); // Guardar en localStorage
     updateCartBadge();
     renderCart();
 };
@@ -551,8 +633,13 @@ if (checkoutForm) {
 
         const orderType = orderTypeSelect.value;
 
-        // 🍕 VALIDACIÓN DE LÍMITE DE PIZZAS
+        // 🍕 VALIDACIÓN DE MÍNIMO Y MÁXIMO DE PIZZAS
         const totalPizzas = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        if (orderType === "domicilio" && totalPizzas < 2) {
+            alert("El pedido mínimo a domicilio son 2 pizzas.");
+            return;
+        }
 
         if (orderType === "recoger" && totalPizzas > 15) {
             alert("Para pedidos a recoger de más de 15 pizzas, por favor llamen por teléfono.");
@@ -676,6 +763,10 @@ if (checkoutForm) {
             .from('pedidos')
             .update({ detalle_pedido: textoImpresionDirecto })
             .eq('id', pedidoId);
+
+        // VACIAR EL CARRITO Y EL LOCALSTORAGE TRAS EL ÉXITO DEL PEDIDO
+        cart = [];
+        localStorage.removeItem('gastrognomo_cart');
 
         // Redirigir a la página de éxito pasando el ID y los datos
         const queryParams = new URLSearchParams({
