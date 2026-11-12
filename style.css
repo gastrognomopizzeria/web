@@ -565,6 +565,7 @@ h1 span {
 
     display: flex;
     flex-direction: column;
+    height: 100%; /* Forzar altura completa para alinear tarjetas en fila */
 }
 
 
@@ -587,6 +588,7 @@ h1 span {
 
     background-size: cover;
     background-position: center;
+    flex-shrink: 0;
 }
 
 
@@ -670,7 +672,7 @@ h1 span {
 
 
 /* =========================================================
-   PIZZA CONTENT & BOTÓN "AÑADIR YA" OVALADO
+   PIZZA CONTENT & BOTÓN "AÑADIR" OVALADO
    ========================================================= */
 
 .pizza-tag {
@@ -700,6 +702,7 @@ h1 span {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    justify-content: space-between; /* Distribución equilibrada para anclar el botón abajo */
 }
 
 
@@ -735,14 +738,15 @@ h1 span {
     font-size: 13px;
 
     margin: 10px 0 15px;
-    flex-grow: 1;
+    flex-grow: 1; /* Ocupa el espacio flexible para empujar la acción al fondo */
 }
 
-/* Alineación inferior derecha para el botón "Añadir ya" */
+/* Alineación inferior derecha fija para el botón "Añadir" */
 .pizza-action {
     display: flex;
     justify-content: flex-end;
     margin-top: auto;
+    padding-top: 10px;
 }
 
 .btn-add-cart {

@@ -4,11 +4,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Gastrognomo Pizzeria en Villena. Auténtica pizza artesanal estilo napolitano elaborada con producto local. Pide online para recoger o a domicilio en el casco urbano.">
-    <meta name="keywords" content="pizzeria villena, pedir pizza villena, pizza artesanal villena, restaurante villena, gastrognomo">
+    <meta name="description" content="Gastrognomo Pizzeria en Villena. Auténtica pizza artesanal estilo napolitano elaborada con producto local. Pide online para recoger o a domicilio en Villena Casco Urbano.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#590404">
+    <link rel="icon" type="image/png" href="loguito.png">
+    <link rel="apple-touch-icon" href="loguito.png">
+    <link rel="canonical" href="https://gastrognomopizzeria.com/">
+    <link rel="alternate" hreflang="es" href="https://gastrognomopizzeria.com/">
 
     <title>Gastrognomo Pizzeria | Mejor Pizzería Artesanal en Villena</title>
+
+    <meta property="og:type" content="restaurant">
+    <meta property="og:site_name" content="Gastrognomo Pizzeria">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:url" content="https://gastrognomopizzeria.com/">
+    <meta property="og:title" content="Gastrognomo Pizzeria | Pizza artesanal napolitana en Villena">
+    <meta property="og:description" content="Pizza artesanal estilo napolitano en Villena. Pide online para recoger o a domicilio en el casco urbano. Abierto de jueves a domingo.">
+    <meta property="og:image" content="https://gastrognomopizzeria.com/imagenes/logo-gastrognomo.png">
+    <meta property="og:image:alt" content="Logotipo de Gastrognomo Pizzeria">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gastrognomo Pizzeria | Pizza artesanal napolitana en Villena">
+    <meta name="twitter:description" content="Pizza artesanal estilo napolitano en Villena. Pide online para recoger o a domicilio.">
+    <meta name="twitter:image" content="https://gastrognomopizzeria.com/imagenes/logo-gastrognomo.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "@id": "https://gastrognomopizzeria.com/#restaurante",
+      "name": "Gastrognomo Pizzeria",
+      "legalName": "DEEP GASTROGNOMOS S.L.",
+      "url": "https://gastrognomopizzeria.com/",
+      "description": "Pizzería artesanal de estilo napolitano en Villena, con pedidos online para recoger o a domicilio en el casco urbano.",
+      "image": "https://gastrognomopizzeria.com/imagenes/logo-gastrognomo.png",
+      "logo": "https://gastrognomopizzeria.com/imagenes/logo-gastrognomo.png",
+      "telephone": "+34624837414",
+      "email": "gastrognomopizzeria@gmail.com",
+      "servesCuisine": ["Pizza", "Italiana", "Napolitana"],
+      "priceRange": "€",
+      "hasMenu": "https://gastrognomopizzeria.com/#carta",
+      "areaServed": { "@type": "City", "name": "Villena" },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Ramón y Cajal 22, Bajo A",
+        "addressLocality": "Villena",
+        "addressRegion": "Alicante",
+        "postalCode": "03400",
+        "addressCountry": "ES"
+      },
+      "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "19:30",
+        "closes": "23:30"
+      }],
+      "potentialAction": {
+        "@type": "OrderAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://gastrognomopizzeria.com/#carta",
+          "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
+        },
+        "deliveryMethod": ["http://purl.org/goodrelations/v1#DeliveryModePickUp", "http://purl.org/goodrelations/v1#DeliveryModeOwnFleet"]
+      },
+      "sameAs": ["https://instagram.com/gastrognomopizzeria"]
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -19,14 +80,58 @@
 
     <link rel="stylesheet" href="style.css">
 
-    <!-- Estilos adicionales para modales legales, banner de cookies y prefijos -->
+    <!-- Estilos adicionales, modales, cookies y animación de vuelo al carrito -->
     <style>
+        #privacyModal.active { z-index: 100000; }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
         @media (min-width: 768px) {
             #clientPrefix {
                 width: 130px !important;
                 flex: 0 0 130px !important;
                 font-size: 0.85rem !important;
             }
+        }
+
+        /* Color de respaldo por si el vídeo no carga en algún dispositivo */
+        .hero-video-container {
+            background-color: #1a0202;
+        }
+
+        /* Animación de pulso final en el carrito */
+        @keyframes cartPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); background-color: #7a0606; }
+            100% { transform: scale(1); }
+        }
+        .cart-animate-pulse {
+            animation: cartPulse 0.4s ease-in-out;
+        }
+
+        /* Elemento volador (Fly-to-Cart) */
+        .fly-to-cart-item {
+            position: fixed;
+            z-index: 10000;
+            background: var(--burgundy, #590404);
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            pointer-events: none;
+            transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
         }
 
         /* Banner de Cookies */
@@ -123,8 +228,9 @@
     HERO
     ========================================================= -->
 <section class="hero" id="inicio">
+    <h1 class="sr-only">Gastrognomo Pizzeria: pizza artesanal napolitana en Villena</h1>
     <div class="hero-video-container">
-        <video autoplay muted loop playsinline class="hero-video">
+        <video autoplay muted loop playsinline preload="auto" class="hero-video">
             <source src="imagenes/video-pizza.mp4" type="video/mp4">
             <source src="imagenes/video-pizza.webm" type="video/webm">
             Tu navegador no soporta vídeos HTML5.
@@ -419,10 +525,11 @@
             </article>
         </div>
 
-        <!-- AVISO DE ALÉRGENOS AÑADIDO -->
+        <!-- AVISO DE ALÉRGENOS CON ENLACE AL PDF -->
         <div style="text-align: center; margin-top: 30px; margin-bottom: 10px;">
             <p style="font-size: 0.9rem; color: var(--burgundy, #590404); font-weight: 600;">
-                ℹ️ Información sobre alérgenos disponible bajo demanda consultando al personal o en el establecimiento.
+                ℹ️ Información sobre alérgenos disponible en el siguiente enlace: 
+                <a href="Gastrognomos_Cartel_Carta_Alergenos.pdf" target="_blank" rel="noopener" style="color: var(--burgundy, #590404); text-decoration: underline; font-weight: bold;">Consultar Carta de Alérgenos (PDF)</a>
             </p>
         </div>
 
@@ -568,7 +675,7 @@
             <h3>3. Propiedad Intelectual e Industrial</h3>
             <p>DEEP GASTROGNOMOS S.L. por sí o como cesionaria, es titular de todos los derechos de propiedad intelectual e industrial de su página web.</p>
             <h3>4. Exclusión de Garantías y Responsabilidad</h3>
-            <p>DEEP GASTROGNOMOS S.L. no se hace responsable, en ningún caso, de los daños y perjuicios de cualquier naturaleza.</p>
+            <p>DEEP GASTROGNOMOS S.L. se esfuerza por mantener la información de este sitio web actualizada y su funcionamiento correcto, pero no garantiza que el acceso sea continuo ni esté libre de errores. Todo ello sin perjuicio de los derechos que la normativa de consumidores y usuarios reconoce al usuario y de la responsabilidad que no pueda excluirse legalmente.</p>
             <h3>5. Modificaciones</h3>
             <p>DEEP GASTROGNOMOS S.L. se reserva el derecho de efectuar sin previo aviso las modificaciones que considere oportunas.</p>
             <h3>6. Legislación Aplicable y Jurisdicción</h3>
@@ -586,31 +693,75 @@
         <button class="legal-modal-close" id="closePrivacyModal" aria-label="Cerrar política de privacidad">✕</button>
         <div class="legal-modal-body">
             <h2>Política de Privacidad</h2>
-            <p>En DEEP GASTROGNOMOS S.L. garantizamos la máxima protección de tus datos personales conforme al Reglamento General de Protección de Datos (RGPD UE 2016/679) y la LOPDGDD 3/2018.</p>
-            
-            <h3>1. Responsable del Tratamiento</h3>
+            <p><em>Última actualización: 12 de noviembre de 2026.</em></p>
+            <p>En DEEP GASTROGNOMOS S.L. tratamos tus datos personales conforme al Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 (LOPDGDD). Esta política explica qué datos recogemos al hacer un pedido, para qué los usamos y qué derechos tienes.</p>
+
+            <h3>1. Responsable del tratamiento</h3>
             <ul>
                 <li><strong>Identidad:</strong> DEEP GASTROGNOMOS S.L. (NIF: B24897894)</li>
                 <li><strong>Dirección:</strong> Ramón y Cajal 22, Bajo A, 03400 Villena (Alicante).</li>
+                <li><strong>Teléfono:</strong> 624 83 74 14</li>
                 <li><strong>Email:</strong> gastrognomopizzeria@gmail.com</li>
             </ul>
 
-            <h3>2. Finalidad del Tratamiento de Datos</h3>
-            <p>Recopilamos tus datos únicamente con el fin de:</p>
+            <h3>2. Datos que recogemos</h3>
             <ul>
-                <li>Procesar, gestionar y entregar tus pedidos de pizza a domicilio o recogida en el local.</li>
-                <li>Contactarte por teléfono o mensajería en caso de incidencias con tu pedido o la entrega.</li>
-                <li>Cumplir con las obligaciones legales y de facturación correspondientes.</li>
+                <li>Nombre y apellidos.</li>
+                <li>Teléfono de contacto.</li>
+                <li>Dirección de entrega (solo en pedidos a domicilio).</li>
+                <li>Contenido del pedido, fecha y hora elegidas.</li>
+                <li>Notas o indicaciones que escribas voluntariamente, que pueden incluir alergias o intolerancias.</li>
+            </ul>
+            <p>No recogemos datos de pago a través de esta web. No pedimos más datos de los necesarios para preparar y entregar tu pedido.</p>
+
+            <h3>3. Finalidades</h3>
+            <ul>
+                <li>Gestionar, preparar y entregar tu pedido, y confirmar la hora acordada.</li>
+                <li>Contactarte por teléfono o mensajería si hay alguna incidencia con el pedido o la entrega.</li>
+                <li>Atender tus consultas, reclamaciones o solicitudes de derechos.</li>
+                <li>Cumplir las obligaciones legales, fiscales y contables que nos sean aplicables.</li>
+                <li>Mantener la seguridad del sitio y evitar pedidos fraudulentos o automatizados.</li>
+            </ul>
+            <p>No usamos tus datos para enviarte publicidad ni elaboramos perfiles comerciales. No tomamos decisiones automatizadas.</p>
+
+            <h3>4. Legitimación</h3>
+            <ul>
+                <li><strong>Ejecución del contrato</strong> (art. 6.1.b RGPD): necesaria para gestionar el pedido que solicitas.</li>
+                <li><strong>Obligación legal</strong> (art. 6.1.c RGPD): conservación de datos con relevancia fiscal y contable.</li>
+                <li><strong>Interés legítimo</strong> (art. 6.1.f RGPD): seguridad de la web y prevención del fraude.</li>
+                <li><strong>Consentimiento explícito</strong> (art. 9.2.a RGPD): si indicas alergias o intolerancias en las notas, entendemos que nos autorizas a usar esa información solo para preparar tu pedido de forma segura. Puedes retirar este consentimiento en cualquier momento.</li>
             </ul>
 
-            <h3>3. Legitimación</h3>
-            <p>La base legal para el tratamiento de tus datos es la <strong>ejecución de la relación contractual</strong> al solicitar un pedido de comida online a través de nuestro sitio web.</p>
+            <h3>5. Plazo de conservación</h3>
+            <ul>
+                <li>Los datos del pedido se conservan mientras sea necesario para gestionarlo y atender posibles incidencias.</li>
+                <li>Después, se mantienen bloqueados durante los plazos de prescripción de responsabilidades y obligaciones legales (con carácter general, hasta 6 años para la documentación mercantil y contable).</li>
+                <li>Transcurridos esos plazos, se suprimen o anonimizan.</li>
+                <li>Las notas sobre alergias no se conservan más tiempo del necesario para el pedido al que corresponden.</li>
+            </ul>
 
-            <h3>4. Destinatarios de los Datos</h3>
-            <p>Tus datos personales no serán cedidos a terceros salvo obligación legal o cuando sea necesario para la prestación del servicio (por ejemplo, nuestros repartidores locales o nuestra plataforma de datos segura Supabase).</p>
+            <h3>6. Destinatarios y encargados del tratamiento</h3>
+            <p>No cedemos tus datos a terceros salvo obligación legal. Para prestar el servicio, pueden acceder a ellos en calidad de encargados del tratamiento y bajo contrato:</p>
+            <ul>
+                <li><strong>Supabase:</strong> proveedor de base de datos donde se almacenan los pedidos.</li>
+                <li><strong>Proveedor de alojamiento web</strong> de este sitio.</li>
+                <li><strong>Personal de reparto</strong> propio o colaborador, que solo recibe nombre, teléfono y dirección del pedido que debe entregar.</li>
+            </ul>
+            <p>Si algún proveedor tratase datos fuera del Espacio Económico Europeo, lo haremos con las garantías previstas en el RGPD, como las cláusulas contractuales tipo de la Comisión Europea.</p>
 
-            <h3>5. Derechos del Usuario</h3>
-            <p>Tienes derecho a acceder, rectificar, limitar, oponerte o solicitar la supresión de tus datos personales enviando un correo electrónico a <strong>gastrognomopizzeria@gmail.com</strong> adjuntando una copia de tu documento de identidad.</p>
+            <h3>7. Tus derechos</h3>
+            <p>Puedes ejercer los derechos de <strong>acceso, rectificación, supresión, oposición, limitación del tratamiento y portabilidad</strong> escribiendo a <strong>gastrognomopizzeria@gmail.com</strong> o presentándote en nuestro local. Responderemos en el plazo máximo de un mes.</p>
+            <p>Solo te pediremos acreditar tu identidad cuando tengamos dudas razonables sobre ella.</p>
+            <p>Si consideras que no hemos tratado tus datos correctamente, puedes presentar una reclamación ante la <strong>Agencia Española de Protección de Datos</strong> (<a href="https://www.aepd.es" target="_blank" rel="noopener">www.aepd.es</a>).</p>
+
+            <h3>8. Seguridad</h3>
+            <p>Aplicamos medidas técnicas y organizativas razonables para proteger tus datos: conexión cifrada (HTTPS), control de acceso a la base de datos y acceso restringido al personal que gestiona los pedidos.</p>
+
+            <h3>9. Menores de edad</h3>
+            <p>Este sitio no está dirigido a menores de 14 años. Si eres menor de esa edad, pide a tu padre, madre o tutor que realice el pedido por ti.</p>
+
+            <h3>10. Cambios en esta política</h3>
+            <p>Podemos actualizar esta política para adaptarla a cambios legales o del servicio. La fecha de la última actualización figura al inicio del texto.</p>
         </div>
     </div>
 </div>
@@ -623,27 +774,66 @@
     <div class="legal-modal-container">
         <button class="legal-modal-close" id="closeCookiesModal" aria-label="Cerrar política de cookies">✕</button>
         <div class="legal-modal-body">
-            <h2>Política de Cookies</h2>
-            <p>Este sitio web utiliza cookies técnicas y funcionales esenciales para garantizar una experiencia de navegación adecuada y permitir la correcta conservación de los elementos seleccionados en tu pedido.</p>
+            <h2>Política de Cookies y Almacenamiento Local</h2>
+            <p><em>Última actualización: 12 de noviembre de 2026.</em></p>
+            <p>DEEP GASTROGNOMOS S.L. (NIF: B24897894) es la titular de este sitio web. Esta política cumple con el artículo 22.2 de la Ley 34/2002 (LSSI-CE) y con la guía de la Agencia Española de Protección de Datos.</p>
 
-            <h3>1. ¿Qué son las Cookies?</h3>
-            <p>Una cookie es un pequeño archivo de texto que se almacena en tu navegador cuando visitas casi cualquier página web. Su utilidad es que la web sea capaz de recordar tu visita cuando vuelvas a navegar por esa página.</p>
+            <h3>1. ¿Qué son las cookies y el almacenamiento local?</h3>
+            <p>Una cookie es un pequeño archivo que un sitio web guarda en tu dispositivo. El almacenamiento local (<code>localStorage</code>) cumple una función parecida: guarda información en tu navegador sin enviarla a nuestros servidores. Ambos se tratan igual a efectos de esta política.</p>
 
-            <h3>2. Tipos de Cookies que utilizamos</h3>
+            <h3>2. Qué utilizamos en este sitio</h3>
+            <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                    <thead>
+                        <tr style="text-align:left; border-bottom:2px solid rgba(89,4,4,0.3);">
+                            <th style="padding:6px;">Nombre</th>
+                            <th style="padding:6px;">Titular</th>
+                            <th style="padding:6px;">Finalidad</th>
+                            <th style="padding:6px;">Duración</th>
+                            <th style="padding:6px;">Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom:1px solid rgba(89,4,4,0.15);">
+                            <td style="padding:6px;"><code>gastrognomo_cart</code></td>
+                            <td style="padding:6px;">Propia</td>
+                            <td style="padding:6px;">Guardar los artículos de tu pedido mientras navegas.</td>
+                            <td style="padding:6px;">Hasta completar el pedido o borrarlo tú.</td>
+                            <td style="padding:6px;">Técnica (necesaria)</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(89,4,4,0.15);">
+                            <td style="padding:6px;"><code>gastrognomo_cookie_consent</code></td>
+                            <td style="padding:6px;">Propia</td>
+                            <td style="padding:6px;">Recordar tu elección sobre cookies.</td>
+                            <td style="padding:6px;">Hasta que borres los datos del navegador.</td>
+                            <td style="padding:6px;">Técnica (necesaria)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Estos elementos son estrictamente necesarios para prestar el servicio que solicitas y no requieren tu consentimiento ni pueden desactivarse desde nuestra web.</p>
+
+            <h3>3. Recursos de terceros</h3>
+            <p>Para que la web funcione se cargan recursos alojados por terceros, que pueden recibir tu dirección IP y datos técnicos de tu navegador al servirlos:</p>
             <ul>
-                <li><strong>Cookies Técnicas (Estrictamente necesarias):</strong> Necesarias para el funcionamiento del sitio web, la gestión de sesiones de usuario y el funcionamiento correcto del carrito de compra (`localStorage`). No se pueden desactivar.</li>
-                <li><strong>Cookies de Análisis / Medición (Opcionales):</strong> Nos ayudan a saber cómo interactúan los visitantes con la web para mejorar la experiencia general de usuario.</li>
+                <li><strong>Google Fonts</strong> (Google Ireland Limited): tipografías de la web.</li>
+                <li><strong>jsDelivr</strong>: red de distribución de la librería técnica que conecta el pedido con nuestra base de datos.</li>
+                <li><strong>Supabase</strong>: base de datos a la que se envía tu pedido cuando lo confirmas.</li>
             </ul>
+            <p>No instalan cookies publicitarias a través de este sitio. Puedes consultar sus políticas de privacidad para más información.</p>
 
-            <h3>3. Gestión y Desactivación de Cookies</h3>
-            <p>Puedes configurar, aceptar o rechazar el uso de cookies no esenciales en cualquier momento mediante nuestra herramienta de <a href="#" id="modalCookieConfigTrigger" style="color: var(--burgundy); font-weight: bold;">Configuración de Cookies</a> o ajustando las preferencias de tu navegador web.</p>
+            <h3>4. Cookies de análisis y publicidad</h3>
+            <p>Actualmente <strong>no utilizamos cookies de análisis, medición ni publicidad</strong>. Si en el futuro las incorporamos, solicitaremos antes tu consentimiento y actualizaremos esta política.</p>
+
+            <h3>5. Cómo gestionar tus preferencias</h3>
+            <p>Puedes cambiar tu elección en cualquier momento desde <a href="#" id="modalCookieConfigTrigger" style="color: var(--burgundy); font-weight: bold;">Configuración de Cookies</a>. También puedes borrar o bloquear el almacenamiento desde los ajustes de tu navegador (Chrome, Firefox, Safari o Edge). Si lo haces, el carrito no se conservará entre visitas.</p>
+
+            <h3>6. Más información</h3>
+            <p>Si tienes dudas sobre esta política, escríbenos a gastrognomopizzeria@gmail.com. Para saber más sobre cookies, consulta la web de la <a href="https://www.aepd.es" target="_blank" rel="noopener">Agencia Española de Protección de Datos</a>.</p>
         </div>
     </div>
 </div>
 
-<!-- =========================================================
-    BANNER INTERACTIVO DE CONFIGURACIÓN DE COOKIES
-    ========================================================= -->
 <div class="cookie-banner" id="cookieBanner">
     <div class="cookie-banner-container">
         <p>
@@ -657,16 +847,13 @@
     </div>
 </div>
 
-<!-- =========================================================
-    MODAL DE PERSONALIZACIÓN DE ARTÍCULO
-    ========================================================= -->
 <div class="custom-modal" id="customModal" aria-hidden="true">
     <div class="custom-modal-backdrop" id="customBackdrop"></div>
-    <div class="custom-modal-container">
+    <div class="custom-modal-container" id="customModalContainer">
         <button class="custom-modal-close" id="closeCustomModal" aria-label="Cerrar">✕</button>
         <h2 id="modalPizzaTitle" style="margin-top:0; color: var(--burgundy); font-size: 1.6rem;">Personalizar Artículo</h2>
         <p id="modalPizzaPrice" style="font-weight: bold; margin-bottom: 15px; color: var(--gray);"></p>
-        
+
         <div class="quantity-selector" style="display:flex; align-items:center; gap:15px; margin: 15px 0;">
             <label><strong>Cantidad:</strong></label>
             <button type="button" id="modalQtyMinus" style="width:35px; height:35px; font-size:1.2rem; font-weight:bold; cursor:pointer; background:var(--cream); border:1px solid rgba(89,4,4,0.2); border-radius:6px;">-</button>
@@ -674,18 +861,43 @@
             <button type="button" id="modalQtyPlus" style="width:35px; height:35px; font-size:1.2rem; font-weight:bold; cursor:pointer; background:var(--cream); border:1px solid rgba(89,4,4,0.2); border-radius:6px;">+</button>
         </div>
 
-        <div class="extras-group" id="extrasContainer" style="margin: 15px 0; display:flex; flex-direction:column; gap:8px;">
+        <div class="extras-group" id="extrasContainer" style="margin: 15px 0; display:flex; flex-direction:column; gap:12px;">
             <label><strong>Ingredientes Extra:</strong></label>
-            <label style="cursor:pointer; display:flex; align-items:center; gap:8px;"><input type="checkbox" class="extra-checkbox" data-name="Extra (1€)" data-price="1.00"> Extra (+1,00 €)</label>
-            <label style="cursor:pointer; display:flex; align-items:center; gap:8px;"><input type="checkbox" class="extra-checkbox" data-name="Extra Carne (2€)" data-price="2.00"> Extra Carne (+2,00 €)</label>
-            <small style="color: var(--burgundy); font-weight: 600; font-size: 0.85rem; margin-top: 4px; line-height: 1.3;">
-                💡 Por favor, especifica exactamente qué ingredientes extras deseas añadir en el cuadro inferior de observaciones.
-            </small>
+            <div style="background: var(--cream-light, #fdfbf7); padding: 10px; border-radius: 8px; border: 1px solid rgba(89,4,4,0.1);">
+                <label style="cursor:pointer; display:flex; align-items:center; gap:8px; font-weight: bold; margin-bottom: 6px;">
+                    <input type="checkbox" id="toggleExtraUnico"> Ingrediente extra
+                </label>
+                <div id="listExtraUnico" style="display: none; margin-top: 6px; padding-left: 22px;">
+                    <select id="selectExtraUnico" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(89,4,4,0.2); font-family: inherit; font-size: 0.9rem; background: var(--cream-light, #fdfbf7); color: var(--burgundy, #590404); outline: none;">
+                        <option value="" selected disabled>-- Elegir ingrediente --</option>
+                        <option value="Champiñón portobello" data-price="1.00">Champiñón portobello (+1,00 €)</option>
+                        <option value="Ricotta" data-price="1.00">Ricotta (+1,00 €)</option>
+                        <option value="Berenjenas" data-price="1.00">Berenjenas (+1,00 €)</option>
+                        <option value="Cebolla" data-price="1.00">Cebolla (+1,00 €)</option>
+                        <option value="Pimiento asado" data-price="1.00">Pimiento asado (+1,00 €)</option>
+                        <option value="Aceitunas negras" data-price="1.00">Aceitunas negras (+1,00 €)</option>
+                        <option value="Tomate cherry" data-price="1.00">Tomate cherry (+1,00 €)</option>
+                        <option value="Queso de mahón" data-price="1.00">Queso de mahón (+1,00 €)</option>
+                        <option value="Miel" data-price="1.00">Miel (+1,00 €)</option>
+                        <option value="Queso manchego" data-price="1.00">Queso manchego (+1,00 €)</option>
+                        <option value="Queso cabrales" data-price="2.00">Queso cabrales (+2,00 €)</option>
+                        <option value="Alcachofas" data-price="2.00">Alcachofas (+2,00 €)</option>
+                        <option value="Queso de cabra" data-price="2.00">Queso de cabra (+2,00 €)</option>
+                        <option value="Bonito del norte" data-price="2.00">Bonito del norte (+2,00 €)</option>
+                        <option value="Lacón ahumado" data-price="2.00">Lacón ahumado (+2,00 €)</option>
+                        <option value="Panceta" data-price="2.00">Panceta (+2,00 €)</option>
+                        <option value="Chorizo de bellota" data-price="2.00">Chorizo de bellota (+2,00 €)</option>
+                        <option value="Sobrasada" data-price="2.00">Sobrasada (+2,00 €)</option>
+                        <option value="Anchoas" data-price="2.00">Anchoas (+2,00 €)</option>
+                        <option value="Jamón ibérico" data-price="3.00">Jamón ibérico (+3,00 €)</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <div class="form-group" style="margin-top: 15px; display:flex; flex-direction:column; gap:5px;">
             <label for="modalItemNotes"><strong>Observaciones para este artículo:</strong></label>
-            <textarea id="modalItemNotes" placeholder="Ej. Especificar extra (bacon, champiñones...), sin cebolla, bien hecha..." style="width:100%; padding:10px; border-radius:8px; border:1px solid rgba(89,4,4,0.2); background:var(--cream-light); outline:none; resize:vertical; min-height:60px;"></textarea>
+            <textarea id="modalItemNotes" placeholder="Ej. Sin cebolla, bien hecha..." style="width:100%; padding:10px; border-radius:8px; border:1px solid rgba(89,4,4,0.2); background:var(--cream-light); outline:none; resize:vertical; min-height:60px;"></textarea>
         </div>
 
         <button type="button" id="confirmAddToCartBtn" class="btn btn-primary" style="width: 100%; margin-top: 15px; background: var(--burgundy); color:white; border:none; padding:12px; border-radius:100px; font-weight:bold; cursor:pointer;">
@@ -694,9 +906,6 @@
     </div>
 </div>
 
-<!-- =========================================================
-    CARRITO FLOTANTE Y MODAL DE PEDIDOS
-    ========================================================= -->
 <button class="cart-floating-btn" id="cartFloatingBtn" aria-label="Ver carrito" style="display: none;">
     🛒 <span id="cartCount">0</span>
 </button>
@@ -716,7 +925,7 @@
                 <span>Total:</span>
                 <strong id="cartTotalPrice">0 €</strong>
             </div>
-            
+
             <form class="cart-checkout-form" id="checkoutForm">
                 <div class="form-group">
                     <label for="clientName">Nombre y Apellidos *</label>
@@ -879,7 +1088,7 @@
                             <option value="+260">Zambia (+260)</option>
                             <option value="+263">Zimbabue (+263)</option>
                         </select>
-                        <input type="tel" id="clientPhone" required placeholder="600123456" maxlength="9" pattern="[0-9]{9}" style="flex: 1; min-width: 0;">
+                        <input type="tel" id="clientPhone" required placeholder="600123456" maxlength="9" style="flex: 1; min-width: 0;">
                     </div>
                 </div>
                 <div class="form-group">
@@ -913,12 +1122,891 @@
                 <button type="submit" class="btn btn-primary btn-whatsapp" style="width: 100%; background: var(--burgundy);">
                     🚀 Realizar pedido
                 </button>
+                <p style="margin: 10px 0 0; font-size: 0.8rem; text-align: center; color: #555; line-height: 1.4;">
+                    Al realizar el pedido aceptas la <a href="#" id="openPrivacyFromOrder" style="color: var(--burgundy, #590404); font-weight: bold; text-decoration: underline;">Política de Privacidad</a>.
+                </p>
             </form>
         </div>
     </div>
 </div>
 
-<script src="script.js"></script>
+
+<!-- =========================================================
+    JAVASCRIPT COMPLETO (ANIMACIÓN BLINDADA)
+    ========================================================= -->
+<script>
+/* =========================================================
+   SISTEMA DE PEDIDOS INTELIGENTE - GASTROGNOMO
+   ========================================================= */
+
+const SUPABASE_URL = 'https://refrscscreylowmocfcx.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_XiXjP4gjaQUXf84U6-5QZw_Dw-YhdSu';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+let cart = [];
+try {
+    const savedCart = localStorage.getItem('gastrognomo_cart');
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+    }
+} catch (e) {
+    console.error("Error al cargar el carrito guardado:", e);
+    cart = [];
+}
+
+function guardarCarrito() {
+    try {
+        localStorage.setItem('gastrognomo_cart', JSON.stringify(cart));
+    } catch (e) {
+        console.error("Error al guardar el carrito:", e);
+    }
+}
+
+function limpiarTextoParaImpresora(texto) {
+    if (!texto) return "";
+    return texto
+        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[Ñ]/g, "N")
+        .replace(/[ñ]/g, "n")
+        .replace(/[€]/g, "EUR")
+        .replace(/[¡!]/g, "!") 
+        .replace(/[ºª]/g, "");
+}
+
+function ajustarAnchoPOS80(texto, maxChars = 42, indent = "") {
+    if (!texto) return "";
+    let palabras = texto.split(" ");
+    let lineas = [];
+    let lineaActual = indent;
+
+    palabras.forEach(palabra => {
+        while (palabra.length > maxChars - indent.length) {
+            let espacioRestante = maxChars - lineaActual.length;
+            let parte = palabra.substring(0, espacioRestante);
+            lineaActual += parte;
+            lineas.push(lineaActual);
+            lineaActual = indent;
+            palabra = palabra.substring(espacioRestante);
+        }
+
+        let espacioNecesario = (lineaActual === indent ? 0 : 1) + palabra.length;
+        if (lineaActual.length + espacioNecesario <= maxChars) {
+            if (lineaActual !== indent) lineaActual += " ";
+            lineaActual += palabra;
+        } else {
+            lineas.push(lineaActual);
+            lineaActual = indent + palabra;
+        }
+    });
+
+    if (lineaActual.trim() !== "") {
+        lineas.push(lineaActual);
+    }
+    return lineas.join("\n");
+}
+
+/* =========================================================
+   MENÚ MÓVIL
+   ========================================================= */
+const menuToggle = document.getElementById("menuToggle");
+const nav = document.getElementById("nav");
+
+if (menuToggle && nav) {
+    menuToggle.addEventListener("click", () => {
+        const isActive = nav.classList.toggle("active");
+        menuToggle.setAttribute("aria-expanded", isActive ? "true" : "false");
+        menuToggle.textContent = isActive ? "✕" : "☰";
+    });
+
+    document.querySelectorAll(".nav a").forEach(link => {
+        link.addEventListener("click", () => {
+            nav.classList.remove("active");
+            menuToggle.setAttribute("aria-expanded", "false");
+            menuToggle.textContent = "☰";
+        });
+    });
+}
+
+/* =========================================================
+   FILTROS DE CARTA
+   ========================================================= */
+const filterButtons = document.querySelectorAll(".filter-btn");
+const pizzaCards = document.querySelectorAll(".pizza-card");
+const showMoreContainer = document.getElementById("showMoreContainer");
+const showMoreBtn = document.getElementById("showMoreBtn");
+
+let currentCategory = "todas";
+let expanded = false;
+
+function showCategory(category) {
+    currentCategory = category;
+    expanded = false;
+
+    pizzaCards.forEach(card => {
+        card.classList.remove("hidden-all");
+        const matches = category === "todas" || card.dataset.category === category;
+
+        if (!matches) {
+            card.style.display = "none";
+            return;
+        }
+
+        if (category === "todas" && card.dataset.default !== "true") {
+            card.classList.add("hidden-all");
+        }
+
+        card.style.display = "block";
+    });
+
+    if (category === "todas") {
+        const totalCards = pizzaCards.length;
+        if (totalCards > 3) {
+            showMoreContainer.classList.add("visible");
+            showMoreBtn.textContent = "Ver más";
+            showMoreBtn.dataset.expanded = "false";
+        } else {
+            showMoreContainer.classList.remove("visible");
+        }
+    } else {
+        showMoreContainer.classList.remove("visible");
+        showMoreBtn.dataset.expanded = "false";
+    }
+}
+
+showCategory("todas");
+
+filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        filterButtons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+        showCategory(button.dataset.category);
+    });
+});
+
+if (showMoreBtn) {
+    showMoreBtn.addEventListener("click", () => {
+        if (currentCategory !== "todas") return;
+        expanded = !expanded;
+
+        if (expanded) {
+            pizzaCards.forEach(card => {
+                card.style.display = "block";
+                card.classList.remove("hidden-all");
+            });
+            showMoreBtn.textContent = "Ver menos";
+            showMoreBtn.dataset.expanded = "true";
+        } else {
+            pizzaCards.forEach(card => {
+                const isDefault = card.dataset.default === "true";
+                card.style.display = "block";
+                if (isDefault) {
+                    card.classList.remove("hidden-all");
+                } else {
+                    card.classList.add("hidden-all");
+                }
+            });
+            showMoreBtn.textContent = "Ver más";
+            showMoreBtn.dataset.expanded = "false";
+            document.getElementById("carta").scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    });
+}
+
+/* =========================================================
+   CARRUSEL HISTORIA
+   ========================================================= */
+const slides = document.querySelectorAll(".carousel-slide");
+const dots = document.querySelectorAll(".carousel-dots .dot");
+const prevBtn = document.getElementById("carouselPrev");
+const nextBtn = document.getElementById("carouselNext");
+
+let currentSlide = 0;
+let carouselTimer = null;
+
+function goToSlide(index) {
+    if (!slides.length) return;
+    slides.forEach(slide => slide.classList.remove("active"));
+    dots.forEach(dot => dot.classList.remove("active"));
+
+    currentSlide = (index + slides.length) % slides.length;
+
+    slides[currentSlide].classList.add("active");
+    if (dots[currentSlide]) {
+        dots[currentSlide].classList.add("active");
+    }
+}
+
+function startCarouselTimer() {
+    stopCarouselTimer();
+    carouselTimer = setInterval(() => {
+        goToSlide(currentSlide + 1);
+    }, 4000);
+}
+
+function stopCarouselTimer() {
+    if (carouselTimer) clearInterval(carouselTimer);
+}
+
+if (slides.length) {
+    if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+            goToSlide(currentSlide - 1);
+            startCarouselTimer();
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+            goToSlide(currentSlide + 1);
+            startCarouselTimer();
+        });
+    }
+
+    dots.forEach(dot => {
+        dot.addEventListener("click", (e) => {
+            const index = parseInt(e.target.dataset.index, 10);
+            goToSlide(index);
+            startCarouselTimer();
+        });
+    });
+
+    startCarouselTimer();
+}
+
+/* =========================================================
+   VENTANAS MODALES LEGALES Y COOKIES
+   ========================================================= */
+function setupModal(triggerId, modalId, closeId, backdropId) {
+    const trigger = document.getElementById(triggerId);
+    const modal = document.getElementById(modalId);
+    const close = document.getElementById(closeId);
+    const backdrop = document.getElementById(backdropId);
+
+    if (trigger && modal) {
+        trigger.addEventListener("click", (e) => {
+            e.preventDefault();
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        });
+
+        const closeModal = () => {
+            modal.classList.remove("active");
+            document.body.style.overflow = document.querySelector(".cart-modal.active") ? "hidden" : "";
+        };
+
+        if (close) close.addEventListener("click", closeModal);
+        if (backdrop) backdrop.addEventListener("click", closeModal);
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && modal.classList.contains("active")) {
+                closeModal();
+            }
+        });
+    }
+}
+
+setupModal("openLegalModal", "legalModal", "closeLegalModal", "legalBackdrop");
+setupModal("openPrivacyModal", "privacyModal", "closePrivacyModal", "privacyBackdrop");
+setupModal("openPrivacyFromOrder", "privacyModal", "closePrivacyModal", "privacyBackdrop");
+setupModal("openCookiesModal", "cookiesModal", "closeCookiesModal", "cookiesBackdrop");
+
+const bannerCookiesLink = document.getElementById("bannerCookiesLink");
+if (bannerCookiesLink) {
+    bannerCookiesLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        const cookiesModal = document.getElementById("cookiesModal");
+        if (cookiesModal) {
+            cookiesModal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+    });
+}
+
+/* =========================================================
+   GESTIÓN DEL BANNER Y CONFIGURACIÓN DE COOKIES
+   ========================================================= */
+const cookieBanner = document.getElementById("cookieBanner");
+const btnAcceptCookies = document.getElementById("btnAcceptCookies");
+const btnRejectCookies = document.getElementById("btnRejectCookies");
+const btnConfigCookies = document.getElementById("btnConfigCookies");
+const openCookieConfigFooter = document.getElementById("openCookieConfig");
+const modalCookieConfigTrigger = document.getElementById("modalCookieConfigTrigger");
+
+const cookiePreference = localStorage.getItem("gastrognomo_cookie_consent");
+if (!cookiePreference && cookieBanner) {
+    cookieBanner.style.display = "block";
+}
+
+function setCookieConsent(status) {
+    localStorage.setItem("gastrognomo_cookie_consent", status);
+    if (cookieBanner) cookieBanner.style.display = "none";
+}
+
+if (btnAcceptCookies) btnAcceptCookies.addEventListener("click", () => setCookieConsent("accepted"));
+if (btnRejectCookies) btnRejectCookies.addEventListener("click", () => setCookieConsent("rejected"));
+
+const showConfigAction = (e) => {
+    if (e) e.preventDefault();
+    if (cookieBanner) cookieBanner.style.display = "block";
+    const cookiesModal = document.getElementById("cookiesModal");
+    if (cookiesModal && cookiesModal.classList.contains("active")) {
+        cookiesModal.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+};
+
+if (btnConfigCookies) btnConfigCookies.addEventListener("click", showConfigAction);
+if (openCookieConfigFooter) openCookieConfigFooter.addEventListener("click", showConfigAction);
+if (modalCookieConfigTrigger) modalCookieConfigTrigger.addEventListener("click", showConfigAction);
+
+
+/* =========================================================
+   CARRITO Y MODALES DE PEDIDOS (CON EXTRA ÚNICO OBLIGATORIO)
+   ========================================================= */
+const cartFloatingBtn = document.getElementById("cartFloatingBtn");
+const cartModal = document.getElementById("cartModal");
+const closeCartModal = document.getElementById("closeCartModal");
+const cartBackdrop = document.getElementById("cartBackdrop");
+const cartItemsList = document.getElementById("cartItemsList");
+const cartCount = document.getElementById("cartCount");
+const cartFooter = document.getElementById("cartFooter");
+const cartTotalPrice = document.getElementById("cartTotalPrice");
+const checkoutForm = document.getElementById("checkoutForm");
+const orderTypeSelect = document.getElementById("orderType");
+const addressGroup = document.getElementById("addressGroup");
+const orderTimeSelect = document.getElementById("orderTime");
+const orderDateInput = document.getElementById("orderDate");
+const clientPrefixSelect = document.getElementById("clientPrefix");
+const clientPhoneInput = document.getElementById("clientPhone");
+
+const customModal = document.getElementById("customModal");
+const closeCustomModal = document.getElementById("closeCustomModal");
+const customBackdrop = document.getElementById("customBackdrop");
+const modalPizzaTitle = document.getElementById("modalPizzaTitle");
+const modalPizzaPrice = document.getElementById("modalPizzaPrice");
+const modalQtyMinus = document.getElementById("modalQtyMinus");
+const modalQtyPlus = document.getElementById("modalQtyPlus");
+const modalQtyValue = document.getElementById("modalQtyValue");
+const modalItemNotes = document.getElementById("modalItemNotes");
+const confirmAddToCartBtn = document.getElementById("confirmAddToCartBtn");
+const modalTotalPrice = document.getElementById("modalTotalPrice");
+
+const toggleExtraUnico = document.getElementById("toggleExtraUnico");
+const listExtraUnico = document.getElementById("listExtraUnico");
+const selectExtraUnico = document.getElementById("selectExtraUnico");
+
+let currentSelectedPizza = null;
+let currentQuantity = 1;
+
+updateCartBadge();
+
+if (clientPrefixSelect && clientPhoneInput) {
+    clientPrefixSelect.addEventListener("change", () => {
+        if (clientPrefixSelect.value === "+34") {
+            clientPhoneInput.setAttribute("maxlength", "9");
+            clientPhoneInput.placeholder = "600123456";
+        } else {
+            clientPhoneInput.removeAttribute("maxlength");
+            clientPhoneInput.placeholder = "Número de teléfono";
+        }
+    });
+}
+
+if (toggleExtraUnico && listExtraUnico) {
+    toggleExtraUnico.addEventListener("change", (e) => {
+        listExtraUnico.style.display = e.target.checked ? "block" : "none";
+        if (!e.target.checked && selectExtraUnico) {
+            selectExtraUnico.value = "";
+        }
+        calcularPrecioModal();
+    });
+}
+
+if (selectExtraUnico) {
+    selectExtraUnico.addEventListener("change", calcularPrecioModal);
+}
+
+function runFlyToCartAnimation(itemName, eventTarget) {
+    const flyer = document.createElement("div");
+    flyer.className = "fly-to-cart-item";
+    flyer.textContent = `🛒 +${currentQuantity} ${itemName}`;
+    
+    // 1. Calcular origen exacto desde el botón pulsado
+    let startX = window.innerWidth / 2 - 70;
+    let startY = window.innerHeight / 2 - 25;
+
+    if (eventTarget) {
+        const rect = eventTarget.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+            startX = rect.left + rect.width / 2 - 50;
+            startY = rect.top + rect.height / 2 - 20;
+        }
+    }
+    
+    flyer.style.left = `${startX}px`;
+    flyer.style.top = `${startY}px`;
+    document.body.appendChild(flyer);
+
+    // 2. Calcular destino (Esquina inferior derecha donde está el carrito con respaldo matemático)
+    let endX = window.innerWidth - 80;
+    let endY = window.innerHeight - 80;
+
+    if (cartFloatingBtn) {
+        const cartRect = cartFloatingBtn.getBoundingClientRect();
+        if (cartRect.width > 0 && cartRect.height > 0) {
+            endX = cartRect.left + cartRect.width / 2 - 50;
+            endY = cartRect.top + cartRect.height / 2 - 20;
+        }
+    }
+
+    void flyer.offsetWidth;
+
+    setTimeout(() => {
+        flyer.style.transform = "scale(0.3) rotate(15deg)";
+        flyer.style.left = `${endX}px`;
+        flyer.style.top = `${endY}px`;
+        flyer.style.opacity = "0.2";
+    }, 30);
+
+    setTimeout(() => {
+        flyer.remove();
+        if (cartFloatingBtn) {
+            cartFloatingBtn.classList.remove("cart-animate-pulse");
+            void cartFloatingBtn.offsetWidth;
+            cartFloatingBtn.classList.add("cart-animate-pulse");
+        }
+    }, 800);
+}
+
+// Vinculación estricta y segura mediante delegación de eventos
+document.addEventListener("click", (e) => {
+    const addBtn = e.target.closest(".btn-add-cart");
+    if (addBtn) {
+        window.lastValidOriginButton = addBtn;
+
+        const name = addBtn.dataset.name;
+        const basePrice = parseFloat(addBtn.dataset.price);
+
+        const pizzaCard = addBtn.closest(".pizza-card");
+        const category = pizzaCard ? pizzaCard.dataset.category : "";
+
+        currentSelectedPizza = { name, basePrice };
+        currentQuantity = 1;
+        modalQtyValue.textContent = currentQuantity;
+        modalPizzaTitle.textContent = name;
+        modalPizzaPrice.textContent = `Precio base: ${basePrice.toFixed(2)} EUR`;
+
+        if (toggleExtraUnico) toggleExtraUnico.checked = false;
+        if (listExtraUnico) listExtraUnico.style.display = "none";
+        if (selectExtraUnico) selectExtraUnico.value = "";
+
+        modalItemNotes.value = "";
+
+        const extrasContainer = document.getElementById("extrasContainer");
+        if (extrasContainer) {
+            if (category === "postres" || name.toUpperCase().includes("TARTA")) {
+                extrasContainer.style.display = "none";
+            } else {
+                extrasContainer.style.display = "flex";
+            }
+        }
+
+        calcularPrecioModal();
+
+        customModal.classList.add("active");
+        document.body.style.overflow = "hidden";
+    }
+});
+
+if (modalQtyPlus) {
+    modalQtyPlus.addEventListener("click", () => {
+        currentQuantity++;
+        modalQtyValue.textContent = currentQuantity;
+        calcularPrecioModal();
+    });
+}
+if (modalQtyMinus) {
+    modalQtyMinus.addEventListener("click", () => {
+        if (currentQuantity > 1) {
+            currentQuantity--;
+            modalQtyValue.textContent = currentQuantity;
+            calcularPrecioModal();
+        }
+    });
+}
+
+function calcularPrecioModal() {
+    if (!currentSelectedPizza) return;
+    let unitPrice = currentSelectedPizza.basePrice;
+
+    if (toggleExtraUnico && toggleExtraUnico.checked && selectExtraUnico && selectExtraUnico.value) {
+        const selectedOption = selectExtraUnico.options[selectExtraUnico.selectedIndex];
+        const price = parseFloat(selectedOption.dataset.price || 0);
+        unitPrice += price;
+    }
+
+    const total = unitPrice * currentQuantity;
+    modalTotalPrice.textContent = `${total.toFixed(2)} EUR`;
+}
+
+if (confirmAddToCartBtn) {
+    confirmAddToCartBtn.addEventListener("click", () => {
+        let unitPrice = currentSelectedPizza.basePrice;
+        let extrasList = [];
+
+        if (toggleExtraUnico && toggleExtraUnico.checked) {
+            if (!selectExtraUnico || !selectExtraUnico.value) {
+                alert("Por favor, selecciona un ingrediente en el desplegable de extra.");
+                return;
+            }
+            const selectedOpt = selectExtraUnico.options[selectExtraUnico.selectedIndex];
+            unitPrice += parseFloat(selectedOpt.dataset.price || 0);
+            extrasList.push(selectedOpt.value);
+        }
+
+        const notes = modalItemNotes.value.trim();
+        const itemName = currentSelectedPizza.name;
+
+        cart.push({
+            name: itemName,
+            price: unitPrice,
+            quantity: currentQuantity,
+            extras: extrasList,
+            notes: notes
+        });
+
+        guardarCarrito();
+
+        customModal.classList.remove("active");
+        document.body.style.overflow = "";
+
+        if (toggleExtraUnico) toggleExtraUnico.checked = false;
+        if (listExtraUnico) listExtraUnico.style.display = "none";
+        if (selectExtraUnico) selectExtraUnico.value = "";
+
+        let originElement = window.lastValidOriginButton;
+        if (!originElement) {
+            const cardElement = Array.from(document.querySelectorAll('.pizza-card')).find(card => {
+                const titleEl = card.querySelector('.pizza-title h3');
+                return titleEl && titleEl.textContent.trim().toUpperCase() === itemName.toUpperCase();
+            });
+            if (cardElement) {
+                originElement = cardElement.querySelector('.btn-add-cart');
+            }
+        }
+
+        runFlyToCartAnimation(itemName, originElement);
+        updateCartBadge();
+        renderCart();
+    });
+}
+
+const closeCustomModalFunc = () => {
+    customModal.classList.remove("active");
+    document.body.style.overflow = "";
+};
+if (closeCustomModal) closeCustomModal.addEventListener("click", closeCustomModalFunc);
+if (customBackdrop) customBackdrop.addEventListener("click", closeCustomModalFunc);
+
+if (cartFloatingBtn && cartModal) {
+    cartFloatingBtn.addEventListener("click", () => {
+        cartModal.classList.add("active");
+        document.body.style.overflow = "hidden";
+        renderCart();
+        inicializarSelectorFechasYHoras();
+    });
+
+    const closeCartFunc = () => {
+        cartModal.classList.remove("active");
+        document.body.style.overflow = "";
+    };
+
+    if (closeCartModal) closeCartModal.addEventListener("click", closeCartFunc);
+    if (cartBackdrop) cartBackdrop.addEventListener("click", closeCartFunc);
+}
+
+if (orderTypeSelect && addressGroup) {
+    orderTypeSelect.addEventListener("change", (e) => {
+        const isDomicilio = e.target.value === "domicilio";
+        if (isDomicilio) {
+            addressGroup.style.display = "flex";
+            document.getElementById("clientAddress").required = true;
+        } else {
+            addressGroup.style.display = "none";
+            document.getElementById("clientAddress").required = false;
+        }
+        actualizarHorasDisponibles();
+        renderCart();
+    });
+}
+
+function updateCartBadge() {
+    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (cartCount) cartCount.textContent = totalCount;
+    if (cartFloatingBtn) {
+        cartFloatingBtn.style.display = totalCount > 0 ? "flex" : "none";
+    }
+}
+
+function renderCart() {
+    if (cart.length === 0) {
+        cartItemsList.innerHTML = `<p class="cart-empty-msg">Tu carrito está vacío.</p>`;
+        if (cartFooter) cartFooter.style.display = "none";
+        if (cartFloatingBtn) cartFloatingBtn.style.display = "none";
+        return;
+    }
+
+    if (cartFooter) cartFooter.style.display = "block";
+    let html = "";
+    let total = 0;
+
+    const isDomicilio = orderTypeSelect && orderTypeSelect.value === "domicilio";
+    const recargoDomicilio = isDomicilio ? 1.00 : 0.00;
+
+    cart.forEach((item, index) => {
+        const precioFinalUnitario = item.price + recargoDomicilio;
+        const subtotal = precioFinalUnitario * item.quantity;
+        total += subtotal;
+
+        let extrasHtml = "";
+        if (item.extras && item.extras.length > 0) {
+            extrasHtml += `<br><small style="color: #444; padding-left: 15px;">+ Extra: ${item.extras.join(", ")}</small>`;
+        }
+        if (item.notes) {
+            extrasHtml += `<br><small style="color: #666; padding-left: 15px;">- Nota: ${item.notes}</small>`;
+        }
+
+        html += `
+            <div class="cart-item" style="margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
+                <div class="cart-item-info">
+                    <h4>${item.quantity}x ${item.name} - ${subtotal.toFixed(2)} EUR ${isDomicilio ? '<small>(+1 EUR dom.)</small>' : ''}</h4>
+                    ${extrasHtml}
+                </div>
+                <div class="cart-item-controls" style="margin-top: 5px;">
+                    <button type="button" onclick="changeQuantity(${index}, -1)" style="padding:2px 8px;">-</button>
+                    <span style="margin: 0 10px;">${item.quantity}</span>
+                    <button type="button" onclick="changeQuantity(${index}, 1)" style="padding:2px 8px;">+</button>
+                </div>
+            </div>
+        `;
+    });
+
+    cartItemsList.innerHTML = html;
+    if (cartTotalPrice) cartTotalPrice.textContent = `${total.toFixed(2)} EUR`;
+}
+
+window.changeQuantity = function(index, change) {
+    cart[index].quantity += change;
+    if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+    }
+    guardarCarrito();
+    updateCartBadge();
+    renderCart();
+};
+
+function inicializarSelectorFechasYHoras() {
+    if (!orderDateInput) return;
+    const today = new Date().toISOString().split('T')[0];
+    orderDateInput.value = today;
+    actualizarHorasDisponibles();
+}
+
+async function actualizarHorasDisponibles() {
+    if (!orderTimeSelect || !orderDateInput) return;
+
+    const fecha = orderDateInput.value;
+    const tipo = orderTypeSelect ? orderTypeSelect.value : "recoger"; 
+    
+    const horaInicio = (tipo === "recoger") ? (19 * 60 + 30) : (20 * 60);
+    const intervaloMinutos = (tipo === "recoger") ? 15 : 30;
+
+    const { data: bloqueados } = await supabaseClient
+        .from('horarios_bloqueados')
+        .select('hora')
+        .eq('fecha', fecha)
+        .eq('tipo', tipo);
+
+    const horasBloqueadas = bloqueados ? bloqueados.map(b => b.hora) : [];
+    const horaFin = 23 * 60 + 30;
+    
+    let optionsHtml = '<option value="">Selecciona hora...</option>';
+    let hayDisponibles = false;
+
+    for (let m = horaInicio; m <= horaFin; m += intervaloMinutos) {
+        let horas = Math.floor(m / 60);
+        let mins = m % 60;
+        let horaStr = `${horas.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+
+        if (horasBloqueadas.includes(horaStr)) continue; 
+
+        hayDisponibles = true;
+        optionsHtml += `<option value="${horaStr}">${horaStr}</option>`;
+    }
+
+    if (!hayDisponibles) {
+        optionsHtml = `<option value="">No hay horarios disponibles</option>`;
+    }
+
+    orderTimeSelect.innerHTML = optionsHtml;
+}
+
+if (checkoutForm) {
+    checkoutForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (cart.length === 0) {
+            alert("Tu carrito está vacío.");
+            return;
+        }
+
+        const orderType = orderTypeSelect.value;
+        const totalPizzas = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        if (orderType === "domicilio" && totalPizzas < 2) {
+            alert("El pedido mínimo a domicilio son 2 pizzas.");
+            return;
+        }
+
+        if (orderType === "recoger" && totalPizzas > 15) {
+            alert("Para pedidos a recoger de más de 15 pizzas, por favor llamen por teléfono.");
+            return;
+        }
+
+        if (orderType === "domicilio" && totalPizzas > 8) {
+            alert("Para pedidos a domicilio de más de 8 pizzas, por favor llamen por teléfono.");
+            return;
+        }
+
+        const phoneInput = clientPhoneInput.value.trim();
+        const prefixSelect = clientPrefixSelect.value;
+
+        if (prefixSelect === "+34") {
+            if (!/^\d{9}$/.test(phoneInput)) {
+                alert("Para España (+34), el número de teléfono debe tener exactamente 9 dígitos.");
+                return;
+            }
+        } else {
+            if (!/^\d{6,15}$/.test(phoneInput)) {
+                alert("Por favor, introduce un número de teléfono internacional válido.");
+                return;
+            }
+        }
+
+        const phone = limpiarTextoParaImpresora(`${prefixSelect} ${phoneInput}`);
+        const name = limpiarTextoParaImpresora(document.getElementById("clientName").value.trim());
+        const address = limpiarTextoParaImpresora(document.getElementById("clientAddress") ? document.getElementById("clientAddress").value.trim() : "");
+        const fecha = orderDateInput.value;
+        const hora = orderTimeSelect.value;
+        const notes = limpiarTextoParaImpresora(document.getElementById("clientNotes").value.trim());
+
+        if (!hora) {
+            alert("Por favor, selecciona una hora válida para el pedido.");
+            return;
+        }
+
+        const { data: checkBloqueados } = await supabaseClient
+            .from('horarios_bloqueados')
+            .select('hora')
+            .eq('fecha', fecha)
+            .eq('tipo', orderType)
+            .eq('hora', hora);
+
+        if (checkBloqueados && checkBloqueados.length > 0) {
+            alert(`¡Lo sentimos! La hora ${hora} acaba de ser completada o cerrada por el local.`);
+            await actualizarHorasDisponibles();
+            return;
+        }
+
+        const isDomicilio = orderType === "domicilio";
+        const recargoDomicilio = isDomicilio ? 1.00 : 0.00;
+
+        let detalleTexto = "";
+        let total = 0;
+
+        cart.forEach(item => {
+            const precioFinalUnitario = item.price + recargoDomicilio;
+            const sub = precioFinalUnitario * item.quantity;
+            total += sub;
+
+            let lineaItem = `${item.quantity}x ${limpiarTextoParaImpresora(item.name)} (${sub.toFixed(2)} EUR)`;
+            detalleTexto += ajustarAnchoPOS80(lineaItem, 42) + "\n";
+            
+            if (item.extras && item.extras.length > 0) {
+                let lineaExtras = `+ Extra: ${limpiarTextoParaImpresora(item.extras.join(", "))}`;
+                detalleTexto += ajustarAnchoPOS80(lineaExtras, 42, "    ") + "\n";
+            }
+            if (item.notes) {
+                let textoNotaLimpio = limpiarTextoParaImpresora(item.notes);
+                let lineaNota = ajustarAnchoPOS80(`- Nota: ${textoNotaLimpio}`, 42, "    ");
+                detalleTexto += lineaNota + "\n";
+            }
+        });
+        detalleTexto += `TOTAL: ${total.toFixed(2)} EUR`;
+
+        const direccionTexto = isDomicilio ? address : 'Local - Ramon y Cajal 22';
+        const horaEntregaTexto = `${fecha} a las ${hora}`;
+        const tipoEntregaTextoLimpio = orderType === 'domicilio' ? 'DOMICILIO' : 'RECOGER EN LOCAL';
+
+        // Construimos el ticket con un marcador {{ID}} que la base de datos sustituirá por el número real
+        let textoImpresionDirecto = "==========================================\n";
+        textoImpresionDirecto += "           GASTROGNOMO PIZZERIA           \n";
+        textoImpresionDirecto += "         Ramon y Cajal 22, Villena        \n";
+        textoImpresionDirecto += "==========================================\n";
+        textoImpresionDirecto += `PEDIDO #{{ID}} - ${tipoEntregaTextoLimpio}\n`;
+        textoImpresionDirecto += ajustarAnchoPOS80(`Cliente: ${name}`, 42) + "\n";
+        textoImpresionDirecto += `Telefono: ${phone}\n`;
+        textoImpresionDirecto += ajustarAnchoPOS80(`Direccion: ${direccionTexto}`, 42) + "\n";
+        textoImpresionDirecto += `Hora Entrega: ${horaEntregaTexto}\n`;
+        textoImpresionDirecto += "------------------------------------------\n";
+        textoImpresionDirecto += "DETALLE:\n";
+        textoImpresionDirecto += detalleTexto + "\n";
+        textoImpresionDirecto += "------------------------------------------\n";
+        if (notes) {
+            textoImpresionDirecto += "NOTAS:\n" + ajustarAnchoPOS80(notes, 42, "    ") + "\n";
+            textoImpresionDirecto += "------------------------------------------\n";
+        }
+        textoImpresionDirecto += "Gracias por confiar en nosotros!\n";
+
+        // Guardamos el pedido mediante la función segura y recibimos solo el número
+        const { data: pedidoIdNuevo, error } = await supabaseClient.rpc('crear_pedido', {
+            p_nombre: name,
+            p_telefono: phone,
+            p_tipo_entrega: orderType,
+            p_direccion: direccionTexto,
+            p_hora_entrega: horaEntregaTexto,
+            p_detalle_pedido: textoImpresionDirecto,
+            p_notas: notes
+        });
+
+        if (error || !pedidoIdNuevo) {
+            console.error("Error al enviar pedido:", error);
+            alert("Hubo un error al procesar tu pedido. Por favor, inténtalo de nuevo.");
+            return;
+        }
+
+        const pedidoId = pedidoIdNuevo;
+        textoImpresionDirecto = textoImpresionDirecto.replace('{{ID}}', pedidoId);
+
+        cart = [];
+        localStorage.removeItem('gastrognomo_cart');
+
+        const queryParams = new URLSearchParams({
+            id: pedidoId,
+            nombre: name,
+            telefono: phone,
+            tipo: orderType,
+            direccion: direccionTexto,
+            hora: horaEntregaTexto,
+            detalle: textoImpresionDirecto
+        });
+
+        window.location.href = `exito.html?${queryParams.toString()}`;
+    });
+}
+</script>
 
 </body>
 </html>
