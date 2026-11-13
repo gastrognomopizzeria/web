@@ -131,189 +131,207 @@
             height: 16px;
             border-radius: 50%;
         }
+
+        /* Capa de bloqueo inicial oculta hasta verificar PIN */
+        #panelContenido {
+            display: none;
+        }
     </style>
-    <!-- Incluimos la librería de Supabase para JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
-    <header>
-        <h1>🍕 Gestión de Horarios - Gastrognomo</h1>
-        <p>Haz clic en una hora para cambiar su estado, o usa los botones generales del día</p>
-    </header>
+    <!-- Contenido del panel (oculto por defecto) -->
+    <div id="panelContenido">
+        <header>
+            <h1>🍕 Gestión de Horarios - Gastrognomo</h1>
+            <p>Por defecto las horas están cerradas. Haz clic para abrirlas o usa los botones del día</p>
+        </header>
 
-    <div class="date-selector">
-        <label for="selectDate"><strong>Fecha seleccionada: </strong></label>
-        <input type="date" id="selectDate">
-    </div>
-
-    <!-- Botones de control diario -->
-    <div class="day-actions">
-        <button type="button" id="btnActivarTodo" class="btn-action btn-activar-todas">🟢 Activar todas las franjas del día</button>
-        <button type="button" id="btnDesactivarTodo" class="btn-action btn-desactivar-todas">🔴 Desactivar todas las franjas del día</button>
-    </div>
-
-    <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background: var(--green);"></div> Disponible</div>
-        <div class="legend-item"><div class="legend-dot" style="background: var(--red);"></div> Completo / Bloqueado</div>
-    </div>
-
-    <div class="grid-container">
-        <!-- Columna Recoger (Franjas de 15 min) -->
-        <div class="column">
-            <h2>🛍️ Recoger en Local (cada 15 min)</h2>
-            <div id="slotsRecoger" class="slots-grid"></div>
+        <div class="date-selector">
+            <label for="selectDate"><strong>Fecha seleccionada: </strong></label>
+            <input type="date" id="selectDate">
         </div>
 
-        <!-- Columna Domicilio (Franjas de 30 min) -->
-        <div class="column">
-            <h2>🛵 Domicilio (cada 30 min)</h2>
-            <div id="slotsDomicilio" class="slots-grid"></div>
+        <div class="day-actions">
+            <button type="button" id="btnActivarTodo" class="btn-action btn-activar-todas">🟢 Activar todas las franjas del día</button>
+            <button type="button" id="btnDesactivarTodo" class="btn-action btn-desactivar-todas">🔴 Desactivar todas las franjas del día</button>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background: var(--green);"></div> Disponible (Abierto)</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--red);"></div> Cerrado / Bloqueado</div>
+        </div>
+
+        <div class="grid-container">
+            <div class="column">
+                <h2>🛍️ Recoger en Local (cada 15 min)</h2>
+                <div id="slotsRecoger" class="slots-grid"></div>
+            </div>
+
+            <div class="column">
+                <h2>🛵 Domicilio (cada 30 min)</h2>
+                <div id="slotsDomicilio" class="slots-grid"></div>
+            </div>
         </div>
     </div>
 
     <script>
-        // CONFIGURACIÓN DE SUPABASE
-        const SUPABASE_URL = 'https://refrscscreylowmocfcx.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_XiXjP4gjaQUXf84U6-5QZw_Dw-YhdSu';
-        
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // ==========================================
+        // 🔐 CONFIGURACIÓN DEL PIN DE ACCESO
+        // ==========================================
+        const PIN_CORRECTO = "20267"; // <--- CAMBIA ESTE NÚMERO POR EL TUYO
 
-        const dateInput = document.getElementById('selectDate');
-        
-        // Poner la fecha de hoy por defecto
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.value = today;
+        function verificarAcceso() {
+            const pinIngresado = prompt("Introduce el PIN de acceso para el panel de Gastrognomo:");
 
-        // Horarios de apertura
-        const horaFin = 23 * 60 + 30; // 23:30 en minutos común para ambos
-
-        function generarFranjas(inicioMinutos, minutosIntervalo) {
-            let franjas = [];
-            for (let m = inicioMinutos; m <= horaFin; m += minutosIntervalo) {
-                let horas = Math.floor(m / 60);
-                let mins = m % 60;
-                let horaStr = `${horas.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-                franjas.push(horaStr);
+            if (pinIngresado === PIN_CORRECTO) {
+                // Si es correcto, mostramos el panel
+                document.getElementById('panelContenido').style.display = 'block';
+                iniciarPanel();
+            } else {
+                alert("PIN incorrecto. Acceso denegado.");
+                // Recarga la página para volver a pedirlo o dejar la pantalla en blanco
+                location.reload();
             }
-            return franjas;
         }
 
-        // Recogida: Empieza a las 19:30 (19 * 60 + 30) cada 15 min
-        const franjasRecoger = generarFranjas(19 * 60 + 30, 15);
-        
-        // Domicilio: Empieza a las 20:00 (20 * 60) cada 30 min
-        const franjasDomicilio = generarFranjas(20 * 60, 30);
-
-        async function cargarHorariosBloqueados() {
-            const fecha = dateInput.value;
+        function iniciarPanel() {
+            // CONFIGURACIÓN DE SUPABASE
+            const SUPABASE_URL = 'https://refrscscreylowmocfcx.supabase.co';
+            const SUPABASE_ANON_KEY = 'sb_publishable_XiXjP4gjaQUXf84U6-5QZw_Dw-YhdSu';
             
-            const { data, error } = await supabaseClient
-                .from('horarios_bloqueados')
-                .select('*')
-                .eq('fecha', fecha);
+            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-            if (error) {
-                console.error('Error al cargar bloqueos:', error);
-                return [];
+            const dateInput = document.getElementById('selectDate');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+
+            const horaFin = 23 * 60 + 30;
+
+            function generarFranjas(inicioMinutos, minutosIntervalo) {
+                let franjas = [];
+                for (let m = inicioMinutos; m <= horaFin; m += minutosIntervalo) {
+                    let horas = Math.floor(m / 60);
+                    let mins = m % 60;
+                    let horaStr = `${horas.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+                    franjas.push(horaStr);
+                }
+                return franjas;
             }
-            return data || [];
-        }
 
-        async function renderizarCuadricula() {
-            const fecha = dateInput.value;
-            const bloqueados = await cargarHorariosBloqueados();
+            const franjasRecoger = generarFranjas(19 * 60 + 30, 15);
+            const franjasDomicilio = generarFranjas(20 * 60, 30);
 
-            // Renderizar Recoger
-            const containerRecoger = document.getElementById('slotsRecoger');
-            containerRecoger.innerHTML = '';
-            franjasRecoger.forEach(hora => {
-                const estaBloqueado = bloqueados.some(b => b.hora === hora && b.tipo === 'recoger');
+            async function cargarHorariosAbiertos() {
+                const fecha = dateInput.value;
                 
-                const btn = document.createElement('button');
-                btn.className = `slot-btn ${estaBloqueado ? 'slot-blocked' : 'slot-available'}`;
-                btn.textContent = hora;
-                btn.onclick = () => alternarBloqueo(fecha, hora, 'recoger', estaBloqueado);
-                containerRecoger.appendChild(btn);
+                const { data, error } = await supabaseClient
+                    .from('horarios_bloqueados')
+                    .select('*')
+                    .eq('fecha', fecha);
+
+                if (error) {
+                    console.error('Error al cargar horarios:', error);
+                    return [];
+                }
+                return data || [];
+            }
+
+            async function renderizarCuadricula() {
+                const fecha = dateInput.value;
+                const abiertos = await cargarHorariosAbiertos();
+
+                // Renderizar Recoger
+                const containerRecoger = document.getElementById('slotsRecoger');
+                containerRecoger.innerHTML = '';
+                franjasRecoger.forEach(hora => {
+                    const estaDisponible = abiertos.some(b => b.hora === hora && b.tipo === 'recoger');
+                    
+                    const btn = document.createElement('button');
+                    btn.className = `slot-btn ${estaDisponible ? 'slot-available' : 'slot-blocked'}`;
+                    btn.textContent = hora;
+                    btn.onclick = () => alternarEstado(fecha, hora, 'recoger', estaDisponible);
+                    containerRecoger.appendChild(btn);
+                });
+
+                // Renderizar Domicilio
+                const containerDomicilio = document.getElementById('slotsDomicilio');
+                containerDomicilio.innerHTML = '';
+                franjasDomicilio.forEach(hora => {
+                    const estaDisponible = abiertos.some(b => b.hora === hora && b.tipo === 'domicilio');
+                    
+                    const btn = document.createElement('button');
+                    btn.className = `slot-btn ${estaDisponible ? 'slot-available' : 'slot-blocked'}`;
+                    btn.textContent = hora;
+                    btn.onclick = () => alternarEstado(fecha, hora, 'domicilio', estaDisponible);
+                    containerDomicilio.appendChild(btn);
+                });
+            }
+
+            async function alternarEstado(fecha, hora, tipo, estaDisponible) {
+                if (estaDisponible) {
+                    await supabaseClient
+                        .from('horarios_bloqueados')
+                        .delete()
+                        .eq('fecha', fecha)
+                        .eq('hora', hora)
+                        .eq('tipo', tipo);
+                } else {
+                    await supabaseClient
+                        .from('horarios_bloqueados')
+                        .insert([{ fecha, hora, tipo }]);
+                }
+                renderizarCuadricula();
+            }
+
+            document.getElementById('btnActivarTodo').addEventListener('click', async () => {
+                const fecha = dateInput.value;
+                if (!confirm(`¿Activar (abrir) todas las franjas para el día ${fecha}?`)) return;
+
+                let registrosAInsertar = [];
+                franjasRecoger.forEach(hora => {
+                    registrosAInsertar.push({ fecha: fecha, tipo: 'recoger', hora: hora });
+                });
+                franjasDomicilio.forEach(hora => {
+                    registrosAInsertar.push({ fecha: fecha, tipo: 'domicilio', hora: hora });
+                });
+
+                await supabaseClient.from('horarios_bloqueados').delete().eq('fecha', fecha);
+
+                const { error } = await supabaseClient
+                    .from('horarios_bloqueados')
+                    .insert(registrosAInsertar);
+
+                if (error) {
+                    alert("Error al activar las franjas.");
+                    return;
+                }
+                renderizarCuadricula();
             });
 
-            // Renderizar Domicilio
-            const containerDomicilio = document.getElementById('slotsDomicilio');
-            containerDomicilio.innerHTML = '';
-            franjasDomicilio.forEach(hora => {
-                const estaBloqueado = bloqueados.some(b => b.hora === hora && b.tipo === 'domicilio');
-                
-                const btn = document.createElement('button');
-                btn.className = `slot-btn ${estaBloqueado ? 'slot-blocked' : 'slot-available'}`;
-                btn.textContent = hora;
-                btn.onclick = () => alternarBloqueo(fecha, hora, 'domicilio', estaBloqueado);
-                containerDomicilio.appendChild(btn);
-            });
-        }
+            document.getElementById('btnDesactivarTodo').addEventListener('click', async () => {
+                const fecha = dateInput.value;
+                if (!confirm(`¿Desactivar (cerrar) todas las franjas para el día ${fecha}?`)) return;
 
-        async function alternarBloqueo(fecha, hora, tipo, estaBloqueado) {
-            if (estaBloqueado) {
-                await supabaseClient
+                const { error } = await supabaseClient
                     .from('horarios_bloqueados')
                     .delete()
-                    .eq('fecha', fecha)
-                    .eq('hora', hora)
-                    .eq('tipo', tipo);
-            } else {
-                await supabaseClient
-                    .from('horarios_bloqueados')
-                    .insert([{ fecha, hora, tipo }]);
-            }
+                    .eq('fecha', fecha);
+
+                if (error) {
+                    alert("Error al desactivar las franjas.");
+                    return;
+                }
+                renderizarCuadricula();
+            });
+
+            dateInput.addEventListener('change', renderizarCuadricula);
             renderizarCuadricula();
         }
 
-        // 🟢 BOTÓN: Activar todas las franjas del día
-        document.getElementById('btnActivarTodo').addEventListener('click', async () => {
-            const fecha = dateInput.value;
-            if (!confirm(`¿Activar todas las franjas para el día ${fecha}?`)) return;
-
-            const { error } = await supabaseClient
-                .from('horarios_bloqueados')
-                .delete()
-                .eq('fecha', fecha);
-
-            if (error) {
-                alert("Error al activar las franjas.");
-                return;
-            }
-            renderizarCuadricula();
-        });
-
-        // 🔴 BOTÓN: Desactivar todas las franjas del día
-        document.getElementById('btnDesactivarTodo').addEventListener('click', async () => {
-            const fecha = dateInput.value;
-            if (!confirm(`¿Desactivar todas las franjas para el día ${fecha}?`)) return;
-
-            let registrosAInsertar = [];
-            franjasRecoger.forEach(hora => {
-                registrosAInsertar.push({ fecha: fecha, tipo: 'recoger', hora: hora });
-            });
-            franjasDomicilio.forEach(hora => {
-                registrosAInsertar.push({ fecha: fecha, tipo: 'domicilio', hora: hora });
-            });
-
-            await supabaseClient.from('horarios_bloqueados').delete().eq('fecha', fecha);
-
-            const { error } = await supabaseClient
-                .from('horarios_bloqueados')
-                .insert(registrosAInsertar);
-
-            if (error) {
-                alert("Error al desactivar las franjas.");
-                return;
-            }
-            renderizarCuadricula();
-        });
-
-        dateInput.addEventListener('change', renderizarCuadricula);
-
-        // Cargar al iniciar
-        renderizarCuadricula();
+        // Ejecutar verificación al cargar la página
+        verificarAcceso();
     </script>
 </body>
 </html>

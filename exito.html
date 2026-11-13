@@ -98,15 +98,20 @@
     </div>
 
     <script>
-        // Leer los parámetros de la URL enviados desde script.js
-        const urlParams = new URLSearchParams(window.location.search);
-        const detalleTexto = urlParams.get('detalle');
+        // Leer el ticket que guarda pedido.js en la memoria temporal de esta pestaña
+        // (no viaja en la dirección web, así que no queda en el historial ni en los registros del servidor)
+        let detalleTexto = null;
+        try {
+            detalleTexto = sessionStorage.getItem('gastrognomo_ultimo_pedido');
+        } catch (e) {
+            detalleTexto = null;
+        }
 
         const ticketContainer = document.getElementById('ticketContainer');
 
         if (detalleTexto) {
-            // Decodificar y mostrar el ticket respetando el formato de 42 caracteres
-            ticketContainer.textContent = decodeURIComponent(detalleTexto);
+            // Mostrar el ticket respetando el formato de 42 caracteres
+            ticketContainer.textContent = detalleTexto;
         } else {
             ticketContainer.textContent = "No se pudieron cargar los detalles del ticket.";
         }

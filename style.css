@@ -359,6 +359,13 @@ h1 span {
     pointer-events: none;
 }
 
+/* Solo escritorio: logo del hero un 20% más pequeño */
+@media (min-width: 901px) {
+    .hero-center-logo {
+        width: min(52.02vw, 330.48px);
+    }
+}
+
 .hero-logo-img {
     width: 100%;
     height: auto;
@@ -736,6 +743,7 @@ h1 span {
     color: var(--gray);
 
     font-size: 13px;
+    font-weight: 600;
 
     margin: 10px 0 15px;
     flex-grow: 1; /* Ocupa el espacio flexible para empujar la acción al fondo */
@@ -1625,4 +1633,129 @@ h1 span {
         padding: 30px 20px 20px;
     }
 
+}
+
+
+/* =========================================================
+   ESTILOS QUE ANTES ESTABAN DENTRO DE index.html
+   (accesibilidad, política de privacidad, animaciones del carrito,
+   banner de cookies). Van al final para mantener su prioridad.
+   ========================================================= */
+
+#privacyModal.active { z-index: 100000; }
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@media (min-width: 768px) {
+    #clientPrefix {
+        width: 130px !important;
+        flex: 0 0 130px !important;
+        font-size: 0.85rem !important;
+    }
+}
+
+/* Color de respaldo por si el vídeo no carga en algún dispositivo */
+.hero-video-container {
+    background-color: #1a0202;
+}
+
+/* Animación de pulso final en el carrito */
+@keyframes cartPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); background-color: #7a0606; }
+    100% { transform: scale(1); }
+}
+.cart-animate-pulse {
+    animation: cartPulse 0.4s ease-in-out;
+}
+
+/* Elemento volador (Fly-to-Cart) */
+.fly-to-cart-item {
+    position: fixed;
+    z-index: 10000;
+    background: var(--burgundy, #590404);
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    pointer-events: none;
+    transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+/* Banner de Cookies */
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border-top: 2px solid var(--burgundy, #590404);
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
+    padding: 15px 20px;
+    z-index: 9999;
+    display: none;
+}
+.cookie-banner-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+@media (min-width: 768px) {
+    .cookie-banner-container {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+.cookie-banner p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #333;
+    line-height: 1.4;
+}
+.cookie-banner p a {
+    color: var(--burgundy, #590404);
+    text-decoration: underline;
+    font-weight: bold;
+}
+.cookie-banner-btns {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+.btn-cookie {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid var(--burgundy, #590404);
+}
+.btn-cookie-accept {
+    background: var(--burgundy, #590404);
+    color: #fff;
+}
+.btn-cookie-reject {
+    background: #fdfbf7;
+    color: var(--burgundy, #590404);
+}
+.btn-cookie-config {
+    background: transparent;
+    color: #555;
+    border-color: #ccc;
 }

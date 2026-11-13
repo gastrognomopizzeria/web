@@ -78,128 +78,7 @@
     <!-- Librería de Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Estilos adicionales, modales, cookies y animación de vuelo al carrito -->
-    <style>
-        #privacyModal.active { z-index: 100000; }
-
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        @media (min-width: 768px) {
-            #clientPrefix {
-                width: 130px !important;
-                flex: 0 0 130px !important;
-                font-size: 0.85rem !important;
-            }
-        }
-
-        /* Color de respaldo por si el vídeo no carga en algún dispositivo */
-        .hero-video-container {
-            background-color: #1a0202;
-        }
-
-        /* Animación de pulso final en el carrito */
-        @keyframes cartPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); background-color: #7a0606; }
-            100% { transform: scale(1); }
-        }
-        .cart-animate-pulse {
-            animation: cartPulse 0.4s ease-in-out;
-        }
-
-        /* Elemento volador (Fly-to-Cart) */
-        .fly-to-cart-item {
-            position: fixed;
-            z-index: 10000;
-            background: var(--burgundy, #590404);
-            color: #fff;
-            padding: 10px 15px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            pointer-events: none;
-            transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-
-        /* Banner de Cookies */
-        .cookie-banner {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #ffffff;
-            border-top: 2px solid var(--burgundy, #590404);
-            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
-            padding: 15px 20px;
-            z-index: 9999;
-            display: none;
-        }
-        .cookie-banner-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        @media (min-width: 768px) {
-            .cookie-banner-container {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-            }
-        }
-        .cookie-banner p {
-            margin: 0;
-            font-size: 0.85rem;
-            color: #333;
-            line-height: 1.4;
-        }
-        .cookie-banner p a {
-            color: var(--burgundy, #590404);
-            text-decoration: underline;
-            font-weight: bold;
-        }
-        .cookie-banner-btns {
-            display: flex;
-            gap: 10px;
-            flex-shrink: 0;
-            flex-wrap: wrap;
-        }
-        .btn-cookie {
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            cursor: pointer;
-            border: 1px solid var(--burgundy, #590404);
-        }
-        .btn-cookie-accept {
-            background: var(--burgundy, #590404);
-            color: #fff;
-        }
-        .btn-cookie-reject {
-            background: #fdfbf7;
-            color: var(--burgundy, #590404);
-        }
-        .btn-cookie-config {
-            background: transparent;
-            color: #555;
-            border-color: #ccc;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css?v=1">
 </head>
 
 <body>
@@ -318,7 +197,7 @@
                     </div>
                     <p>Tomate, albahaca, ajo morado de Las Pedroñeras, orégano y aceite "Tesoro de Villena".</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="MARINARA" data-price="7">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="MARINARA" data-price="7">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -332,7 +211,7 @@
                     </div>
                     <p>Tomate, albahaca, queso manchego y aceite "Tesoro de Villena".</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="COSACA" data-price="8">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="COSACA" data-price="8">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -346,7 +225,7 @@
                     </div>
                     <p>Tomate, albahaca, queso Arzúa-Ulloa, queso "Vaquerito" y aceite "Tesoro de Villena".</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="MARGARITA" data-price="8">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="MARGARITA" data-price="8">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -361,7 +240,7 @@
                     </div>
                     <p>Tomate, queso Arzúa-Ulloa, queso "Vaquerito", lacón ahumado, champiñón portobello, albahaca y aceite "Tesoro de Villena".</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="LACÓN PORTOBELLO" data-price="9">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="LACÓN PORTOBELLO" data-price="9">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -375,7 +254,7 @@
                     </div>
                     <p>Tomate, queso Arzúa-Ulloa, queso "Vaquerito", ricotta, queso cabrales, albahaca y aceite "Tesoro de Villena".</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="CUATRO QUESOS" data-price="10">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="CUATRO QUESOS" data-price="10">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -389,7 +268,7 @@
                     </div>
                     <p>Tomate, queso Arzúa-Ulloa, queso "Vaquerito", berenjenas, alcachofas, cebolla, queso de cabra, albahaca y aceite "Tesoro de Villena".</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="HORTELANA" data-price="10">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="HORTELANA" data-price="10">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -403,7 +282,7 @@
                     </div>
                     <p>Tomate, queso Arzúa-Ulloa, queso "Vaquerito", bonito del norte, pimiento asado, cebolla y aceite "Tesoro de Villena".</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="CANTÁBRICA" data-price="10">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="CANTÁBRICA" data-price="10">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -417,7 +296,7 @@
                     </div>
                     <p>Tomate, queso Arzúa-Ulloa, queso "Vaquerito", berenjena, pimiento asado, ricotta, panceta, albahaca y aceite "Tesoro de Villena".</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="CAMPERA" data-price="10">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="CAMPERA" data-price="10">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -431,7 +310,7 @@
                     </div>
                     <p>Tomate, queso Arzúa-Ulloa, queso "Vaquerito", chorizo de bellota, aceitunas negras y copos de guindilla.</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="DIÁVOLA" data-price="11">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="DIÁVOLA" data-price="11">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -445,7 +324,7 @@
                     </div>
                     <p>Tomate, queso Arzúa-Ulloa, queso "Vaquerito", sobrasada etiqueta negra, queso de mahón y miel.</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="MENORQUINA" data-price="11">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="MENORQUINA" data-price="11">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -459,7 +338,7 @@
                     </div>
                     <p>Tomate, queso Arzúa-Ulloa, queso "Vaquerito", lacón ahumado, champiñón portobello, aceitunas negras, alcachofas, albahaca y aceite "Tesoro de Villena".</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="CAPRICHOSA" data-price="11">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="CAPRICHOSA" data-price="11">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -474,7 +353,7 @@
                     </div>
                     <p>Tomate, queso Arzúa-Ulloa, queso "Vaquerito", jamón ibérico, tomate cherry, queso manchego, albahaca y aceite "Tesoro de Villena".</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="IBÉRICA" data-price="13">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="IBÉRICA" data-price="13">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -488,7 +367,7 @@
                     </div>
                     <p>Nata fresca, queso Arzúa-Ulloa, queso "Vaquerito", panceta, champiñón portobello, cebolla y queso de mahón.</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="CARBONATA" data-price="13">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="CARBONATA" data-price="13">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -504,7 +383,7 @@
                     </div>
                     <p>Una propuesta especial que cambia para sorprenderte cada mes.</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="PIZZA DEL MES" data-price="13">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="PIZZA DEL MES" data-price="13">Añadir</button>
                     </div>
                 </div>
             </article>
@@ -519,22 +398,26 @@
                     </div>
                     <p>Tarta de queso al estilo vasco con un toque de turrón y crocanti de almendras.</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="TARTA DE QUESO Y TURRÓN" data-price="4">Añadir ya</button>
+                        <button class="btn-add-cart" data-name="TARTA DE QUESO Y TURRÓN" data-price="4">Añadir</button>
                     </div>
                 </div>
             </article>
         </div>
 
+        <div class="show-more-container" id="showMoreContainer">
+            <button class="show-more-btn" id="showMoreBtn">Ver más</button>
+        </div>
+
         <!-- AVISO DE ALÉRGENOS CON ENLACE AL PDF -->
         <div style="text-align: center; margin-top: 30px; margin-bottom: 10px;">
+            <p style="font-size: 0.9rem; color: var(--burgundy, #590404); font-weight: 600; margin-bottom: 8px;">
+                📄 Si prefieres visualizar la carta en PDF, pincha 
+                <a href="Gastrognomos_Carta.pdf" target="_blank" rel="noopener" style="color: var(--burgundy, #590404); text-decoration: underline; font-weight: bold;">aquí</a>.
+            </p>
             <p style="font-size: 0.9rem; color: var(--burgundy, #590404); font-weight: 600;">
                 ℹ️ Información sobre alérgenos disponible en el siguiente enlace: 
                 <a href="Gastrognomos_Cartel_Carta_Alergenos.pdf" target="_blank" rel="noopener" style="color: var(--burgundy, #590404); text-decoration: underline; font-weight: bold;">Consultar Carta de Alérgenos (PDF)</a>
             </p>
-        </div>
-
-        <div class="show-more-container" id="showMoreContainer">
-            <button class="show-more-btn" id="showMoreBtn">Ver más</button>
         </div>
     </div>
 </section>
@@ -775,11 +658,11 @@
         <button class="legal-modal-close" id="closeCookiesModal" aria-label="Cerrar política de cookies">✕</button>
         <div class="legal-modal-body">
             <h2>Política de Cookies y Almacenamiento Local</h2>
-            <p><em>Última actualización: 12 de noviembre de 2026.</em></p>
+            <p><em>Última actualización: 13 de noviembre de 2026.</em></p>
             <p>DEEP GASTROGNOMOS S.L. (NIF: B24897894) es la titular de este sitio web. Esta política cumple con el artículo 22.2 de la Ley 34/2002 (LSSI-CE) y con la guía de la Agencia Española de Protección de Datos.</p>
 
             <h3>1. ¿Qué son las cookies y el almacenamiento local?</h3>
-            <p>Una cookie es un pequeño archivo que un sitio web guarda en tu dispositivo. El almacenamiento local (<code>localStorage</code>) cumple una función parecida: guarda información en tu navegador sin enviarla a nuestros servidores. Ambos se tratan igual a efectos de esta política.</p>
+            <p>Una cookie es un pequeño archivo que un sitio web guarda en tu dispositivo. El almacenamiento local (<code>localStorage</code> y <code>sessionStorage</code>) cumple una función parecida: guarda información en tu navegador sin enviarla a nuestros servidores. Ambos se tratan igual a efectos de esta política.</p>
 
             <h3>2. Qué utilizamos en este sitio</h3>
             <div style="overflow-x:auto;">
@@ -799,6 +682,13 @@
                             <td style="padding:6px;">Propia</td>
                             <td style="padding:6px;">Guardar los artículos de tu pedido mientras navegas.</td>
                             <td style="padding:6px;">Hasta completar el pedido o borrarlo tú.</td>
+                            <td style="padding:6px;">Técnica (necesaria)</td>
+                        </tr>
+                        <tr style="border-bottom:1px solid rgba(89,4,4,0.15);">
+                            <td style="padding:6px;"><code>gastrognomo_ultimo_pedido</code></td>
+                            <td style="padding:6px;">Propia</td>
+                            <td style="padding:6px;">Mostrarte el resumen de tu pedido en la página de confirmación.</td>
+                            <td style="padding:6px;">Hasta que cierres la pestaña del navegador.</td>
                             <td style="padding:6px;">Técnica (necesaria)</td>
                         </tr>
                         <tr style="border-bottom:1px solid rgba(89,4,4,0.15);">
@@ -1132,881 +1022,13 @@
 
 
 <!-- =========================================================
-    JAVASCRIPT COMPLETO (ANIMACIÓN BLINDADA)
+    JAVASCRIPT (el orden de carga es importante)
     ========================================================= -->
-<script>
-/* =========================================================
-   SISTEMA DE PEDIDOS INTELIGENTE - GASTROGNOMO
-   ========================================================= */
-
-const SUPABASE_URL = 'https://refrscscreylowmocfcx.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_XiXjP4gjaQUXf84U6-5QZw_Dw-YhdSu';
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-let cart = [];
-try {
-    const savedCart = localStorage.getItem('gastrognomo_cart');
-    if (savedCart) {
-        cart = JSON.parse(savedCart);
-    }
-} catch (e) {
-    console.error("Error al cargar el carrito guardado:", e);
-    cart = [];
-}
-
-function guardarCarrito() {
-    try {
-        localStorage.setItem('gastrognomo_cart', JSON.stringify(cart));
-    } catch (e) {
-        console.error("Error al guardar el carrito:", e);
-    }
-}
-
-function limpiarTextoParaImpresora(texto) {
-    if (!texto) return "";
-    return texto
-        .toString()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[Ñ]/g, "N")
-        .replace(/[ñ]/g, "n")
-        .replace(/[€]/g, "EUR")
-        .replace(/[¡!]/g, "!") 
-        .replace(/[ºª]/g, "");
-}
-
-function ajustarAnchoPOS80(texto, maxChars = 42, indent = "") {
-    if (!texto) return "";
-    let palabras = texto.split(" ");
-    let lineas = [];
-    let lineaActual = indent;
-
-    palabras.forEach(palabra => {
-        while (palabra.length > maxChars - indent.length) {
-            let espacioRestante = maxChars - lineaActual.length;
-            let parte = palabra.substring(0, espacioRestante);
-            lineaActual += parte;
-            lineas.push(lineaActual);
-            lineaActual = indent;
-            palabra = palabra.substring(espacioRestante);
-        }
-
-        let espacioNecesario = (lineaActual === indent ? 0 : 1) + palabra.length;
-        if (lineaActual.length + espacioNecesario <= maxChars) {
-            if (lineaActual !== indent) lineaActual += " ";
-            lineaActual += palabra;
-        } else {
-            lineas.push(lineaActual);
-            lineaActual = indent + palabra;
-        }
-    });
-
-    if (lineaActual.trim() !== "") {
-        lineas.push(lineaActual);
-    }
-    return lineas.join("\n");
-}
-
-/* =========================================================
-   MENÚ MÓVIL
-   ========================================================= */
-const menuToggle = document.getElementById("menuToggle");
-const nav = document.getElementById("nav");
-
-if (menuToggle && nav) {
-    menuToggle.addEventListener("click", () => {
-        const isActive = nav.classList.toggle("active");
-        menuToggle.setAttribute("aria-expanded", isActive ? "true" : "false");
-        menuToggle.textContent = isActive ? "✕" : "☰";
-    });
-
-    document.querySelectorAll(".nav a").forEach(link => {
-        link.addEventListener("click", () => {
-            nav.classList.remove("active");
-            menuToggle.setAttribute("aria-expanded", "false");
-            menuToggle.textContent = "☰";
-        });
-    });
-}
-
-/* =========================================================
-   FILTROS DE CARTA
-   ========================================================= */
-const filterButtons = document.querySelectorAll(".filter-btn");
-const pizzaCards = document.querySelectorAll(".pizza-card");
-const showMoreContainer = document.getElementById("showMoreContainer");
-const showMoreBtn = document.getElementById("showMoreBtn");
-
-let currentCategory = "todas";
-let expanded = false;
-
-function showCategory(category) {
-    currentCategory = category;
-    expanded = false;
-
-    pizzaCards.forEach(card => {
-        card.classList.remove("hidden-all");
-        const matches = category === "todas" || card.dataset.category === category;
-
-        if (!matches) {
-            card.style.display = "none";
-            return;
-        }
-
-        if (category === "todas" && card.dataset.default !== "true") {
-            card.classList.add("hidden-all");
-        }
-
-        card.style.display = "block";
-    });
-
-    if (category === "todas") {
-        const totalCards = pizzaCards.length;
-        if (totalCards > 3) {
-            showMoreContainer.classList.add("visible");
-            showMoreBtn.textContent = "Ver más";
-            showMoreBtn.dataset.expanded = "false";
-        } else {
-            showMoreContainer.classList.remove("visible");
-        }
-    } else {
-        showMoreContainer.classList.remove("visible");
-        showMoreBtn.dataset.expanded = "false";
-    }
-}
-
-showCategory("todas");
-
-filterButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        filterButtons.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-        showCategory(button.dataset.category);
-    });
-});
-
-if (showMoreBtn) {
-    showMoreBtn.addEventListener("click", () => {
-        if (currentCategory !== "todas") return;
-        expanded = !expanded;
-
-        if (expanded) {
-            pizzaCards.forEach(card => {
-                card.style.display = "block";
-                card.classList.remove("hidden-all");
-            });
-            showMoreBtn.textContent = "Ver menos";
-            showMoreBtn.dataset.expanded = "true";
-        } else {
-            pizzaCards.forEach(card => {
-                const isDefault = card.dataset.default === "true";
-                card.style.display = "block";
-                if (isDefault) {
-                    card.classList.remove("hidden-all");
-                } else {
-                    card.classList.add("hidden-all");
-                }
-            });
-            showMoreBtn.textContent = "Ver más";
-            showMoreBtn.dataset.expanded = "false";
-            document.getElementById("carta").scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-    });
-}
-
-/* =========================================================
-   CARRUSEL HISTORIA
-   ========================================================= */
-const slides = document.querySelectorAll(".carousel-slide");
-const dots = document.querySelectorAll(".carousel-dots .dot");
-const prevBtn = document.getElementById("carouselPrev");
-const nextBtn = document.getElementById("carouselNext");
-
-let currentSlide = 0;
-let carouselTimer = null;
-
-function goToSlide(index) {
-    if (!slides.length) return;
-    slides.forEach(slide => slide.classList.remove("active"));
-    dots.forEach(dot => dot.classList.remove("active"));
-
-    currentSlide = (index + slides.length) % slides.length;
-
-    slides[currentSlide].classList.add("active");
-    if (dots[currentSlide]) {
-        dots[currentSlide].classList.add("active");
-    }
-}
-
-function startCarouselTimer() {
-    stopCarouselTimer();
-    carouselTimer = setInterval(() => {
-        goToSlide(currentSlide + 1);
-    }, 4000);
-}
-
-function stopCarouselTimer() {
-    if (carouselTimer) clearInterval(carouselTimer);
-}
-
-if (slides.length) {
-    if (prevBtn) {
-        prevBtn.addEventListener("click", () => {
-            goToSlide(currentSlide - 1);
-            startCarouselTimer();
-        });
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener("click", () => {
-            goToSlide(currentSlide + 1);
-            startCarouselTimer();
-        });
-    }
-
-    dots.forEach(dot => {
-        dot.addEventListener("click", (e) => {
-            const index = parseInt(e.target.dataset.index, 10);
-            goToSlide(index);
-            startCarouselTimer();
-        });
-    });
-
-    startCarouselTimer();
-}
-
-/* =========================================================
-   VENTANAS MODALES LEGALES Y COOKIES
-   ========================================================= */
-function setupModal(triggerId, modalId, closeId, backdropId) {
-    const trigger = document.getElementById(triggerId);
-    const modal = document.getElementById(modalId);
-    const close = document.getElementById(closeId);
-    const backdrop = document.getElementById(backdropId);
-
-    if (trigger && modal) {
-        trigger.addEventListener("click", (e) => {
-            e.preventDefault();
-            modal.classList.add("active");
-            document.body.style.overflow = "hidden";
-        });
-
-        const closeModal = () => {
-            modal.classList.remove("active");
-            document.body.style.overflow = document.querySelector(".cart-modal.active") ? "hidden" : "";
-        };
-
-        if (close) close.addEventListener("click", closeModal);
-        if (backdrop) backdrop.addEventListener("click", closeModal);
-
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" && modal.classList.contains("active")) {
-                closeModal();
-            }
-        });
-    }
-}
-
-setupModal("openLegalModal", "legalModal", "closeLegalModal", "legalBackdrop");
-setupModal("openPrivacyModal", "privacyModal", "closePrivacyModal", "privacyBackdrop");
-setupModal("openPrivacyFromOrder", "privacyModal", "closePrivacyModal", "privacyBackdrop");
-setupModal("openCookiesModal", "cookiesModal", "closeCookiesModal", "cookiesBackdrop");
-
-const bannerCookiesLink = document.getElementById("bannerCookiesLink");
-if (bannerCookiesLink) {
-    bannerCookiesLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        const cookiesModal = document.getElementById("cookiesModal");
-        if (cookiesModal) {
-            cookiesModal.classList.add("active");
-            document.body.style.overflow = "hidden";
-        }
-    });
-}
-
-/* =========================================================
-   GESTIÓN DEL BANNER Y CONFIGURACIÓN DE COOKIES
-   ========================================================= */
-const cookieBanner = document.getElementById("cookieBanner");
-const btnAcceptCookies = document.getElementById("btnAcceptCookies");
-const btnRejectCookies = document.getElementById("btnRejectCookies");
-const btnConfigCookies = document.getElementById("btnConfigCookies");
-const openCookieConfigFooter = document.getElementById("openCookieConfig");
-const modalCookieConfigTrigger = document.getElementById("modalCookieConfigTrigger");
-
-const cookiePreference = localStorage.getItem("gastrognomo_cookie_consent");
-if (!cookiePreference && cookieBanner) {
-    cookieBanner.style.display = "block";
-}
-
-function setCookieConsent(status) {
-    localStorage.setItem("gastrognomo_cookie_consent", status);
-    if (cookieBanner) cookieBanner.style.display = "none";
-}
-
-if (btnAcceptCookies) btnAcceptCookies.addEventListener("click", () => setCookieConsent("accepted"));
-if (btnRejectCookies) btnRejectCookies.addEventListener("click", () => setCookieConsent("rejected"));
-
-const showConfigAction = (e) => {
-    if (e) e.preventDefault();
-    if (cookieBanner) cookieBanner.style.display = "block";
-    const cookiesModal = document.getElementById("cookiesModal");
-    if (cookiesModal && cookiesModal.classList.contains("active")) {
-        cookiesModal.classList.remove("active");
-        document.body.style.overflow = "";
-    }
-};
-
-if (btnConfigCookies) btnConfigCookies.addEventListener("click", showConfigAction);
-if (openCookieConfigFooter) openCookieConfigFooter.addEventListener("click", showConfigAction);
-if (modalCookieConfigTrigger) modalCookieConfigTrigger.addEventListener("click", showConfigAction);
-
-
-/* =========================================================
-   CARRITO Y MODALES DE PEDIDOS (CON EXTRA ÚNICO OBLIGATORIO)
-   ========================================================= */
-const cartFloatingBtn = document.getElementById("cartFloatingBtn");
-const cartModal = document.getElementById("cartModal");
-const closeCartModal = document.getElementById("closeCartModal");
-const cartBackdrop = document.getElementById("cartBackdrop");
-const cartItemsList = document.getElementById("cartItemsList");
-const cartCount = document.getElementById("cartCount");
-const cartFooter = document.getElementById("cartFooter");
-const cartTotalPrice = document.getElementById("cartTotalPrice");
-const checkoutForm = document.getElementById("checkoutForm");
-const orderTypeSelect = document.getElementById("orderType");
-const addressGroup = document.getElementById("addressGroup");
-const orderTimeSelect = document.getElementById("orderTime");
-const orderDateInput = document.getElementById("orderDate");
-const clientPrefixSelect = document.getElementById("clientPrefix");
-const clientPhoneInput = document.getElementById("clientPhone");
-
-const customModal = document.getElementById("customModal");
-const closeCustomModal = document.getElementById("closeCustomModal");
-const customBackdrop = document.getElementById("customBackdrop");
-const modalPizzaTitle = document.getElementById("modalPizzaTitle");
-const modalPizzaPrice = document.getElementById("modalPizzaPrice");
-const modalQtyMinus = document.getElementById("modalQtyMinus");
-const modalQtyPlus = document.getElementById("modalQtyPlus");
-const modalQtyValue = document.getElementById("modalQtyValue");
-const modalItemNotes = document.getElementById("modalItemNotes");
-const confirmAddToCartBtn = document.getElementById("confirmAddToCartBtn");
-const modalTotalPrice = document.getElementById("modalTotalPrice");
-
-const toggleExtraUnico = document.getElementById("toggleExtraUnico");
-const listExtraUnico = document.getElementById("listExtraUnico");
-const selectExtraUnico = document.getElementById("selectExtraUnico");
-
-let currentSelectedPizza = null;
-let currentQuantity = 1;
-
-updateCartBadge();
-
-if (clientPrefixSelect && clientPhoneInput) {
-    clientPrefixSelect.addEventListener("change", () => {
-        if (clientPrefixSelect.value === "+34") {
-            clientPhoneInput.setAttribute("maxlength", "9");
-            clientPhoneInput.placeholder = "600123456";
-        } else {
-            clientPhoneInput.removeAttribute("maxlength");
-            clientPhoneInput.placeholder = "Número de teléfono";
-        }
-    });
-}
-
-if (toggleExtraUnico && listExtraUnico) {
-    toggleExtraUnico.addEventListener("change", (e) => {
-        listExtraUnico.style.display = e.target.checked ? "block" : "none";
-        if (!e.target.checked && selectExtraUnico) {
-            selectExtraUnico.value = "";
-        }
-        calcularPrecioModal();
-    });
-}
-
-if (selectExtraUnico) {
-    selectExtraUnico.addEventListener("change", calcularPrecioModal);
-}
-
-function runFlyToCartAnimation(itemName, eventTarget) {
-    const flyer = document.createElement("div");
-    flyer.className = "fly-to-cart-item";
-    flyer.textContent = `🛒 +${currentQuantity} ${itemName}`;
-    
-    // 1. Calcular origen exacto desde el botón pulsado
-    let startX = window.innerWidth / 2 - 70;
-    let startY = window.innerHeight / 2 - 25;
-
-    if (eventTarget) {
-        const rect = eventTarget.getBoundingClientRect();
-        if (rect.width > 0 && rect.height > 0) {
-            startX = rect.left + rect.width / 2 - 50;
-            startY = rect.top + rect.height / 2 - 20;
-        }
-    }
-    
-    flyer.style.left = `${startX}px`;
-    flyer.style.top = `${startY}px`;
-    document.body.appendChild(flyer);
-
-    // 2. Calcular destino (Esquina inferior derecha donde está el carrito con respaldo matemático)
-    let endX = window.innerWidth - 80;
-    let endY = window.innerHeight - 80;
-
-    if (cartFloatingBtn) {
-        const cartRect = cartFloatingBtn.getBoundingClientRect();
-        if (cartRect.width > 0 && cartRect.height > 0) {
-            endX = cartRect.left + cartRect.width / 2 - 50;
-            endY = cartRect.top + cartRect.height / 2 - 20;
-        }
-    }
-
-    void flyer.offsetWidth;
-
-    setTimeout(() => {
-        flyer.style.transform = "scale(0.3) rotate(15deg)";
-        flyer.style.left = `${endX}px`;
-        flyer.style.top = `${endY}px`;
-        flyer.style.opacity = "0.2";
-    }, 30);
-
-    setTimeout(() => {
-        flyer.remove();
-        if (cartFloatingBtn) {
-            cartFloatingBtn.classList.remove("cart-animate-pulse");
-            void cartFloatingBtn.offsetWidth;
-            cartFloatingBtn.classList.add("cart-animate-pulse");
-        }
-    }, 800);
-}
-
-// Vinculación estricta y segura mediante delegación de eventos
-document.addEventListener("click", (e) => {
-    const addBtn = e.target.closest(".btn-add-cart");
-    if (addBtn) {
-        window.lastValidOriginButton = addBtn;
-
-        const name = addBtn.dataset.name;
-        const basePrice = parseFloat(addBtn.dataset.price);
-
-        const pizzaCard = addBtn.closest(".pizza-card");
-        const category = pizzaCard ? pizzaCard.dataset.category : "";
-
-        currentSelectedPizza = { name, basePrice };
-        currentQuantity = 1;
-        modalQtyValue.textContent = currentQuantity;
-        modalPizzaTitle.textContent = name;
-        modalPizzaPrice.textContent = `Precio base: ${basePrice.toFixed(2)} EUR`;
-
-        if (toggleExtraUnico) toggleExtraUnico.checked = false;
-        if (listExtraUnico) listExtraUnico.style.display = "none";
-        if (selectExtraUnico) selectExtraUnico.value = "";
-
-        modalItemNotes.value = "";
-
-        const extrasContainer = document.getElementById("extrasContainer");
-        if (extrasContainer) {
-            if (category === "postres" || name.toUpperCase().includes("TARTA")) {
-                extrasContainer.style.display = "none";
-            } else {
-                extrasContainer.style.display = "flex";
-            }
-        }
-
-        calcularPrecioModal();
-
-        customModal.classList.add("active");
-        document.body.style.overflow = "hidden";
-    }
-});
-
-if (modalQtyPlus) {
-    modalQtyPlus.addEventListener("click", () => {
-        currentQuantity++;
-        modalQtyValue.textContent = currentQuantity;
-        calcularPrecioModal();
-    });
-}
-if (modalQtyMinus) {
-    modalQtyMinus.addEventListener("click", () => {
-        if (currentQuantity > 1) {
-            currentQuantity--;
-            modalQtyValue.textContent = currentQuantity;
-            calcularPrecioModal();
-        }
-    });
-}
-
-function calcularPrecioModal() {
-    if (!currentSelectedPizza) return;
-    let unitPrice = currentSelectedPizza.basePrice;
-
-    if (toggleExtraUnico && toggleExtraUnico.checked && selectExtraUnico && selectExtraUnico.value) {
-        const selectedOption = selectExtraUnico.options[selectExtraUnico.selectedIndex];
-        const price = parseFloat(selectedOption.dataset.price || 0);
-        unitPrice += price;
-    }
-
-    const total = unitPrice * currentQuantity;
-    modalTotalPrice.textContent = `${total.toFixed(2)} EUR`;
-}
-
-if (confirmAddToCartBtn) {
-    confirmAddToCartBtn.addEventListener("click", () => {
-        let unitPrice = currentSelectedPizza.basePrice;
-        let extrasList = [];
-
-        if (toggleExtraUnico && toggleExtraUnico.checked) {
-            if (!selectExtraUnico || !selectExtraUnico.value) {
-                alert("Por favor, selecciona un ingrediente en el desplegable de extra.");
-                return;
-            }
-            const selectedOpt = selectExtraUnico.options[selectExtraUnico.selectedIndex];
-            unitPrice += parseFloat(selectedOpt.dataset.price || 0);
-            extrasList.push(selectedOpt.value);
-        }
-
-        const notes = modalItemNotes.value.trim();
-        const itemName = currentSelectedPizza.name;
-
-        cart.push({
-            name: itemName,
-            price: unitPrice,
-            quantity: currentQuantity,
-            extras: extrasList,
-            notes: notes
-        });
-
-        guardarCarrito();
-
-        customModal.classList.remove("active");
-        document.body.style.overflow = "";
-
-        if (toggleExtraUnico) toggleExtraUnico.checked = false;
-        if (listExtraUnico) listExtraUnico.style.display = "none";
-        if (selectExtraUnico) selectExtraUnico.value = "";
-
-        let originElement = window.lastValidOriginButton;
-        if (!originElement) {
-            const cardElement = Array.from(document.querySelectorAll('.pizza-card')).find(card => {
-                const titleEl = card.querySelector('.pizza-title h3');
-                return titleEl && titleEl.textContent.trim().toUpperCase() === itemName.toUpperCase();
-            });
-            if (cardElement) {
-                originElement = cardElement.querySelector('.btn-add-cart');
-            }
-        }
-
-        runFlyToCartAnimation(itemName, originElement);
-        updateCartBadge();
-        renderCart();
-    });
-}
-
-const closeCustomModalFunc = () => {
-    customModal.classList.remove("active");
-    document.body.style.overflow = "";
-};
-if (closeCustomModal) closeCustomModal.addEventListener("click", closeCustomModalFunc);
-if (customBackdrop) customBackdrop.addEventListener("click", closeCustomModalFunc);
-
-if (cartFloatingBtn && cartModal) {
-    cartFloatingBtn.addEventListener("click", () => {
-        cartModal.classList.add("active");
-        document.body.style.overflow = "hidden";
-        renderCart();
-        inicializarSelectorFechasYHoras();
-    });
-
-    const closeCartFunc = () => {
-        cartModal.classList.remove("active");
-        document.body.style.overflow = "";
-    };
-
-    if (closeCartModal) closeCartModal.addEventListener("click", closeCartFunc);
-    if (cartBackdrop) cartBackdrop.addEventListener("click", closeCartFunc);
-}
-
-if (orderTypeSelect && addressGroup) {
-    orderTypeSelect.addEventListener("change", (e) => {
-        const isDomicilio = e.target.value === "domicilio";
-        if (isDomicilio) {
-            addressGroup.style.display = "flex";
-            document.getElementById("clientAddress").required = true;
-        } else {
-            addressGroup.style.display = "none";
-            document.getElementById("clientAddress").required = false;
-        }
-        actualizarHorasDisponibles();
-        renderCart();
-    });
-}
-
-function updateCartBadge() {
-    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-    if (cartCount) cartCount.textContent = totalCount;
-    if (cartFloatingBtn) {
-        cartFloatingBtn.style.display = totalCount > 0 ? "flex" : "none";
-    }
-}
-
-function renderCart() {
-    if (cart.length === 0) {
-        cartItemsList.innerHTML = `<p class="cart-empty-msg">Tu carrito está vacío.</p>`;
-        if (cartFooter) cartFooter.style.display = "none";
-        if (cartFloatingBtn) cartFloatingBtn.style.display = "none";
-        return;
-    }
-
-    if (cartFooter) cartFooter.style.display = "block";
-    let html = "";
-    let total = 0;
-
-    const isDomicilio = orderTypeSelect && orderTypeSelect.value === "domicilio";
-    const recargoDomicilio = isDomicilio ? 1.00 : 0.00;
-
-    cart.forEach((item, index) => {
-        const precioFinalUnitario = item.price + recargoDomicilio;
-        const subtotal = precioFinalUnitario * item.quantity;
-        total += subtotal;
-
-        let extrasHtml = "";
-        if (item.extras && item.extras.length > 0) {
-            extrasHtml += `<br><small style="color: #444; padding-left: 15px;">+ Extra: ${item.extras.join(", ")}</small>`;
-        }
-        if (item.notes) {
-            extrasHtml += `<br><small style="color: #666; padding-left: 15px;">- Nota: ${item.notes}</small>`;
-        }
-
-        html += `
-            <div class="cart-item" style="margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
-                <div class="cart-item-info">
-                    <h4>${item.quantity}x ${item.name} - ${subtotal.toFixed(2)} EUR ${isDomicilio ? '<small>(+1 EUR dom.)</small>' : ''}</h4>
-                    ${extrasHtml}
-                </div>
-                <div class="cart-item-controls" style="margin-top: 5px;">
-                    <button type="button" onclick="changeQuantity(${index}, -1)" style="padding:2px 8px;">-</button>
-                    <span style="margin: 0 10px;">${item.quantity}</span>
-                    <button type="button" onclick="changeQuantity(${index}, 1)" style="padding:2px 8px;">+</button>
-                </div>
-            </div>
-        `;
-    });
-
-    cartItemsList.innerHTML = html;
-    if (cartTotalPrice) cartTotalPrice.textContent = `${total.toFixed(2)} EUR`;
-}
-
-window.changeQuantity = function(index, change) {
-    cart[index].quantity += change;
-    if (cart[index].quantity <= 0) {
-        cart.splice(index, 1);
-    }
-    guardarCarrito();
-    updateCartBadge();
-    renderCart();
-};
-
-function inicializarSelectorFechasYHoras() {
-    if (!orderDateInput) return;
-    const today = new Date().toISOString().split('T')[0];
-    orderDateInput.value = today;
-    actualizarHorasDisponibles();
-}
-
-async function actualizarHorasDisponibles() {
-    if (!orderTimeSelect || !orderDateInput) return;
-
-    const fecha = orderDateInput.value;
-    const tipo = orderTypeSelect ? orderTypeSelect.value : "recoger"; 
-    
-    const horaInicio = (tipo === "recoger") ? (19 * 60 + 30) : (20 * 60);
-    const intervaloMinutos = (tipo === "recoger") ? 15 : 30;
-
-    const { data: bloqueados } = await supabaseClient
-        .from('horarios_bloqueados')
-        .select('hora')
-        .eq('fecha', fecha)
-        .eq('tipo', tipo);
-
-    const horasBloqueadas = bloqueados ? bloqueados.map(b => b.hora) : [];
-    const horaFin = 23 * 60 + 30;
-    
-    let optionsHtml = '<option value="">Selecciona hora...</option>';
-    let hayDisponibles = false;
-
-    for (let m = horaInicio; m <= horaFin; m += intervaloMinutos) {
-        let horas = Math.floor(m / 60);
-        let mins = m % 60;
-        let horaStr = `${horas.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-
-        if (horasBloqueadas.includes(horaStr)) continue; 
-
-        hayDisponibles = true;
-        optionsHtml += `<option value="${horaStr}">${horaStr}</option>`;
-    }
-
-    if (!hayDisponibles) {
-        optionsHtml = `<option value="">No hay horarios disponibles</option>`;
-    }
-
-    orderTimeSelect.innerHTML = optionsHtml;
-}
-
-if (checkoutForm) {
-    checkoutForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        if (cart.length === 0) {
-            alert("Tu carrito está vacío.");
-            return;
-        }
-
-        const orderType = orderTypeSelect.value;
-        const totalPizzas = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-        if (orderType === "domicilio" && totalPizzas < 2) {
-            alert("El pedido mínimo a domicilio son 2 pizzas.");
-            return;
-        }
-
-        if (orderType === "recoger" && totalPizzas > 15) {
-            alert("Para pedidos a recoger de más de 15 pizzas, por favor llamen por teléfono.");
-            return;
-        }
-
-        if (orderType === "domicilio" && totalPizzas > 8) {
-            alert("Para pedidos a domicilio de más de 8 pizzas, por favor llamen por teléfono.");
-            return;
-        }
-
-        const phoneInput = clientPhoneInput.value.trim();
-        const prefixSelect = clientPrefixSelect.value;
-
-        if (prefixSelect === "+34") {
-            if (!/^\d{9}$/.test(phoneInput)) {
-                alert("Para España (+34), el número de teléfono debe tener exactamente 9 dígitos.");
-                return;
-            }
-        } else {
-            if (!/^\d{6,15}$/.test(phoneInput)) {
-                alert("Por favor, introduce un número de teléfono internacional válido.");
-                return;
-            }
-        }
-
-        const phone = limpiarTextoParaImpresora(`${prefixSelect} ${phoneInput}`);
-        const name = limpiarTextoParaImpresora(document.getElementById("clientName").value.trim());
-        const address = limpiarTextoParaImpresora(document.getElementById("clientAddress") ? document.getElementById("clientAddress").value.trim() : "");
-        const fecha = orderDateInput.value;
-        const hora = orderTimeSelect.value;
-        const notes = limpiarTextoParaImpresora(document.getElementById("clientNotes").value.trim());
-
-        if (!hora) {
-            alert("Por favor, selecciona una hora válida para el pedido.");
-            return;
-        }
-
-        const { data: checkBloqueados } = await supabaseClient
-            .from('horarios_bloqueados')
-            .select('hora')
-            .eq('fecha', fecha)
-            .eq('tipo', orderType)
-            .eq('hora', hora);
-
-        if (checkBloqueados && checkBloqueados.length > 0) {
-            alert(`¡Lo sentimos! La hora ${hora} acaba de ser completada o cerrada por el local.`);
-            await actualizarHorasDisponibles();
-            return;
-        }
-
-        const isDomicilio = orderType === "domicilio";
-        const recargoDomicilio = isDomicilio ? 1.00 : 0.00;
-
-        let detalleTexto = "";
-        let total = 0;
-
-        cart.forEach(item => {
-            const precioFinalUnitario = item.price + recargoDomicilio;
-            const sub = precioFinalUnitario * item.quantity;
-            total += sub;
-
-            let lineaItem = `${item.quantity}x ${limpiarTextoParaImpresora(item.name)} (${sub.toFixed(2)} EUR)`;
-            detalleTexto += ajustarAnchoPOS80(lineaItem, 42) + "\n";
-            
-            if (item.extras && item.extras.length > 0) {
-                let lineaExtras = `+ Extra: ${limpiarTextoParaImpresora(item.extras.join(", "))}`;
-                detalleTexto += ajustarAnchoPOS80(lineaExtras, 42, "    ") + "\n";
-            }
-            if (item.notes) {
-                let textoNotaLimpio = limpiarTextoParaImpresora(item.notes);
-                let lineaNota = ajustarAnchoPOS80(`- Nota: ${textoNotaLimpio}`, 42, "    ");
-                detalleTexto += lineaNota + "\n";
-            }
-        });
-        detalleTexto += `TOTAL: ${total.toFixed(2)} EUR`;
-
-        const direccionTexto = isDomicilio ? address : 'Local - Ramon y Cajal 22';
-        const horaEntregaTexto = `${fecha} a las ${hora}`;
-        const tipoEntregaTextoLimpio = orderType === 'domicilio' ? 'DOMICILIO' : 'RECOGER EN LOCAL';
-
-        // Construimos el ticket con un marcador {{ID}} que la base de datos sustituirá por el número real
-        let textoImpresionDirecto = "==========================================\n";
-        textoImpresionDirecto += "           GASTROGNOMO PIZZERIA           \n";
-        textoImpresionDirecto += "         Ramon y Cajal 22, Villena        \n";
-        textoImpresionDirecto += "==========================================\n";
-        textoImpresionDirecto += `PEDIDO #{{ID}} - ${tipoEntregaTextoLimpio}\n`;
-        textoImpresionDirecto += ajustarAnchoPOS80(`Cliente: ${name}`, 42) + "\n";
-        textoImpresionDirecto += `Telefono: ${phone}\n`;
-        textoImpresionDirecto += ajustarAnchoPOS80(`Direccion: ${direccionTexto}`, 42) + "\n";
-        textoImpresionDirecto += `Hora Entrega: ${horaEntregaTexto}\n`;
-        textoImpresionDirecto += "------------------------------------------\n";
-        textoImpresionDirecto += "DETALLE:\n";
-        textoImpresionDirecto += detalleTexto + "\n";
-        textoImpresionDirecto += "------------------------------------------\n";
-        if (notes) {
-            textoImpresionDirecto += "NOTAS:\n" + ajustarAnchoPOS80(notes, 42, "    ") + "\n";
-            textoImpresionDirecto += "------------------------------------------\n";
-        }
-        textoImpresionDirecto += "Gracias por confiar en nosotros!\n";
-
-        // Guardamos el pedido mediante la función segura y recibimos solo el número
-        const { data: pedidoIdNuevo, error } = await supabaseClient.rpc('crear_pedido', {
-            p_nombre: name,
-            p_telefono: phone,
-            p_tipo_entrega: orderType,
-            p_direccion: direccionTexto,
-            p_hora_entrega: horaEntregaTexto,
-            p_detalle_pedido: textoImpresionDirecto,
-            p_notas: notes
-        });
-
-        if (error || !pedidoIdNuevo) {
-            console.error("Error al enviar pedido:", error);
-            alert("Hubo un error al procesar tu pedido. Por favor, inténtalo de nuevo.");
-            return;
-        }
-
-        const pedidoId = pedidoIdNuevo;
-        textoImpresionDirecto = textoImpresionDirecto.replace('{{ID}}', pedidoId);
-
-        cart = [];
-        localStorage.removeItem('gastrognomo_cart');
-
-        const queryParams = new URLSearchParams({
-            id: pedidoId,
-            nombre: name,
-            telefono: phone,
-            tipo: orderType,
-            direccion: direccionTexto,
-            hora: horaEntregaTexto,
-            detalle: textoImpresionDirecto
-        });
-
-        window.location.href = `exito.html?${queryParams.toString()}`;
-    });
-}
-</script>
+<script src="js/config.js?v=1"></script>
+<script src="js/utils.js?v=1"></script>
+<script src="js/interfaz.js?v=1"></script>
+<script src="js/legal.js?v=1"></script>
+<script src="js/pedido.js?v=1"></script>
 
 </body>
 </html>
