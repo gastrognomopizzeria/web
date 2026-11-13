@@ -1,6 +1,6 @@
 /* =========================================================
-   pedido.js · Carrito, personalizar artículo, horas y envío del pedido. Necesita config.js y utils.js.
-   ========================================================= */
+    pedido.js · Carrito, personalizar artículo, horas y envío del pedido. Necesita config.js y utils.js.
+    ========================================================= */
 
 let cart = [];
 try {
@@ -22,8 +22,8 @@ function guardarCarrito() {
 }
 
 /* =========================================================
-   CARRITO Y MODALES DE PEDIDOS (CON EXTRA ÚNICO OBLIGATORIO)
-   ========================================================= */
+    CARRITO Y MODALES DE PEDIDOS (CON EXTRA ÚNICO OBLIGATORIO)
+    ========================================================= */
 const cartFloatingBtn = document.getElementById("cartFloatingBtn");
 const cartModal = document.getElementById("cartModal");
 const closeCartModal = document.getElementById("closeCartModal");
@@ -93,7 +93,6 @@ function runFlyToCartAnimation(itemName, eventTarget) {
     flyer.className = "fly-to-cart-item";
     flyer.textContent = `🛒 +${currentQuantity} ${itemName}`;
     
-    // 1. Calcular origen exacto desde el botón pulsado
     let startX = window.innerWidth / 2 - 70;
     let startY = window.innerHeight / 2 - 25;
 
@@ -109,7 +108,6 @@ function runFlyToCartAnimation(itemName, eventTarget) {
     flyer.style.top = `${startY}px`;
     document.body.appendChild(flyer);
 
-    // 2. Calcular destino (Esquina inferior derecha donde está el carrito con respaldo matemático)
     let endX = window.innerWidth - 80;
     let endY = window.innerHeight - 80;
 
@@ -140,7 +138,6 @@ function runFlyToCartAnimation(itemName, eventTarget) {
     }, 800);
 }
 
-// Vinculación estricta y segura mediante delegación de eventos
 document.addEventListener("click", (e) => {
     const addBtn = e.target.closest(".btn-add-cart");
     if (addBtn) {
@@ -385,12 +382,12 @@ async function actualizarHorasDisponibles() {
 
     // Consultamos qué horas han sido ABIERTAS explícitamente por el local en esta fecha y tipo
     const { data: abiertas } = await supabaseClient
-        .from('horarios_bloqueados') // Mantenemos el nombre de la tabla de tu DB
+        .from('horarios_bloqueados') 
         .select('hora')
         .eq('fecha', fecha)
         .eq('tipo', tipo);
 
-    // Creamos una lista limpia con las horas que SÍ están disponibles
+    // Creamos una lista limpia con las horas que SÍ están disponibles (abiertas)
     const horasDisponiblesList = abiertas ? abiertas.map(b => b.hora) : [];
     const horaFin = 23 * 60 + 30;
     
@@ -470,15 +467,16 @@ if (checkoutForm) {
             return;
         }
 
-        const { data: checkBloqueados } = await supabaseClient
+        // Comprobamos que la hora seleccionada siga estando abierta en la base de datos
+        const { data: checkAbiertas } = await supabaseClient
             .from('horarios_bloqueados')
             .select('hora')
             .eq('fecha', fecha)
             .eq('tipo', orderType)
             .eq('hora', hora);
 
-        if (checkBloqueados && checkBloqueados.length > 0) {
-            alert(`¡Lo sentimos! La hora ${hora} acaba de ser completada o cerrada por el local.`);
+        if (!checkAbiertas || checkAbiertas.length === 0) {
+            alert(`¡Lo sentimos! La hora ${hora} acaba de ser cerrada o ya no está disponible.`);
             await actualizarHorasDisponibles();
             return;
         }
@@ -513,10 +511,9 @@ if (checkoutForm) {
         const horaEntregaTexto = `${fecha} a las ${hora}`;
         const tipoEntregaTextoLimpio = orderType === 'domicilio' ? 'DOMICILIO' : 'RECOGER EN LOCAL';
 
-        // Construimos el ticket con un marcador {{ID}} que la base de datos sustituirá por el número real
         let textoImpresionDirecto = "==========================================\n";
-        textoImpresionDirecto += "           GASTROGNOMO PIZZERIA           \n";
-        textoImpresionDirecto += "         Ramon y Cajal 22, Villena        \n";
+        textoImpresionDirecto += "            GASTROGNOMO PIZZERIA            \n";
+        textoImpresionDirecto += "          Ramon y Cajal 22, Villena         \n";
         textoImpresionDirecto += "==========================================\n";
         textoImpresionDirecto += `PEDIDO #{{ID}} - ${tipoEntregaTextoLimpio}\n`;
         textoImpresionDirecto += ajustarAnchoPOS80(`Cliente: ${name}`, 42) + "\n";
@@ -533,7 +530,6 @@ if (checkoutForm) {
         }
         textoImpresionDirecto += "Gracias por confiar en nosotros!\n";
 
-        // Guardamos el pedido mediante la función segura y recibimos solo el número
         const { data: pedidoIdNuevo, error } = await supabaseClient.rpc('crear_pedido', {
             p_nombre: name,
             p_telefono: phone,
@@ -561,7 +557,6 @@ if (checkoutForm) {
         cart = [];
         localStorage.removeItem('gastrognomo_cart');
 
-        // El ticket se guarda en la memoria temporal de esta pestaña: no viaja en la dirección web
         try {
             sessionStorage.setItem('gastrognomo_ultimo_pedido', textoImpresionDirecto);
         } catch (e) {
