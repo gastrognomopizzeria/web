@@ -678,6 +678,18 @@ h1 span {
 }
 
 
+.pizza-agua {
+    background-image: url("pizzas/pizza-agua.jpg");
+    background-color: var(--cream-light);
+}
+
+
+.pizza-refresco {
+    background-image: url("pizzas/pizza-refresco.jpg");
+    background-color: var(--cream-light);
+}
+
+
 /* =========================================================
    PIZZA CONTENT & BOTÓN "AÑADIR" OVALADO
    ========================================================= */
@@ -818,6 +830,21 @@ h1 span {
     color: white;
 
     border-color: var(--blue);
+}
+
+
+/* =========================================================
+   NOTAS DE LA CARTA (PDF y alérgenos)
+   ========================================================= */
+
+.carta-notas p {
+    font-size: 0.9rem;
+}
+
+@media (max-width: 650px) {
+    .carta-notas p {
+        font-size: 0.8rem;
+    }
 }
 
 
