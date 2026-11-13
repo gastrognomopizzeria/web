@@ -1786,3 +1786,10 @@ h1 span {
     color: #555;
     border-color: #ccc;
 }
+
+/* Reducir ligeramente el correo del footer solo en móvil */
+@media (max-width: 650px) {
+    .footer-email {
+        font-size: 11px;
+    }
+}
