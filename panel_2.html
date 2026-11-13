@@ -42,12 +42,44 @@
         .tally-table td svg { width:100%; height:100%; display:block; }
         .tally-table svg * { fill:none; stroke:var(--burgundy); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
         .btn-limpiar { background:var(--gray); }
+
+        /* ===== Layout tablet apaisada: controles a la izquierda, tabla a la derecha ===== */
+        .layout { display:grid; grid-template-columns:1fr; gap:16px; }
+        @media (min-width:800px) and (orientation:landscape) {
+            body { padding:10px; height:100vh; box-sizing:border-box; overflow:hidden; }
+            #panelContenido { height:100%; }
+            .layout { grid-template-columns:minmax(0,5fr) minmax(0,6fr); height:100%; gap:12px; }
+            .panel-izq, .panel-der { overflow-y:auto; min-height:0; }
+            header { margin-bottom:8px; }
+            h1 { font-size:20px; margin:0; }
+            header p { display:none; }
+            .date-selector { margin-bottom:8px; }
+            input[type="date"] { padding:8px 12px; }
+            .day-actions { margin-bottom:8px; gap:8px; }
+            .btn-action { padding:12px 12px; font-size:13px; }
+            .legend { margin-bottom:8px; font-size:12px; gap:14px; }
+            .grid-container { grid-template-columns:1fr; gap:10px; }
+            .column { padding:10px; }
+            .column h2 { font-size:15px; padding-bottom:6px; }
+            .slots-grid { grid-template-columns:repeat(auto-fill,minmax(68px,1fr)); gap:6px; margin-top:8px; }
+            .slot-btn { padding:11px 2px; font-size:14px; }
+            .tally-wrap { margin:0; max-width:none; }
+            .tally-wrap p { margin:0 0 6px; font-size:12px; }
+            .tally-table { width:100%; table-layout:fixed; }
+            .tally-table th.hora { width:48px; padding-right:6px; font-size:12px; }
+            .tally-table tr.hora-en-punto th.hora { font-size:13px; }
+            .tally-table td { width:auto; height:calc((100vh - 210px) / 18); min-height:22px; }
+            .tally-table th { font-size:10px; padding:0; }
+            .tally-wrap .btn-limpiar { padding:8px 14px; }
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
     <div id="panelContenido">
+      <div class="layout">
+       <div class="panel-izq">
         <header>
             <h1>🍕 Gestión de Horarios - Gastrognomo</h1>
             <p>Por defecto las horas están cerradas. Haz clic para abrirlas o usa los botones del día</p>
@@ -79,7 +111,8 @@
             </div>
         </div>
 
-        <!-- Tabla para contar pizzas -->
+       </div>
+       <div class="panel-der">
         <div class="tally-wrap">
             <div class="column">
                 <h2>🍕 Contador de pizzas</h2>
@@ -92,6 +125,8 @@
                 </div>
             </div>
         </div>
+       </div>
+      </div>
     </div>
 
     <script>
