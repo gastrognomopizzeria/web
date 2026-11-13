@@ -21,6 +21,18 @@ function guardarCarrito() {
     }
 }
 
+// Postres y bebidas: sin recargo de domicilio y sin contar para el mínimo de pizzas a domicilio
+function llevaRecargoDomicilio(item) {
+    const categoria = item.categoria || "";
+    if (categoria === "postres" || categoria === "bebidas") return false;
+    if (!categoria) {
+        // Artículos guardados antes de existir el campo "categoria"
+        const nombre = (item.name || "").toUpperCase();
+        if (nombre.includes("TARTA") || nombre.startsWith("AGUA") || nombre.startsWith("REFRESCO")) return false;
+    }
+    return true;
+}
+
 /* =========================================================
     CARRITO Y MODALES DE PEDIDOS (CON EXTRA ÚNICO OBLIGATORIO)
     ========================================================= */
@@ -151,7 +163,7 @@ document.addEventListener("click", (e) => {
         const pizzaCard = addBtn.closest(".pizza-card");
         const category = pizzaCard ? pizzaCard.dataset.category : "";
 
-        currentSelectedPizza = { name, basePrice, opcion: addBtn.dataset.opcion || "" };
+        currentSelectedPizza = { name, basePrice, opcion: addBtn.dataset.opcion || "", categoria: category };
         currentQuantity = 1;
         modalQtyValue.textContent = currentQuantity;
         modalPizzaTitle.textContent = name;
@@ -246,7 +258,8 @@ if (confirmAddToCartBtn) {
             price: unitPrice,
             quantity: currentQuantity,
             extras: extrasList,
-            notes: notes
+            notes: notes,
+            categoria: currentSelectedPizza.categoria
         });
 
         guardarCarrito();
@@ -339,7 +352,8 @@ function renderCart() {
     const recargoDomicilio = isDomicilio ? 1.00 : 0.00;
 
     cart.forEach((item, index) => {
-        const precioFinalUnitario = item.price + recargoDomicilio;
+        const recargoItem = llevaRecargoDomicilio(item) ? recargoDomicilio : 0;
+        const precioFinalUnitario = item.price + recargoItem;
         const subtotal = precioFinalUnitario * item.quantity;
         total += subtotal;
 
@@ -354,7 +368,7 @@ function renderCart() {
         html += `
             <div class="cart-item" style="margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
                 <div class="cart-item-info">
-                    <h4>${item.quantity}x ${item.name} - ${subtotal.toFixed(2)} EUR ${isDomicilio ? '<small>(+1 EUR dom.)</small>' : ''}</h4>
+                    <h4>${item.quantity}x ${item.name} - ${subtotal.toFixed(2)} EUR ${recargoItem > 0 ? '<small>(+1 EUR dom.)</small>' : ''}</h4>
                     ${extrasHtml}
                 </div>
                 <div class="cart-item-controls" style="margin-top: 5px;">
@@ -440,8 +454,9 @@ if (checkoutForm) {
 
         const orderType = orderTypeSelect.value;
         const totalPizzas = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const pizzasParaMinimo = cart.reduce((sum, item) => sum + (llevaRecargoDomicilio(item) ? item.quantity : 0), 0);
 
-        if (orderType === "domicilio" && totalPizzas < 2) {
+        if (orderType === "domicilio" && pizzasParaMinimo < 2) {
             alert("El pedido mínimo a domicilio son 2 pizzas.");
             return;
         }
@@ -504,7 +519,8 @@ if (checkoutForm) {
         let total = 0;
 
         cart.forEach(item => {
-            const precioFinalUnitario = item.price + recargoDomicilio;
+            const recargoItem = llevaRecargoDomicilio(item) ? recargoDomicilio : 0;
+            const precioFinalUnitario = item.price + recargoItem;
             const sub = precioFinalUnitario * item.quantity;
             total += sub;
 
