@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="loguito.png">
+    <link rel="apple-touch-icon" href="loguito.png">
     <title>¡Pedido Exitoso! - Gastrognomo Pizzeria</title>
     <style>
         :root {
@@ -40,6 +43,10 @@
             font-size: 15px;
             color: #444;
             line-height: 1.5;
+        }
+        p a {
+            color: var(--burgundy);
+            font-weight: bold;
         }
         .ticket-box {
             background: #faf8f5;
@@ -89,7 +96,8 @@
 
     <div class="success-container">
         <h1>🎉 ¡Pedido Realizado con Éxito!</h1>
-        <p>Gracias por confiar en nosotros. Tu pedido ha sido registrado correctamente y ya se está procesando en el local.</p>
+        <p>Gracias por confiar en nosotros. Tu pedido ha sido registrado correctamente.</p>
+        <p>Si necesitas modificar o cancelar tu pedido, llama al <a href="tel:+34624837414">624 83 74 14</a>.</p>
 
         <!-- Contenedor del ticket con scroll horizontal limpio -->
         <div id="ticketContainer" class="ticket-box">Cargando detalles del pedido...</div>
@@ -113,7 +121,11 @@
             // Mostrar el ticket respetando el formato de 42 caracteres
             ticketContainer.textContent = detalleTexto;
         } else {
-            ticketContainer.textContent = "No se pudieron cargar los detalles del ticket.";
+            ticketContainer.textContent =
+                "No se pudieron cargar los detalles\n" +
+                "del ticket, pero tu pedido sí se ha\n" +
+                "registrado. Si tienes dudas, llámanos\n" +
+                "al 624 83 74 14.";
         }
     </script>
 </body>
