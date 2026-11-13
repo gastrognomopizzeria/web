@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Gastrognomo Pizzeria</title>
+    <style>
+        :root { --burgundy:#590404; --cream:#EFD9C7; --green:#2ecc71; --red:#e74c3c; --gray:#706461; }
+        body { font-family:'Montserrat',sans-serif; background:#f4f6f8; color:#171111; padding:20px; margin:0; }
+        header { text-align:center; margin-bottom:25px; }
+        h1 { color:var(--burgundy); font-size:28px; margin-bottom:5px; }
+        .date-selector { text-align:center; margin-bottom:20px; }
+        input[type="date"] { padding:10px 15px; font-size:16px; border-radius:8px; border:1px solid #ccc; font-family:inherit; }
+        .day-actions { text-align:center; margin-bottom:25px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+        .btn-action { padding:10px 18px; font-size:14px; font-weight:bold; border:none; border-radius:8px; cursor:pointer; color:white; transition:opacity .2s; }
+        .btn-action:hover { opacity:.9; }
+        .btn-activar-todas { background-color:var(--green); }
+        .btn-desactivar-todas { background-color:var(--red); }
+        .grid-container { display:grid; grid-template-columns:1fr 1fr; gap:30px; max-width:1000px; margin:0 auto; }
+        .column { background:white; padding:20px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,.08); }
+        .column h2 { font-size:20px; color:var(--burgundy); border-bottom:2px solid var(--cream); padding-bottom:10px; margin-top:0; text-align:center; }
+        .slots-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(90px,1fr)); gap:10px; margin-top:15px; }
+        .slot-btn { padding:12px 5px; font-size:15px; font-weight:bold; border:none; border-radius:8px; cursor:pointer; color:white; transition:transform .1s,opacity .2s; }
+        .slot-btn:active { transform:scale(.95); }
+        .slot-available { background-color:var(--green); }
+        .slot-blocked { background-color:var(--red); opacity:.85; }
+        .legend { display:flex; justify-content:center; gap:20px; margin-bottom:20px; font-size:14px; font-weight:600; }
+        .legend-item { display:flex; align-items:center; gap:8px; }
+        .legend-dot { width:16px; height:16px; border-radius:50%; }
+        #panelContenido { display:none; }
+
+        /* ===== Tabla contador de pizzas ===== */
+        .tally-wrap { max-width:1000px; margin:30px auto 0; }
+        .tally-scroll { overflow-x:auto; }
+        .tally-table { border-collapse:collapse; margin:0 auto; user-select:none; -webkit-user-select:none; }
+        .tally-table th { font-size:12px; color:var(--gray); padding:2px; font-weight:600; }
+        .tally-table th.hora { text-align:right; padding-right:10px; font-size:14px; color:var(--burgundy); white-space:nowrap; }
+        .tally-table tr.hora-en-punto th.hora { font-size:15px; }
+        .tally-table tr.hora-en-punto td { border-top:2px solid var(--burgundy); }
+        .tally-table td { width:34px; height:34px; border:1px solid #ddd; background:#fff; cursor:pointer; padding:0; }
+        .tally-table td:hover { background:#fbf3ec; }
+        .tally-table td svg { width:100%; height:100%; display:block; }
+        .tally-table svg * { fill:none; stroke:var(--burgundy); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+        .btn-limpiar { background:var(--gray); }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <div id="panelContenido">
+        <header>
+            <h1>🍕 Gestión de Horarios - Gastrognomo</h1>
+            <p>Por defecto las horas están cerradas. Haz clic para abrirlas o usa los botones del día</p>
+        </header>
+
+        <div class="date-selector">
+            <label for="selectDate"><strong>Fecha seleccionada: </strong></label>
+            <input type="date" id="selectDate">
+        </div>
+
+        <div class="day-actions">
+            <button type="button" id="btnActivarTodo" class="btn-action btn-activar-todas">🟢 Activar todas las franjas del día</button>
+            <button type="button" id="btnDesactivarTodo" class="btn-action btn-desactivar-todas">🔴 Desactivar todas las franjas del día</button>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background: var(--green);"></div> Disponible (Abierto)</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--red);"></div> Cerrado / Bloqueado</div>
+        </div>
+
+        <div class="grid-container">
+            <div class="column">
+                <h2>🛍️ Recoger en Local (cada 15 min)</h2>
+                <div id="slotsRecoger" class="slots-grid"></div>
+            </div>
+            <div class="column">
+                <h2>🛵 Domicilio (cada 30 min)</h2>
+                <div id="slotsDomicilio" class="slots-grid"></div>
+            </div>
+        </div>
+
+        <!-- Tabla para contar pizzas -->
+        <div class="tally-wrap">
+            <div class="column">
+                <h2>🍕 Contador de pizzas</h2>
+                <p style="text-align:center;font-size:13px;color:var(--gray);margin-top:0;">
+                    Clic = ✕ · Doble clic = ✕ con círculo · Doble clic = ✕ con triángulo (sin círculo) · Doble clic = borrar
+                </p>
+                <div class="tally-scroll"><table class="tally-table" id="tallyTable"></table></div>
+                <div style="text-align:center;margin-top:15px;">
+                    <button type="button" id="btnLimpiarTabla" class="btn-action btn-limpiar">🧹 Limpiar tabla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PIN_CORRECTO = "20267"; // <--- CAMBIA ESTE NÚMERO POR EL TUYO
+
+        function verificarAcceso() {
+            const pinIngresado = prompt("Introduce el PIN de acceso para el panel de Gastrognomo:");
+            if (pinIngresado === PIN_CORRECTO) {
+                document.getElementById('panelContenido').style.display = 'block';
+                iniciarPanel();
+                iniciarTabla();
+            } else {
+                alert("PIN incorrecto. Acceso denegado.");
+                location.reload();
+            }
+        }
+
+        // ==========================================
+        // 🍕 TABLA CONTADOR (solo visual, sin guardar)
+        // Estados: 0 vacío, 1 X, 2 X + círculo, 3 X + círculo + triángulo
+        // ==========================================
+        function iniciarTabla() {
+            const table = document.getElementById('tallyTable');
+            const estados = {}; // clave "fila-columna" -> estado
+            const COLUMNAS = 15;
+
+            const dibujos = [
+                '',
+                '<path d="M15.5 19.5L24.5 28.5M24.5 19.5L15.5 28.5"/>',
+                '<path d="M15.5 19.5L24.5 28.5M24.5 19.5L15.5 28.5"/><circle cx="20" cy="24" r="8"/>',
+                '<path d="M15.5 19.5L24.5 28.5M24.5 19.5L15.5 28.5"/><path d="M20 2L38 35L2 35Z"/>'
+            ];
+
+            function pintar(td, estado) {
+                td.innerHTML = estado ? `<svg viewBox="0 0 40 40">${dibujos[estado]}</svg>` : '';
+            }
+
+            // Cabecera con números de hueco
+            let cab = '<tr><th></th>';
+            for (let c = 1; c <= COLUMNAS; c++) cab += `<th>${c}</th>`;
+            table.innerHTML = cab + '</tr>';
+
+            // Filas de 19:30 a 23:30 cada 15 min
+            for (let m = 19 * 60 + 30; m <= 23 * 60 + 30; m += 15) {
+                const hora = `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+                const tr = document.createElement('tr');
+                if (m % 60 === 0) tr.className = 'hora-en-punto';
+                tr.innerHTML = `<th class="hora">${hora}</th>`;
+
+                for (let c = 0; c < COLUMNAS; c++) {
+                    const td = document.createElement('td');
+                    const clave = `${hora}-${c}`;
+                    td.addEventListener('click', (e) => {
+                        const actual = estados[clave] || 0;
+                        if (actual === 0) {
+                            estados[clave] = 1;                         // clic simple: dibuja X
+                        } else if (e.detail === 2) {
+                            estados[clave] = (actual + 1) % 4;          // doble clic: siguiente forma / borrar
+                        }
+                        pintar(td, estados[clave] || 0);
+                    });
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+
+            document.getElementById('btnLimpiarTabla').addEventListener('click', () => {
+                if (!confirm('¿Borrar todas las marcas de la tabla?')) return;
+                for (const k in estados) delete estados[k];
+                table.querySelectorAll('td').forEach(td => td.innerHTML = '');
+            });
+        }
+
+        function iniciarPanel() {
+            const SUPABASE_URL = 'https://refrscscreylowmocfcx.supabase.co';
+            const SUPABASE_ANON_KEY = 'sb_publishable_XiXjP4gjaQUXf84U6-5QZw_Dw-YhdSu';
+            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            const dateInput = document.getElementById('selectDate');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+
+            const horaFin = 23 * 60 + 30;
+
+            function generarFranjas(inicioMinutos, minutosIntervalo) {
+                let franjas = [];
+                for (let m = inicioMinutos; m <= horaFin; m += minutosIntervalo) {
+                    let horas = Math.floor(m / 60);
+                    let mins = m % 60;
+                    franjas.push(`${horas.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`);
+                }
+                return franjas;
+            }
+
+            const franjasRecoger = generarFranjas(19 * 60 + 30, 15);
+            const franjasDomicilio = generarFranjas(20 * 60, 30);
+
+            async function cargarHorariosAbiertos() {
+                const fecha = dateInput.value;
+                const { data, error } = await supabaseClient.from('horarios_bloqueados').select('*').eq('fecha', fecha);
+                if (error) { console.error('Error al cargar horarios:', error); return []; }
+                return data || [];
+            }
+
+            async function renderizarCuadricula() {
+                const fecha = dateInput.value;
+                const abiertos = await cargarHorariosAbiertos();
+
+                const containerRecoger = document.getElementById('slotsRecoger');
+                containerRecoger.innerHTML = '';
+                franjasRecoger.forEach(hora => {
+                    const estaDisponible = abiertos.some(b => b.hora === hora && b.tipo === 'recoger');
+                    const btn = document.createElement('button');
+                    btn.className = `slot-btn ${estaDisponible ? 'slot-available' : 'slot-blocked'}`;
+                    btn.textContent = hora;
+                    btn.onclick = () => alternarEstado(fecha, hora, 'recoger', estaDisponible);
+                    containerRecoger.appendChild(btn);
+                });
+
+                const containerDomicilio = document.getElementById('slotsDomicilio');
+                containerDomicilio.innerHTML = '';
+                franjasDomicilio.forEach(hora => {
+                    const estaDisponible = abiertos.some(b => b.hora === hora && b.tipo === 'domicilio');
+                    const btn = document.createElement('button');
+                    btn.className = `slot-btn ${estaDisponible ? 'slot-available' : 'slot-blocked'}`;
+                    btn.textContent = hora;
+                    btn.onclick = () => alternarEstado(fecha, hora, 'domicilio', estaDisponible);
+                    containerDomicilio.appendChild(btn);
+                });
+            }
+
+            async function alternarEstado(fecha, hora, tipo, estaDisponible) {
+                if (estaDisponible) {
+                    await supabaseClient.from('horarios_bloqueados').delete().eq('fecha', fecha).eq('hora', hora).eq('tipo', tipo);
+                } else {
+                    await supabaseClient.from('horarios_bloqueados').insert([{ fecha, hora, tipo }]);
+                }
+                renderizarCuadricula();
+            }
+
+            document.getElementById('btnActivarTodo').addEventListener('click', async () => {
+                const fecha = dateInput.value;
+                if (!confirm(`¿Activar (abrir) todas las franjas para el día ${fecha}?`)) return;
+
+                let registrosAInsertar = [];
+                franjasRecoger.forEach(hora => registrosAInsertar.push({ fecha, tipo: 'recoger', hora }));
+                franjasDomicilio.forEach(hora => registrosAInsertar.push({ fecha, tipo: 'domicilio', hora }));
+
+                await supabaseClient.from('horarios_bloqueados').delete().eq('fecha', fecha);
+                const { error } = await supabaseClient.from('horarios_bloqueados').insert(registrosAInsertar);
+                if (error) { alert("Error al activar las franjas."); return; }
+                renderizarCuadricula();
+            });
+
+            document.getElementById('btnDesactivarTodo').addEventListener('click', async () => {
+                const fecha = dateInput.value;
+                if (!confirm(`¿Desactivar (cerrar) todas las franjas para el día ${fecha}?`)) return;
+                const { error } = await supabaseClient.from('horarios_bloqueados').delete().eq('fecha', fecha);
+                if (error) { alert("Error al desactivar las franjas."); return; }
+                renderizarCuadricula();
+            });
+
+            dateInput.addEventListener('change', renderizarCuadricula);
+            renderizarCuadricula();
+        }
+
+        verificarAcceso();
+    </script>
+</body>
+</html>
