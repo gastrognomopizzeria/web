@@ -55,6 +55,8 @@ const modalTotalPrice = document.getElementById("modalTotalPrice");
 const toggleExtraUnico = document.getElementById("toggleExtraUnico");
 const listExtraUnico = document.getElementById("listExtraUnico");
 const selectExtraUnico = document.getElementById("selectExtraUnico");
+const refrescoContainer = document.getElementById("refrescoContainer");
+const selectRefresco = document.getElementById("selectRefresco");
 
 let currentSelectedPizza = null;
 let currentQuantity = 1;
@@ -149,7 +151,7 @@ document.addEventListener("click", (e) => {
         const pizzaCard = addBtn.closest(".pizza-card");
         const category = pizzaCard ? pizzaCard.dataset.category : "";
 
-        currentSelectedPizza = { name, basePrice };
+        currentSelectedPizza = { name, basePrice, opcion: addBtn.dataset.opcion || "" };
         currentQuantity = 1;
         modalQtyValue.textContent = currentQuantity;
         modalPizzaTitle.textContent = name;
@@ -163,11 +165,16 @@ document.addEventListener("click", (e) => {
 
         const extrasContainer = document.getElementById("extrasContainer");
         if (extrasContainer) {
-            if (category === "postres" || name.toUpperCase().includes("TARTA")) {
+            if (category === "postres" || category === "bebidas" || name.toUpperCase().includes("TARTA")) {
                 extrasContainer.style.display = "none";
             } else {
                 extrasContainer.style.display = "flex";
             }
+        }
+
+        if (selectRefresco) selectRefresco.value = "";
+        if (refrescoContainer) {
+            refrescoContainer.style.display = currentSelectedPizza.opcion === "refresco" ? "flex" : "none";
         }
 
         calcularPrecioModal();
@@ -212,6 +219,15 @@ if (confirmAddToCartBtn) {
     confirmAddToCartBtn.addEventListener("click", () => {
         let unitPrice = currentSelectedPizza.basePrice;
         let extrasList = [];
+        let itemName = currentSelectedPizza.name;
+
+        if (currentSelectedPizza.opcion === "refresco") {
+            if (!selectRefresco || !selectRefresco.value) {
+                alert("Por favor, elige un refresco en el desplegable.");
+                return;
+            }
+            itemName = `${currentSelectedPizza.name} - ${selectRefresco.value}`;
+        }
 
         if (toggleExtraUnico && toggleExtraUnico.checked) {
             if (!selectExtraUnico || !selectExtraUnico.value) {
@@ -224,7 +240,6 @@ if (confirmAddToCartBtn) {
         }
 
         const notes = modalItemNotes.value.trim();
-        const itemName = currentSelectedPizza.name;
 
         cart.push({
             name: itemName,
@@ -242,6 +257,7 @@ if (confirmAddToCartBtn) {
         if (toggleExtraUnico) toggleExtraUnico.checked = false;
         if (listExtraUnico) listExtraUnico.style.display = "none";
         if (selectExtraUnico) selectExtraUnico.value = "";
+        if (selectRefresco) selectRefresco.value = "";
 
         let originElement = window.lastValidOriginButton;
         if (!originElement) {
@@ -512,8 +528,8 @@ if (checkoutForm) {
         const tipoEntregaTextoLimpio = orderType === 'domicilio' ? 'DOMICILIO' : 'RECOGER EN LOCAL';
 
         let textoImpresionDirecto = "==========================================\n";
-        textoImpresionDirecto += "            GASTROGNOMO PIZZERIA            \n";
-        textoImpresionDirecto += "          Ramon y Cajal 22, Villena         \n";
+        textoImpresionDirecto += "           GASTROGNOMO PIZZERIA           \n";
+        textoImpresionDirecto += "         Ramon y Cajal 22, Villena        \n";
         textoImpresionDirecto += "==========================================\n";
         textoImpresionDirecto += `PEDIDO #{{ID}} - ${tipoEntregaTextoLimpio}\n`;
         textoImpresionDirecto += ajustarAnchoPOS80(`Cliente: ${name}`, 42) + "\n";
