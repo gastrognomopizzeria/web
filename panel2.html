@@ -42,6 +42,7 @@
         .tally-table td svg { width:100%; height:100%; display:block; }
         .tally-table svg * { fill:none; stroke:var(--burgundy); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
         .btn-limpiar { background:var(--gray); }
+        .tally-table td { touch-action:manipulation; -webkit-touch-callout:none; }
 
         /* ===== Layout tablet apaisada: controles a la izquierda, tabla a la derecha ===== */
         .layout { display:grid; grid-template-columns:1fr; gap:16px; }
@@ -117,7 +118,7 @@
             <div class="column">
                 <h2>🍕 Contador de pizzas</h2>
                 <p style="text-align:center;font-size:13px;color:var(--gray);margin-top:0;">
-                    Celda vacía: 1 clic = ✕ · 2 clics = círculo · 3 clics = triángulo · 4 clics = vacía<br>Celda con dibujo: doble clic = borrar
+                    Celda vacía: 1 clic = ✕ · 2 clics = círculo · pulsación larga = triángulo<br>Celda con dibujo: doble clic = borrar
                 </p>
                 <div class="tally-scroll"><table class="tally-table" id="tallyTable"></table></div>
                 <div style="text-align:center;margin-top:15px;">
@@ -155,9 +156,12 @@
 
             const dibujos = [
                 '',
-                '<path d="M15.5 19.5L24.5 28.5M24.5 19.5L15.5 28.5"/>',
-                '<path d="M15.5 19.5L24.5 28.5M24.5 19.5L15.5 28.5"/><circle cx="20" cy="24" r="9.5"/>',
-                '<path d="M15.5 19.5L24.5 28.5M24.5 19.5L15.5 28.5"/><path d="M20 2L38 35L2 35Z"/>'
+                // 1 clic: X
+                '<path d="M12 12L28 28M28 12L12 28"/>',
+                // 2+ clics: X grande con círculo tangente a sus extremos
+                '<path d="M8 8L32 32M32 8L8 32"/><circle cx="20" cy="20" r="17"/>',
+                // pulsación larga: X con triángulo alrededor
+                '<path d="M14 18L26 30M26 18L14 30"/><path d="M20 2L38 35L2 35Z"/>'
             ];
 
             function pintar(td, estado) {
@@ -180,19 +184,36 @@
                     const td = document.createElement('td');
                     const clave = `${hora}-${c}`;
                     let vacioAlEmpezar = true;
+                    let timerLargo = null;
+                    let fueLarga = false;
+
+                    // Pulsación larga sobre celda vacía: triángulo
+                    td.addEventListener('pointerdown', (e) => {
+                        if (e.button !== 0 || (estados[clave] || 0) !== 0) return;
+                        fueLarga = false;
+                        timerLargo = setTimeout(() => {
+                            fueLarga = true;
+                            estados[clave] = 3;
+                            pintar(td, 3);
+                        }, 500);
+                    });
+                    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev =>
+                        td.addEventListener(ev, () => { clearTimeout(timerLargo); }));
+                    td.addEventListener('contextmenu', (e) => e.preventDefault());
+
                     td.addEventListener('click', (e) => {
+                        if (fueLarga) { fueLarga = false; return; } // el soltar de una pulsación larga no cuenta como clic
                         const actual = estados[clave] || 0;
                         if (e.detail === 1) vacioAlEmpezar = (actual === 0); // inicio de una secuencia de clics
 
                         if (vacioAlEmpezar) {
-                            // Celda vacía: 1 clic = ✕, 2 = círculo, 3 = triángulo, 4 o más = vacía
-                            estados[clave] = e.detail >= 4 ? 0 : e.detail;
+                            estados[clave] = e.detail === 1 ? 1 : 2;  // 1 clic: X · 2 o más: círculo
                         } else if (e.detail >= 2) {
-                            estados[clave] = 0; // celda con dibujo: doble clic la borra
+                            estados[clave] = 0;                       // celda con dibujo: doble clic borra
                         }
                         pintar(td, estados[clave] || 0);
                     });
-                                        tr.appendChild(td);
+                    tr.appendChild(td);
                 }
                 table.appendChild(tr);
             }
