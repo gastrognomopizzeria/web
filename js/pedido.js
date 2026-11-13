@@ -1,3 +1,4 @@
+
 /* =========================================================
     pedido.js · Carrito, personalizar artículo, horas y envío del pedido. Necesita config.js y utils.js.
     ========================================================= */
@@ -21,21 +22,39 @@ function guardarCarrito() {
     }
 }
 
-// Postres y bebidas: sin recargo de domicilio y sin contar para el mínimo de pizzas a domicilio
+// Postres y bebidas: sin recargo de domicilio y sin contar para el mínimo ni máximo de pizzas
 function llevaRecargoDomicilio(item) {
-    const categoria = item.categoria || "";
+    const categoria = (item.categoria || "").toLowerCase();
+
     if (categoria === "postres" || categoria === "bebidas") return false;
+
     if (!categoria) {
         // Artículos guardados antes de existir el campo "categoria"
         const nombre = (item.name || "").toUpperCase();
-        if (nombre.includes("TARTA") || nombre.startsWith("AGUA") || nombre.startsWith("REFRESCO")) return false;
+
+        if (
+            nombre.includes("TARTA") ||
+            nombre.startsWith("AGUA") ||
+            nombre.startsWith("REFRESCO")
+        ) {
+            return false;
+        }
     }
+
     return true;
+}
+
+// Cuenta únicamente los artículos sujetos a los límites de pizzas
+function contarPizzasCarrito() {
+    return cart.reduce((sum, item) => {
+        return sum + (llevaRecargoDomicilio(item) ? item.quantity : 0);
+    }, 0);
 }
 
 /* =========================================================
     CARRITO Y MODALES DE PEDIDOS (CON EXTRA ÚNICO OBLIGATORIO)
     ========================================================= */
+
 const cartFloatingBtn = document.getElementById("cartFloatingBtn");
 const cartModal = document.getElementById("cartModal");
 const closeCartModal = document.getElementById("closeCartModal");
@@ -91,9 +110,11 @@ if (clientPrefixSelect && clientPhoneInput) {
 if (toggleExtraUnico && listExtraUnico) {
     toggleExtraUnico.addEventListener("change", (e) => {
         listExtraUnico.style.display = e.target.checked ? "block" : "none";
+
         if (!e.target.checked && selectExtraUnico) {
             selectExtraUnico.value = "";
         }
+
         calcularPrecioModal();
     });
 }
@@ -106,18 +127,19 @@ function runFlyToCartAnimation(itemName, eventTarget) {
     const flyer = document.createElement("div");
     flyer.className = "fly-to-cart-item";
     flyer.textContent = `🛒 +${currentQuantity} ${itemName}`;
-    
+
     let startX = window.innerWidth / 2 - 70;
     let startY = window.innerHeight / 2 - 25;
 
     if (eventTarget) {
         const rect = eventTarget.getBoundingClientRect();
+
         if (rect.width > 0 && rect.height > 0) {
             startX = rect.left + rect.width / 2 - 50;
             startY = rect.top + rect.height / 2 - 20;
         }
     }
-    
+
     flyer.style.left = `${startX}px`;
     flyer.style.top = `${startY}px`;
     document.body.appendChild(flyer);
@@ -127,6 +149,7 @@ function runFlyToCartAnimation(itemName, eventTarget) {
 
     if (cartFloatingBtn) {
         const cartRect = cartFloatingBtn.getBoundingClientRect();
+
         if (cartRect.width > 0 && cartRect.height > 0) {
             endX = cartRect.left + cartRect.width / 2 - 50;
             endY = cartRect.top + cartRect.height / 2 - 20;
@@ -144,6 +167,7 @@ function runFlyToCartAnimation(itemName, eventTarget) {
 
     setTimeout(() => {
         flyer.remove();
+
         if (cartFloatingBtn) {
             cartFloatingBtn.classList.remove("cart-animate-pulse");
             void cartFloatingBtn.offsetWidth;
@@ -154,6 +178,7 @@ function runFlyToCartAnimation(itemName, eventTarget) {
 
 document.addEventListener("click", (e) => {
     const addBtn = e.target.closest(".btn-add-cart");
+
     if (addBtn) {
         window.lastValidOriginButton = addBtn;
 
@@ -163,7 +188,13 @@ document.addEventListener("click", (e) => {
         const pizzaCard = addBtn.closest(".pizza-card");
         const category = pizzaCard ? pizzaCard.dataset.category : "";
 
-        currentSelectedPizza = { name, basePrice, opcion: addBtn.dataset.opcion || "", categoria: category };
+        currentSelectedPizza = {
+            name,
+            basePrice,
+            opcion: addBtn.dataset.opcion || "",
+            categoria: category
+        };
+
         currentQuantity = 1;
         modalQtyValue.textContent = currentQuantity;
         modalPizzaTitle.textContent = name;
@@ -176,8 +207,13 @@ document.addEventListener("click", (e) => {
         modalItemNotes.value = "";
 
         const extrasContainer = document.getElementById("extrasContainer");
+
         if (extrasContainer) {
-            if (category === "postres" || category === "bebidas" || name.toUpperCase().includes("TARTA")) {
+            if (
+                category === "postres" ||
+                category === "bebidas" ||
+                name.toUpperCase().includes("TARTA")
+            ) {
                 extrasContainer.style.display = "none";
             } else {
                 extrasContainer.style.display = "flex";
@@ -185,8 +221,10 @@ document.addEventListener("click", (e) => {
         }
 
         if (selectRefresco) selectRefresco.value = "";
+
         if (refrescoContainer) {
-            refrescoContainer.style.display = currentSelectedPizza.opcion === "refresco" ? "flex" : "none";
+            refrescoContainer.style.display =
+                currentSelectedPizza.opcion === "refresco" ? "flex" : "none";
         }
 
         calcularPrecioModal();
@@ -203,6 +241,7 @@ if (modalQtyPlus) {
         calcularPrecioModal();
     });
 }
+
 if (modalQtyMinus) {
     modalQtyMinus.addEventListener("click", () => {
         if (currentQuantity > 1) {
@@ -215,10 +254,18 @@ if (modalQtyMinus) {
 
 function calcularPrecioModal() {
     if (!currentSelectedPizza) return;
+
     let unitPrice = currentSelectedPizza.basePrice;
 
-    if (toggleExtraUnico && toggleExtraUnico.checked && selectExtraUnico && selectExtraUnico.value) {
-        const selectedOption = selectExtraUnico.options[selectExtraUnico.selectedIndex];
+    if (
+        toggleExtraUnico &&
+        toggleExtraUnico.checked &&
+        selectExtraUnico &&
+        selectExtraUnico.value
+    ) {
+        const selectedOption =
+            selectExtraUnico.options[selectExtraUnico.selectedIndex];
+
         const price = parseFloat(selectedOption.dataset.price || 0);
         unitPrice += price;
     }
@@ -238,6 +285,7 @@ if (confirmAddToCartBtn) {
                 alert("Por favor, elige un refresco en el desplegable.");
                 return;
             }
+
             itemName = `${currentSelectedPizza.name} - ${selectRefresco.value}`;
         }
 
@@ -246,7 +294,10 @@ if (confirmAddToCartBtn) {
                 alert("Por favor, selecciona un ingrediente en el desplegable de extra.");
                 return;
             }
-            const selectedOpt = selectExtraUnico.options[selectExtraUnico.selectedIndex];
+
+            const selectedOpt =
+                selectExtraUnico.options[selectExtraUnico.selectedIndex];
+
             unitPrice += parseFloat(selectedOpt.dataset.price || 0);
             extrasList.push(selectedOpt.value);
         }
@@ -273,11 +324,15 @@ if (confirmAddToCartBtn) {
         if (selectRefresco) selectRefresco.value = "";
 
         let originElement = window.lastValidOriginButton;
+
         if (!originElement) {
             const cardElement = Array.from(document.querySelectorAll('.pizza-card')).find(card => {
                 const titleEl = card.querySelector('.pizza-title h3');
-                return titleEl && titleEl.textContent.trim().toUpperCase() === itemName.toUpperCase();
+
+                return titleEl &&
+                    titleEl.textContent.trim().toUpperCase() === itemName.toUpperCase();
             });
+
             if (cardElement) {
                 originElement = cardElement.querySelector('.btn-add-cart');
             }
@@ -293,8 +348,14 @@ const closeCustomModalFunc = () => {
     customModal.classList.remove("active");
     document.body.style.overflow = "";
 };
-if (closeCustomModal) closeCustomModal.addEventListener("click", closeCustomModalFunc);
-if (customBackdrop) customBackdrop.addEventListener("click", closeCustomModalFunc);
+
+if (closeCustomModal) {
+    closeCustomModal.addEventListener("click", closeCustomModalFunc);
+}
+
+if (customBackdrop) {
+    customBackdrop.addEventListener("click", closeCustomModalFunc);
+}
 
 if (cartFloatingBtn && cartModal) {
     cartFloatingBtn.addEventListener("click", () => {
@@ -309,13 +370,19 @@ if (cartFloatingBtn && cartModal) {
         document.body.style.overflow = "";
     };
 
-    if (closeCartModal) closeCartModal.addEventListener("click", closeCartFunc);
-    if (cartBackdrop) cartBackdrop.addEventListener("click", closeCartFunc);
+    if (closeCartModal) {
+        closeCartModal.addEventListener("click", closeCartFunc);
+    }
+
+    if (cartBackdrop) {
+        cartBackdrop.addEventListener("click", closeCartFunc);
+    }
 }
 
 if (orderTypeSelect && addressGroup) {
     orderTypeSelect.addEventListener("change", (e) => {
         const isDomicilio = e.target.value === "domicilio";
+
         if (isDomicilio) {
             addressGroup.style.display = "flex";
             document.getElementById("clientAddress").required = true;
@@ -323,6 +390,7 @@ if (orderTypeSelect && addressGroup) {
             addressGroup.style.display = "none";
             document.getElementById("clientAddress").required = false;
         }
+
         actualizarHorasDisponibles();
         renderCart();
     });
@@ -330,7 +398,9 @@ if (orderTypeSelect && addressGroup) {
 
 function updateCartBadge() {
     const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
     if (cartCount) cartCount.textContent = totalCount;
+
     if (cartFloatingBtn) {
         cartFloatingBtn.style.display = totalCount > 0 ? "flex" : "none";
     }
@@ -339,12 +409,15 @@ function updateCartBadge() {
 function renderCart() {
     if (cart.length === 0) {
         cartItemsList.innerHTML = `<p class="cart-empty-msg">Tu carrito está vacío.</p>`;
+
         if (cartFooter) cartFooter.style.display = "none";
         if (cartFloatingBtn) cartFloatingBtn.style.display = "none";
+
         return;
     }
 
     if (cartFooter) cartFooter.style.display = "block";
+
     let html = "";
     let total = 0;
 
@@ -355,12 +428,15 @@ function renderCart() {
         const recargoItem = llevaRecargoDomicilio(item) ? recargoDomicilio : 0;
         const precioFinalUnitario = item.price + recargoItem;
         const subtotal = precioFinalUnitario * item.quantity;
+
         total += subtotal;
 
         let extrasHtml = "";
+
         if (item.extras && item.extras.length > 0) {
             extrasHtml += `<br><small style="color: #444; padding-left: 15px;">+ Extra: ${item.extras.join(", ")}</small>`;
         }
+
         if (item.notes) {
             extrasHtml += `<br><small style="color: #666; padding-left: 15px;">- Nota: ${item.notes}</small>`;
         }
@@ -381,14 +457,19 @@ function renderCart() {
     });
 
     cartItemsList.innerHTML = html;
-    if (cartTotalPrice) cartTotalPrice.textContent = `${total.toFixed(2)} EUR`;
+
+    if (cartTotalPrice) {
+        cartTotalPrice.textContent = `${total.toFixed(2)} EUR`;
+    }
 }
 
 window.changeQuantity = function(index, change) {
     cart[index].quantity += change;
+
     if (cart[index].quantity <= 0) {
         cart.splice(index, 1);
     }
+
     guardarCarrito();
     updateCartBadge();
     renderCart();
@@ -396,7 +477,9 @@ window.changeQuantity = function(index, change) {
 
 function inicializarSelectorFechasYHoras() {
     if (!orderDateInput) return;
+
     const today = new Date().toISOString().split('T')[0];
+
     orderDateInput.value = today;
     actualizarHorasDisponibles();
 }
@@ -405,14 +488,14 @@ async function actualizarHorasDisponibles() {
     if (!orderTimeSelect || !orderDateInput) return;
 
     const fecha = orderDateInput.value;
-    const tipo = orderTypeSelect ? orderTypeSelect.value : "recoger"; 
-    
+    const tipo = orderTypeSelect ? orderTypeSelect.value : "recoger";
+
     const horaInicio = (tipo === "recoger") ? (19 * 60 + 30) : (20 * 60);
     const intervaloMinutos = (tipo === "recoger") ? 15 : 30;
 
     // Consultamos qué horas han sido ABIERTAS explícitamente por el local en esta fecha y tipo
     const { data: abiertas } = await supabaseClient
-        .from('horarios_bloqueados') 
+        .from('horarios_bloqueados')
         .select('hora')
         .eq('fecha', fecha)
         .eq('tipo', tipo);
@@ -420,17 +503,18 @@ async function actualizarHorasDisponibles() {
     // Creamos una lista limpia con las horas que SÍ están disponibles (abiertas)
     const horasDisponiblesList = abiertas ? abiertas.map(b => b.hora) : [];
     const horaFin = 23 * 60 + 30;
-    
+
     let optionsHtml = '<option value="">Selecciona hora...</option>';
     let hayDisponibles = false;
 
     for (let m = horaInicio; m <= horaFin; m += intervaloMinutos) {
         let horas = Math.floor(m / 60);
         let mins = m % 60;
+
         let horaStr = `${horas.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
 
         // Si la hora NO está en la lista de abiertas, nos la saltamos (está cerrada por defecto)
-        if (!horasDisponiblesList.includes(horaStr)) continue; 
+        if (!horasDisponiblesList.includes(horaStr)) continue;
 
         hayDisponibles = true;
         optionsHtml += `<option value="${horaStr}">${horaStr}</option>`;
@@ -453,19 +537,24 @@ if (checkoutForm) {
         }
 
         const orderType = orderTypeSelect.value;
-        const totalPizzas = cart.reduce((sum, item) => sum + item.quantity, 0);
-        const pizzasParaMinimo = cart.reduce((sum, item) => sum + (llevaRecargoDomicilio(item) ? item.quantity : 0), 0);
 
-        if (orderType === "domicilio" && pizzasParaMinimo < 2) {
+        // SOLO contamos pizzas y artículos sujetos a las condiciones.
+        // Postres, aguas y bebidas quedan excluidos.
+        const totalPizzas = contarPizzasCarrito();
+
+        // Mínimo de 2 pizzas para domicilio.
+        if (orderType === "domicilio" && totalPizzas < 2) {
             alert("El pedido mínimo a domicilio son 2 pizzas.");
             return;
         }
 
+        // Máximo de 15 pizzas para recoger.
         if (orderType === "recoger" && totalPizzas > 15) {
             alert("Para pedidos a recoger de más de 15 pizzas, por favor llamen por teléfono.");
             return;
         }
 
+        // Máximo de 8 pizzas para domicilio.
         if (orderType === "domicilio" && totalPizzas > 8) {
             alert("Para pedidos a domicilio de más de 8 pizzas, por favor llamen por teléfono.");
             return;
@@ -487,11 +576,23 @@ if (checkoutForm) {
         }
 
         const phone = limpiarTextoParaImpresora(`${prefixSelect} ${phoneInput}`);
-        const name = limpiarTextoParaImpresora(document.getElementById("clientName").value.trim());
-        const address = limpiarTextoParaImpresora(document.getElementById("clientAddress") ? document.getElementById("clientAddress").value.trim() : "");
+
+        const name = limpiarTextoParaImpresora(
+            document.getElementById("clientName").value.trim()
+        );
+
+        const address = limpiarTextoParaImpresora(
+            document.getElementById("clientAddress")
+                ? document.getElementById("clientAddress").value.trim()
+                : ""
+        );
+
         const fecha = orderDateInput.value;
         const hora = orderTimeSelect.value;
-        const notes = limpiarTextoParaImpresora(document.getElementById("clientNotes").value.trim());
+
+        const notes = limpiarTextoParaImpresora(
+            document.getElementById("clientNotes").value.trim()
+        );
 
         if (!hora) {
             alert("Por favor, selecciona una hora válida para el pedido.");
@@ -519,24 +620,30 @@ if (checkoutForm) {
         let total = 0;
 
         cart.forEach(item => {
+            // Postres y bebidas no reciben el recargo de domicilio.
             const recargoItem = llevaRecargoDomicilio(item) ? recargoDomicilio : 0;
+
             const precioFinalUnitario = item.price + recargoItem;
             const sub = precioFinalUnitario * item.quantity;
+
             total += sub;
 
             let lineaItem = `${item.quantity}x ${limpiarTextoParaImpresora(item.name)} (${sub.toFixed(2)} EUR)`;
+
             detalleTexto += ajustarAnchoPOS80(lineaItem, 42) + "\n";
-            
+
             if (item.extras && item.extras.length > 0) {
                 let lineaExtras = `+ Extra: ${limpiarTextoParaImpresora(item.extras.join(", "))}`;
                 detalleTexto += ajustarAnchoPOS80(lineaExtras, 42, "    ") + "\n";
             }
+
             if (item.notes) {
                 let textoNotaLimpio = limpiarTextoParaImpresora(item.notes);
                 let lineaNota = ajustarAnchoPOS80(`- Nota: ${textoNotaLimpio}`, 42, "    ");
                 detalleTexto += lineaNota + "\n";
             }
         });
+
         detalleTexto += `TOTAL: ${total.toFixed(2)} EUR`;
 
         const direccionTexto = isDomicilio ? address : 'Local - Ramon y Cajal 22';
@@ -556,10 +663,12 @@ if (checkoutForm) {
         textoImpresionDirecto += "DETALLE:\n";
         textoImpresionDirecto += detalleTexto + "\n";
         textoImpresionDirecto += "------------------------------------------\n";
+
         if (notes) {
             textoImpresionDirecto += "NOTAS:\n" + ajustarAnchoPOS80(notes, 42, "    ") + "\n";
             textoImpresionDirecto += "------------------------------------------\n";
         }
+
         textoImpresionDirecto += "Gracias por confiar en nosotros!\n";
 
         const { data: pedidoIdNuevo, error } = await supabaseClient.rpc('crear_pedido', {
@@ -574,16 +683,20 @@ if (checkoutForm) {
 
         if (error || !pedidoIdNuevo) {
             console.error("Error al enviar pedido:", error);
+
             intentosFallidos++;
+
             if (intentosFallidos >= 2) {
                 alert("Parece que hay un problema con la web y no hemos podido procesar tu pedido. Por favor, llama por teléfono al 624 83 74 14 y te atenderemos.");
             } else {
                 alert("Hubo un error al procesar tu pedido. Por favor, inténtalo de nuevo.");
             }
+
             return;
         }
 
         const pedidoId = pedidoIdNuevo;
+
         textoImpresionDirecto = textoImpresionDirecto.replace('{{ID}}', pedidoId);
 
         cart = [];
