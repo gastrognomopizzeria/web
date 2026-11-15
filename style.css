@@ -700,6 +700,8 @@ h1 span {
     top: 15px;
     left: 15px;
 
+    z-index: 2;
+
     padding: 7px 12px;
 
     border-radius: 50px;
@@ -784,6 +786,56 @@ h1 span {
 .btn-add-cart:hover {
     background: var(--burgundy-dark);
     transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   ARTÍCULOS NO DISPONIBLES (etiqueta, imagen atenuada y botón desactivado)
+   Para reactivar un artículo: quitar la clase "unavailable" de su
+   <article>, borrar el <span class="pizza-tag-unavailable"> y quitar
+   el atributo "disabled" del botón (con su texto "Añadir").
+   ========================================================= */
+
+/* Etiqueta "NO DISPONIBLE" arriba a la derecha de la imagen */
+.pizza-tag.pizza-tag-unavailable {
+    left: auto;
+    right: 15px;
+    background: var(--black);
+}
+
+/* Imagen atenuada y en escala de grises (la etiqueta queda por encima) */
+.pizza-card.unavailable .pizza-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(239, 217, 199, 0.55);
+    -webkit-backdrop-filter: grayscale(100%);
+    backdrop-filter: grayscale(100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Sin efecto de elevación al pasar el ratón */
+.pizza-card.unavailable:hover {
+    transform: none;
+    box-shadow: 0 8px 30px rgba(89,4,4,.08);
+}
+
+/* Texto atenuado */
+.pizza-card.unavailable .pizza-title h3,
+.pizza-card.unavailable .pizza-title strong,
+.pizza-card.unavailable .pizza-content p {
+    opacity: 0.6;
+}
+
+/* Botón desactivado */
+.btn-add-cart:disabled,
+.btn-add-cart[disabled] {
+    background: #b9aeaa;
+    color: #fff;
+    cursor: not-allowed;
+    transform: none;
+    pointer-events: none;
 }
 
 

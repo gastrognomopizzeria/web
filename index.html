@@ -373,9 +373,13 @@
                 </div>
             </article>
 
-            <article class="pizza-card" data-category="especiales">
+            <!-- NO DISPONIBLE TEMPORALMENTE (pizza del mes).
+                 Para reactivarla: quita la clase "unavailable" del article, borra el span "pizza-tag-unavailable",
+                 quita el atributo "disabled" del botón y cambia su texto de nuevo a "Añadir". -->
+            <article class="pizza-card unavailable" data-category="especiales">
                 <div class="pizza-image pizza-mes">
                     <span class="pizza-tag">ESPECIAL</span>
+                    <span class="pizza-tag pizza-tag-unavailable">NO DISPONIBLE</span>
                 </div>
                 <div class="pizza-content">
                     <div class="pizza-title">
@@ -384,14 +388,19 @@
                     </div>
                     <p>Una propuesta especial que cambia para sorprenderte cada mes.</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="PIZZA DEL MES" data-price="13">Añadir</button>
+                        <button class="btn-add-cart" data-name="PIZZA DEL MES" data-price="13" disabled aria-disabled="true">No disponible</button>
                     </div>
                 </div>
             </article>
 
             <!-- POSTRES -->
-            <article class="pizza-card dessert-card" data-category="postres">
-                <div class="pizza-image pizza-tarta"></div>
+            <!-- NO DISPONIBLE TEMPORALMENTE (tarta de queso y turrón).
+                 Para reactivarla: quita la clase "unavailable" del article, borra el span "pizza-tag-unavailable",
+                 quita el atributo "disabled" del botón y cambia su texto de nuevo a "Añadir". -->
+            <article class="pizza-card dessert-card unavailable" data-category="postres">
+                <div class="pizza-image pizza-tarta">
+                    <span class="pizza-tag pizza-tag-unavailable">NO DISPONIBLE</span>
+                </div>
                 <div class="pizza-content">
                     <div class="pizza-title">
                         <h3>TARTA DE QUESO Y TURRÓN</h3>
@@ -399,7 +408,7 @@
                     </div>
                     <p>Tarta de queso al estilo vasco con un toque de turrón y crocanti de almendras.</p>
                     <div class="pizza-action">
-                        <button class="btn-add-cart" data-name="TARTA DE QUESO Y TURRÓN" data-price="4">Añadir</button>
+                        <button class="btn-add-cart" data-name="TARTA DE QUESO Y TURRÓN" data-price="4" disabled aria-disabled="true">No disponible</button>
                     </div>
                 </div>
             </article>
