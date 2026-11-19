@@ -355,14 +355,14 @@ h1 span {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
-    width: min(65.025vw, 413.1px);
+    width: min(74.8vw, 475px);
     pointer-events: none;
 }
 
-/* Solo escritorio: logo del hero un 20% más pequeño */
+/* Solo escritorio */
 @media (min-width: 901px) {
     .hero-center-logo {
-        width: min(52.02vw, 330.48px);
+        width: min(59.8vw, 380px);
     }
 }
 
@@ -1596,7 +1596,7 @@ h1 span {
     }
 
     .hero-center-logo {
-        width: min(41.654vw, 138.8475px);
+        width: min(47.9vw, 159.7px);
     }
 
     .btn {
