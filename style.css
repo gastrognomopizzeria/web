@@ -1670,20 +1670,3 @@ h1 span {
     }
 }
 
-
-/* =========================================================
-   VÍDEO DEL HERO: que se vea completo en escritorio
-   En pantallas anchas el vídeo se muestra entero (contain) en
-   lugar de recortarse arriba y abajo (cover). Si la pantalla es
-   más ancha que el vídeo, quedan franjas laterales del color de
-   fondo (#1a0202). En móvil se mantiene "cover".
-   Para volver al vídeo a pantalla completa con recorte, borra
-   este bloque.
-   ========================================================= */
-
-@media (min-width: 901px) {
-    .hero-video {
-        object-fit: contain;
-        object-position: center;
-    }
-}
