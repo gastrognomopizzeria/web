@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Gastrognomo Pizzeria</title>
+    <style>
+        :root { --burgundy:#590404; --cream:#EFD9C7; --green:#2ecc71; --red:#e74c3c; --gray:#706461; }
+        * { box-sizing:border-box; }
+        body { font-family:'Montserrat',sans-serif; background:#f4f6f8; color:#171111; padding:12px; margin:0; }
+        h1 { color:var(--burgundy); font-size:20px; margin:0 0 8px; text-align:center; }
+        input[type="date"] { padding:8px 10px; font-size:15px; border-radius:8px; border:1px solid #ccc; font-family:inherit; width:100%; }
+        .date-selector { margin-bottom:8px; }
+        .date-selector label { display:block; font-size:13px; margin-bottom:4px; }
+
+        .day-actions { display:flex; flex-direction:column; gap:6px; margin-bottom:8px; }
+        .btn-action { padding:11px 10px; font-size:13px; font-weight:bold; border:none; border-radius:8px; cursor:pointer; color:white; transition:opacity .2s; }
+        .btn-action:hover { opacity:.9; }
+        .btn-activar-todas { background:var(--green); }
+        .btn-desactivar-todas { background:var(--red); }
+        .btn-limpiar { background:var(--gray); }
+
+        .legend { display:flex; flex-direction:column; gap:4px; margin-bottom:10px; font-size:12px; font-weight:600; }
+        .legend-item { display:flex; align-items:center; gap:8px; }
+        .legend-dot { width:14px; height:14px; border-radius:50%; flex-shrink:0; }
+
+        .column { background:white; padding:10px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,.08); }
+        .column h2 { font-size:15px; color:var(--burgundy); border-bottom:2px solid var(--cream); padding-bottom:6px; margin:0 0 8px; text-align:center; }
+
+        /* Domicilio: una sola columna vertical */
+        .slots-grid { display:flex; flex-direction:column; gap:6px; }
+        .slot-btn { padding:14px 4px; font-size:16px; font-weight:bold; border:none; border-radius:8px; cursor:pointer; color:white; transition:transform .1s,opacity .2s; touch-action:manipulation; }
+        .slot-btn:active { transform:scale(.96); }
+        .slot-available { background:var(--green); }
+        .slot-blocked { background:var(--red); opacity:.85; }
+
+        #panelContenido { display:none; }
+        .layout { display:grid; grid-template-columns:1fr; gap:12px; }
+        .panel-izq, .panel-der { min-width:0; }
+
+        /* Tabla */
+        .tally-hint { text-align:center; font-size:12px; color:var(--gray); margin:0 0 6px; }
+        .tally-scroll { overflow-x:auto; }
+        .tally-table { border-collapse:collapse; width:100%; table-layout:fixed; user-select:none; -webkit-user-select:none; }
+        .tally-table th { font-size:11px; color:var(--gray); padding:0; font-weight:600; }
+        .tally-table th.hora { width:62px; text-align:right; padding-right:8px; font-size:14px; color:var(--burgundy); white-space:nowrap; cursor:pointer; }
+        .tally-table tr.hora-en-punto th.hora { font-size:15px; }
+        .tally-table td { height:38px; border:1px solid #ddd; background:#fff; cursor:pointer; padding:0; position:relative; overflow:hidden; touch-action:manipulation; -webkit-touch-callout:none; }
+        .tally-table td:hover { background:#fbf3ec; }
+        .tally-table td svg { position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:none; }
+        .tally-table svg * { fill:none; stroke:var(--burgundy); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+
+        /* Fila tachada = recoger cerrado */
+        .tally-table tr.tachada th.hora { text-decoration:line-through; text-decoration-thickness:2px; opacity:.6; }
+        .tally-table tr.tachada td { position:relative; }
+        .tally-table tr.tachada td::after { content:''; position:absolute; left:-1px; right:-1px; top:50%; border-top:3px solid var(--burgundy); transform:translateY(-50%); pointer-events:none; }
+
+        /* Tablet apaisada: controles a la izquierda (estrechos), tabla a la derecha ocupando casi todo */
+        @media (min-width:800px) and (orientation:landscape) {
+            body { padding:8px; height:100vh; overflow:hidden; }
+            #panelContenido { height:100%; }
+            .layout { grid-template-columns:190px minmax(0,1fr); height:100%; gap:10px; }
+            .panel-izq, .panel-der { overflow-y:auto; min-height:0; }
+            .panel-der .column { height:100%; display:flex; flex-direction:column; }
+            .tally-scroll { flex:1; min-height:0; overflow:hidden; position:relative; }
+            .tally-table { position:absolute; top:0; left:0; width:100%; height:100%; }
+            .tally-table td { height:auto; }
+            .tally-table tr { height:calc(100% / 18); }
+            .slot-btn { padding:10px 2px; font-size:15px; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div id="panelContenido">
+  <div class="layout">
+
+    <!-- IZQUIERDA: fecha, acciones del día y domicilio -->
+    <div class="panel-izq">
+        <h1>🍕 Gastrognomo</h1>
+
+        <div class="date-selector">
+            <label for="selectDate"><strong>Fecha:</strong></label>
+            <input type="date" id="selectDate">
+        </div>
+
+        <div class="day-actions">
+            <button type="button" id="btnActivarTodo" class="btn-action btn-activar-todas">🟢 Abrir todo el día</button>
+            <button type="button" id="btnDesactivarTodo" class="btn-action btn-desactivar-todas">🔴 Cerrar todo el día</button>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--green);"></div> Abierto</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--red);"></div> Cerrado</div>
+        </div>
+
+        <div class="column">
+            <h2>🛵 Domicilio</h2>
+            <div id="slotsDomicilio" class="slots-grid"></div>
+        </div>
+    </div>
+
+    <!-- DERECHA: tabla grande. Tachar fila = cerrar recoger + domicilio. Destachar = abrir solo recoger -->
+    <div class="panel-der">
+        <div class="column">
+            <h2>🍕 Contador de pizzas · Recoger en local</h2>
+            <p class="tally-hint">
+                Pulsa la hora para cerrarla (recoger y domicilio) o reabrirla (solo recoger).<br>
+                Casillas: vacía → ✕ → círculo → triángulo → vacía
+            </p>
+            <div class="tally-scroll"><table class="tally-table" id="tallyTable"></table></div>
+            <div style="text-align:center;margin-top:8px;">
+                <button type="button" id="btnLimpiarTabla" class="btn-action btn-limpiar">🧹 Limpiar marcas</button>
+            </div>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+    const PIN_CORRECTO = "20267"; // <--- CAMBIA ESTE NÚMERO POR EL TUYO
+
+    function verificarAcceso() {
+        const pinIngresado = prompt("Introduce el PIN de acceso para el panel de Gastrognomo:");
+        if (pinIngresado === PIN_CORRECTO) {
+            document.getElementById('panelContenido').style.display = 'block';
+            iniciarPanel();
+        } else {
+            alert("PIN incorrecto. Acceso denegado.");
+            location.reload();
+        }
+    }
+
+    function iniciarPanel() {
+        const SUPABASE_URL = 'https://refrscscreylowmocfcx.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_XiXjP4gjaQUXf84U6-5QZw_Dw-YhdSu';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const dateInput = document.getElementById('selectDate');
+        const hoy = new Date();
+        dateInput.value = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
+
+        const horaFin = 23 * 60 + 30;
+        function generarFranjas(inicio, intervalo) {
+            const f = [];
+            for (let m = inicio; m <= horaFin; m += intervalo) {
+                f.push(`${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`);
+            }
+            return f;
+        }
+        const franjasRecoger = generarFranjas(19 * 60 + 30, 15);
+        const franjasDomicilio = generarFranjas(20 * 60, 30);
+
+        // Estado actual del día (abiertas) leído de Supabase
+        let abiertosRecoger = new Set();
+        let abiertosDomicilio = new Set();
+        const filas = {}; // hora -> <tr>
+
+        // ---------- TABLA ----------
+        const table = document.getElementById('tallyTable');
+        const COLUMNAS = 15;
+        const estados = {};
+        const dibujos = [
+            '',
+            '<path d="M12 12L28 28M28 12L12 28"/>',
+            '<path d="M8 8L32 32M32 8L8 32"/><circle cx="20" cy="20" r="17"/>',
+            '<path d="M14 18L26 30M26 18L14 30"/><path d="M20 2L38 35L2 35Z"/>'
+        ];
+        function pintar(td, estado) {
+            td.innerHTML = estado ? `<svg viewBox="0 0 40 40">${dibujos[estado]}</svg>` : '';
+        }
+
+        let cab = '<tr><th class="hora"></th>';
+        for (let c = 1; c <= COLUMNAS; c++) cab += `<th>${c}</th>`;
+        table.innerHTML = cab + '</tr>';
+
+        franjasRecoger.forEach(hora => {
+            const tr = document.createElement('tr');
+            if (hora.endsWith(':00')) tr.className = 'hora-en-punto';
+            tr.innerHTML = `<th class="hora">${hora}</th>`;
+            filas[hora] = tr;
+
+            tr.querySelector('th.hora').addEventListener('click', () => alternarFila(hora));
+
+            for (let c = 0; c < COLUMNAS; c++) {
+                const td = document.createElement('td');
+                const clave = `${hora}-${c}`;
+                td.addEventListener('click', () => {
+                    estados[clave] = ((estados[clave] || 0) + 1) % dibujos.length;
+                    pintar(td, estados[clave]);
+                });
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        });
+
+        document.getElementById('btnLimpiarTabla').addEventListener('click', () => {
+            if (!confirm('¿Borrar todas las marcas de la tabla? (No cambia las horas abiertas/cerradas)')) return;
+            for (const k in estados) delete estados[k];
+            table.querySelectorAll('td').forEach(td => td.innerHTML = '');
+        });
+
+        // ---------- SUPABASE ----------
+        async function cargarDia() {
+            const fecha = dateInput.value;
+            const { data, error } = await supabaseClient.from('horarios_bloqueados').select('*').eq('fecha', fecha);
+            if (error) { console.error('Error al cargar horarios:', error); return false; }
+            abiertosRecoger = new Set((data || []).filter(b => b.tipo === 'recoger').map(b => b.hora));
+            abiertosDomicilio = new Set((data || []).filter(b => b.tipo === 'domicilio').map(b => b.hora));
+            return true;
+        }
+
+        function pintarTodo() {
+            // Tabla: fila tachada = recoger cerrado
+            franjasRecoger.forEach(hora => {
+                filas[hora].classList.toggle('tachada', !abiertosRecoger.has(hora));
+            });
+            // Panel domicilio
+            const cont = document.getElementById('slotsDomicilio');
+            cont.innerHTML = '';
+            franjasDomicilio.forEach(hora => {
+                const abierta = abiertosDomicilio.has(hora);
+                const btn = document.createElement('button');
+                btn.className = `slot-btn ${abierta ? 'slot-available' : 'slot-blocked'}`;
+                btn.textContent = hora;
+                btn.onclick = () => alternarDomicilio(hora, abierta);
+                cont.appendChild(btn);
+            });
+        }
+
+        async function refrescar() {
+            if (await cargarDia()) pintarTodo();
+        }
+
+        // Tachar: cierra recoger + domicilio. Destachar: abre solo recoger.
+        async function alternarFila(hora) {
+            const fecha = dateInput.value;
+            const estabaAbierta = abiertosRecoger.has(hora);
+
+            if (estabaAbierta) {
+                const tipos = ['recoger'];
+                if (franjasDomicilio.includes(hora)) tipos.push('domicilio');
+                const { error } = await supabaseClient.from('horarios_bloqueados')
+                    .delete().eq('fecha', fecha).eq('hora', hora).in('tipo', tipos);
+                if (error) { console.error(error); alert('Error al cerrar la hora.'); }
+            } else {
+                await supabaseClient.from('horarios_bloqueados')
+                    .delete().eq('fecha', fecha).eq('hora', hora).eq('tipo', 'recoger'); // evita duplicados
+                const { error } = await supabaseClient.from('horarios_bloqueados')
+                    .insert([{ fecha, hora, tipo: 'recoger' }]);
+                if (error) { console.error(error); alert('Error al abrir la hora.'); }
+            }
+            refrescar();
+        }
+
+        async function alternarDomicilio(hora, estaAbierta) {
+            const fecha = dateInput.value;
+            // Aviso: abrir domicilio en una hora que está tachada (recoger cerrado)
+            if (!estaAbierta && !abiertosRecoger.has(hora)) {
+                if (!confirm(`⚠️ Las ${hora} están tachadas en la tabla (no se admiten más pedidos).\n\n¿Seguro que quieres abrir solo el domicilio de las ${hora}?`)) return;
+            }
+            if (estaAbierta) {
+                await supabaseClient.from('horarios_bloqueados')
+                    .delete().eq('fecha', fecha).eq('hora', hora).eq('tipo', 'domicilio');
+            } else {
+                await supabaseClient.from('horarios_bloqueados')
+                    .insert([{ fecha, hora, tipo: 'domicilio' }]);
+            }
+            refrescar();
+        }
+
+        document.getElementById('btnActivarTodo').addEventListener('click', async () => {
+            const fecha = dateInput.value;
+            if (!confirm(`¿Abrir todas las franjas (recoger y domicilio) del día ${fecha}?`)) return;
+            const registros = [
+                ...franjasRecoger.map(hora => ({ fecha, tipo: 'recoger', hora })),
+                ...franjasDomicilio.map(hora => ({ fecha, tipo: 'domicilio', hora }))
+            ];
+            await supabaseClient.from('horarios_bloqueados').delete().eq('fecha', fecha);
+            const { error } = await supabaseClient.from('horarios_bloqueados').insert(registros);
+            if (error) { alert('Error al abrir las franjas.'); }
+            refrescar();
+        });
+
+        document.getElementById('btnDesactivarTodo').addEventListener('click', async () => {
+            const fecha = dateInput.value;
+            if (!confirm(`¿Cerrar todas las franjas (recoger y domicilio) del día ${fecha}?`)) return;
+            const { error } = await supabaseClient.from('horarios_bloqueados').delete().eq('fecha', fecha);
+            if (error) { alert('Error al cerrar las franjas.'); }
+            refrescar();
+        });
+
+        dateInput.addEventListener('change', refrescar);
+        refrescar();
+    }
+
+    verificarAcceso();
+</script>
+</body>
+</html>
