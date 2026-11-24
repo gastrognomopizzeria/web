@@ -30,11 +30,9 @@
     box-sizing: border-box;
 }
 
-
 html {
     scroll-behavior: smooth;
 }
-
 
 body {
     font-family: var(--font-body);
@@ -43,25 +41,21 @@ body {
     line-height: 1.6;
 }
 
-
 img {
     max-width: 100%;
     display: block;
 }
-
 
 a {
     color: inherit;
     text-decoration: none;
 }
 
-
 button,
 input,
 textarea {
     font: inherit;
 }
-
 
 button {
     cursor: pointer;
@@ -77,32 +71,24 @@ button {
     margin-inline: auto;
 }
 
-
 .section {
     padding: 110px 0;
 }
 
-
 .eyebrow {
     display: inline-block;
-
     margin-bottom: 16px;
-
     color: var(--burgundy);
-
     font-size: 12px;
     font-weight: 800;
-
     letter-spacing: 2.5px;
 }
-
 
 h1,
 h2 {
     font-family: var(--font-title);
     line-height: 1.05;
 }
-
 
 h2 {
     font-size: clamp(42px, 5vw, 66px);
@@ -113,21 +99,16 @@ h2.font-galter {
     font-family: var(--font-galter);
 }
 
-
 h2 span,
 h1 span {
     color: var(--burgundy);
 }
 
-
 .section-heading {
     max-width: 700px;
-
     margin: 0 auto 55px;
-
     text-align: center;
 }
-
 
 .section-heading p {
     color: var(--gray);
@@ -141,45 +122,33 @@ h1 span {
 
 .btn {
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
-
     gap: 10px;
-
     min-height: 60px;
-
     padding: 0 34px;
-
     border-radius: 100px;
-
     font-size: 16px;
     font-weight: 700;
-
     border: 2px solid transparent;
-
     transition: .25s ease;
 }
-
 
 .btn-primary {
     background: var(--burgundy);
     color: var(--white);
 }
 
-
 .btn-primary:hover {
     background: var(--burgundy-dark);
     transform: translateY(-2px);
 }
-
 
 .btn-call {
     background: var(--burgundy);
     color: var(--white);
     border: none;
 }
-
 
 .btn-call:hover {
     background: var(--burgundy-dark);
@@ -193,81 +162,55 @@ h1 span {
 
 .header {
     position: absolute;
-
     top: 0;
     left: 0;
     right: 0;
-
     z-index: 100;
-
     color: white;
 }
-
 
 .nav-container {
     width: 100%;
     max-width: none;
     padding-inline: 40px;
     height: 100px;
-
     display: flex;
-
     align-items: center;
     justify-content: flex-end;
 }
-
 
 /* NAVEGACIÓN */
 
 .nav {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
     padding: 9px;
-
     border-radius: 50px;
-
     background: var(--burgundy);
-
     border: none;
-
     box-shadow:
         0 8px 25px rgba(0,0,0,.28),
         inset 0 1px 0 rgba(255,255,255,.12);
 }
 
-
 .nav a {
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
-
     min-height: 48px;
-
     padding: 0 22px;
-
     border-radius: 30px;
-
     color: white;
-
     font-size: 15px;
     font-weight: 700;
-
     text-shadow: 0 1px 3px rgba(0,0,0,.4);
-
     transition: .2s;
 }
-
 
 .nav a:hover {
     background: var(--cream);
     color: var(--burgundy);
-
     text-shadow: none;
 }
 
@@ -282,23 +225,15 @@ h1 span {
     background: var(--black) !important;
 }
 
-
 .menu-toggle {
     display: none;
-
     border: none;
-
     background: var(--burgundy);
-
     color: white;
-
     width: 50px;
     height: 50px;
-
     border-radius: 50%;
-
     font-size: 26px;
-
     box-shadow: 0 5px 15px rgba(0,0,0,.3);
 }
 
@@ -309,11 +244,9 @@ h1 span {
 
 .hero {
     position: relative;
-
     width: 100%;
     min-height: 100vh;
     min-height: 100svh;
-
     display: flex;
     align-items: flex-end;
     overflow: hidden;
@@ -381,7 +314,6 @@ h1 span {
 
 .hero-buttons {
     display: flex;
-
     gap: 16px;
 }
 
@@ -442,56 +374,40 @@ h1 span {
 
 .features {
     background: var(--burgundy);
-
     color: white;
-
     padding: 42px 0;
 }
 
-
 .features-grid {
     display: grid;
-
     grid-template-columns: repeat(2, 1fr);
-
     gap: 40px;
     max-width: 900px;
     margin-inline: auto;
 }
 
-
 .feature {
     display: flex;
-
     align-items: center;
-
     gap: 22px;
 }
-
 
 .feature-icon {
     width: 106px;
     height: 106px;
-
     object-fit: contain;
-
     flex-shrink: 0;
-
     filter: brightness(0) invert(1);
 }
-
 
 .feature h3 {
     font-family: var(--font-title);
     font-size: 20px;
-
     margin-bottom: 6px;
 }
 
-
 .feature p {
     font-size: 15px;
-
     color: rgba(255,255,255,.85);
 }
 
@@ -504,44 +420,29 @@ h1 span {
     background: var(--white);
 }
 
-
 .menu-filters {
     display: flex;
-
     justify-content: center;
-
     gap: 10px;
-
     margin-bottom: 45px;
-
     flex-wrap: wrap;
 }
 
-
 .filter-btn {
     border: 2px solid rgba(89,4,4,.25);
-
     background: transparent;
-
     color: var(--burgundy);
-
     padding: 10px 19px;
-
     border-radius: 50px;
-
     font-size: 13px;
     font-weight: 800;
-
     transition: .2s;
 }
-
 
 .filter-btn:hover,
 .filter-btn.active {
     background: var(--burgundy);
-
     color: white;
-
     border-color: var(--burgundy);
 }
 
@@ -552,47 +453,33 @@ h1 span {
 
 .pizza-grid {
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
-
     gap: 24px;
 }
 
-
 .pizza-card {
     overflow: hidden;
-
     background: var(--cream);
-
     border-radius: var(--radius);
-
     box-shadow: 0 8px 30px rgba(89,4,4,.08);
-
     transition: .3s;
-
     display: flex;
     flex-direction: column;
     height: 100%; /* Forzar altura completa para alinear tarjetas en fila */
 }
 
-
 .pizza-card:hover {
     transform: translateY(-7px);
-
     box-shadow: 0 15px 40px rgba(89,4,4,.16);
 }
-
 
 .pizza-card.hidden-all {
     display: none !important;
 }
 
-
 .pizza-image {
     height: 260px;
-
     position: relative;
-
     background-size: cover;
     background-position: center;
     flex-shrink: 0;
@@ -607,82 +494,66 @@ h1 span {
     background-image: url("pizzas/pizza-marinara.jpg");
 }
 
-
 .pizza-cosaca {
     background-image: url("pizzas/pizza-cosaca.jpg");
 }
-
 
 .pizza-margarita {
     background-image: url("pizzas/pizza-margarita.jpg");
 }
 
-
 .pizza-lacon {
     background-image: url("pizzas/pizza-lacon.jpg");
 }
-
 
 .pizza-quesos {
     background-image: url("pizzas/pizza-quesos.jpg");
 }
 
-
 .pizza-hortelana {
     background-image: url("pizzas/pizza-hortelana.jpg");
 }
-
 
 .pizza-cantabrica {
     background-image: url("pizzas/pizza-cantabrica.jpg");
 }
 
-
 .pizza-campera {
     background-image: url("pizzas/pizza-campera.jpg");
 }
-
 
 .pizza-diavola {
     background-image: url("pizzas/pizza-diavola.jpg");
 }
 
-
 .pizza-menorquina {
     background-image: url("pizzas/pizza-menorquina.jpg");
 }
-
 
 .pizza-caprichosa {
     background-image: url("pizzas/pizza-caprichosa.jpg");
 }
 
-
 .pizza-iberica {
     background-image: url("pizzas/pizza-iberica.jpg");
 }
-
 
 .pizza-carbonara {
     background-image: url("pizzas/pizza-carbonata.jpg");
 }
 
-
 .pizza-mes {
     background-image: url("pizzas/pizza-mes.jpg");
 }
-
 
 .pizza-tarta {
     background-image: url("pizzas/pizza-tarta.jpg");
 }
 
-
 .pizza-agua {
     background-image: url("pizzas/pizza-agua.jpg");
     background-color: var(--cream-light);
 }
-
 
 .pizza-refresco {
     background-image: url("pizzas/pizza-refresco.jpg");
@@ -696,27 +567,17 @@ h1 span {
 
 .pizza-tag {
     position: absolute;
-
     top: 15px;
     left: 15px;
-
     z-index: 2;
-
     padding: 7px 12px;
-
     border-radius: 50px;
-
     background: var(--blue);
-
     color: white;
-
     font-size: 10px;
-
     font-weight: 800;
-
     letter-spacing: 1px;
 }
-
 
 .pizza-content {
     padding: 24px;
@@ -726,39 +587,28 @@ h1 span {
     justify-content: space-between; /* Distribución equilibrada para anclar el botón abajo */
 }
 
-
 .pizza-title {
     display: flex;
-
     align-items: center;
     justify-content: space-between;
-
     gap: 15px;
 }
 
-
 .pizza-title h3 {
     font-family: var(--font-title);
-
     font-size: 24px;
-
     color: var(--burgundy);
 }
-
 
 .pizza-title strong {
     color: var(--burgundy);
-
     white-space: nowrap;
 }
 
-
 .pizza-content p {
     color: var(--gray);
-
     font-size: 13px;
     font-weight: 600;
-
     margin: 10px 0 15px;
     flex-grow: 1; /* Ocupa el espacio flexible para empujar la acción al fondo */
 }
@@ -845,42 +695,28 @@ h1 span {
 
 .show-more-container {
     display: none;
-
     justify-content: center;
-
     margin-top: 35px;
 }
-
 
 .show-more-container.visible {
     display: flex;
 }
 
-
 .show-more-btn {
     border: 2px solid var(--burgundy);
-
     background: transparent;
-
     color: var(--burgundy);
-
     padding: 12px 28px;
-
     border-radius: 50px;
-
     font-size: 13px;
-
     font-weight: 800;
-
     transition: .2s;
 }
 
-
 .show-more-btn:hover {
     background: var(--blue);
-
     color: white;
-
     border-color: var(--blue);
 }
 
@@ -906,210 +742,139 @@ h1 span {
 
 .story {
     background: var(--cream);
-
     color: var(--black);
 }
 
-
 .story-grid {
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     align-items: center;
-
     gap: 90px;
 }
 
-
 .story-carousel-container {
     position: relative;
-
     width: 100%;
-
     min-height: 570px;
-
     border-radius: 20px;
-
     overflow: hidden;
-
     box-shadow: 0 10px 30px rgba(89,4,4,.12);
 }
 
-
 .story-carousel {
     position: relative;
-
     width: 100%;
-
     height: 100%;
-
     min-height: 570px;
 }
 
-
 .carousel-slide {
     position: absolute;
-
     top: 0;
-
     left: 0;
-
     width: 100%;
-
     height: 100%;
-
     opacity: 0;
-
     transition: opacity 0.6s ease-in-out;
 }
-
 
 .carousel-slide.active {
     opacity: 1;
 }
 
-
 .carousel-slide img {
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
 }
 
-
 .carousel-btn {
     position: absolute;
-
     top: 50%;
-
     transform: translateY(-50%);
-
     background: rgba(89, 4, 4, 0.7);
-
     color: white;
-
     border: none;
-
     width: 42px;
-
     height: 42px;
-
     border-radius: 50%;
-
     font-size: 18px;
-
     z-index: 10;
-
     transition: background 0.3s;
 }
-
 
 .carousel-btn:hover {
     background: var(--burgundy);
 }
 
-
 .carousel-btn.prev {
     left: 15px;
 }
-
 
 .carousel-btn.next {
     right: 15px;
 }
 
-
 .carousel-dots {
     position: absolute;
-
     bottom: 20px;
-
     left: 50%;
-
     transform: translateX(-50%);
-
     display: flex;
-
     gap: 8px;
-
     z-index: 10;
 }
 
-
 .carousel-dots .dot {
     width: 10px;
-
     height: 10px;
-
     border-radius: 50%;
-
     background: rgba(255, 255, 255, 0.5);
-
     cursor: pointer;
-
     transition: background 0.3s, transform 0.3s;
 }
 
-
 .carousel-dots .dot.active {
     background: white;
-
     transform: scale(1.2);
 }
-
 
 .story-content .eyebrow {
     color: var(--burgundy);
 }
 
-
 .story-content h2 {
     color: var(--black);
 }
-
 
 .story-content h2 span {
     color: var(--burgundy);
 }
 
-
 .story-content p {
     color: var(--gray);
-
     margin-bottom: 18px;
 }
 
-
 .story-content .large {
     color: var(--black);
-
     font-size: 20px;
 }
 
-
 .signature {
     margin-top: 35px;
-
     display: flex;
-
     flex-direction: column;
 }
 
-
 .signature strong {
     font-family: var(--font-title);
-
     font-size: 25px;
-
     color: var(--burgundy);
 }
 
-
 .signature span {
     color: var(--gray);
-
     font-size: 13px;
 }
 
@@ -1120,82 +885,59 @@ h1 span {
 
 .footer {
     background: var(--burgundy);
-
     color: white;
-
     padding-top: 65px;
 }
 
-
 .footer-grid {
     display: grid;
-
     grid-template-columns: 1.5fr 1fr 1.5fr 1fr 1fr;
-
     gap: 40px;
-
     padding-bottom: 55px;
 }
-
 
 .footer-brand {
     display: block;
 }
 
-
 .footer-brand img {
     width: 324px;
-
     max-width: 100%;
-
     height: auto;
-
     object-fit: contain;
 }
 
-
 .footer-links {
     display: flex;
-
     flex-direction: column;
-
     gap: 8px;
 }
-
 
 .footer-links h3,
 .footer-links h3 a {
     font-family: var(--font-title);
     font-size: 15px;
     font-weight: 700;
-
     margin-bottom: 10px;
 }
-
 
 .footer-links a,
 .footer-links p {
     color: rgba(255,255,255,.75);
-
     font-size: 13px;
 }
-
 
 .footer-links a:hover {
     color: white;
 }
 
-
 .footer-bottom {
     border-top: 1px solid rgba(255,255,255,.15);
-
     padding: 20px 0;
 }
 
-
 .footer-bottom p {
     color: rgba(255,255,255,.6);
-
     font-size: 11px;
 }
 
@@ -1488,67 +1230,47 @@ h1 span {
 
 @media (max-width: 900px) {
 
-
     .nav-container {
         padding-inline: 20px;
     }
 
-
     .nav {
         position: absolute;
-
         top: 85px;
-
         left: 20px;
         right: 20px;
-
         display: none;
-
         flex-direction: column;
-
         align-items: stretch;
-
         padding: 15px;
-
         background: var(--burgundy);
-
         border-radius: 15px;
-
         box-shadow: 0 20px 40px rgba(0,0,0,.4);
     }
-
 
     .nav.active {
         display: flex;
     }
 
-
     .nav a {
         min-height: 48px;
-
         justify-content: flex-start;
-
         padding: 8px 16px;
     }
-
 
     .menu-toggle {
         display: block;
     }
-
 
     .features-grid,
     .pizza-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
-
     .story-grid {
         grid-template-columns: 1fr;
-
         gap: 50px;
     }
-
 
     .story-carousel-container,
     .story-carousel {
@@ -1574,16 +1296,13 @@ h1 span {
 
 @media (max-width: 650px) {
 
-
     .container {
         width: min(100% - 28px, var(--container));
     }
 
-
     .section {
         padding: 75px 0;
     }
-
 
     .hero {
         min-height: 100vh;
@@ -1636,7 +1355,6 @@ h1 span {
         gap: 5px;
     }
 
-
     .features {
         padding: 24px 0;
     }
@@ -1646,7 +1364,6 @@ h1 span {
         gap: 16px;
         max-width: 100%;
     }
-
 
     .feature {
         align-items: center;
@@ -1667,16 +1384,13 @@ h1 span {
         font-size: 11px;
     }
 
-
     .pizza-grid {
         grid-template-columns: 1fr;
     }
 
-
     .pizza-image {
         height: 240px;
     }
-
 
     .footer-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -1693,11 +1407,9 @@ h1 span {
         margin: 0 auto;
     }
 
-
     .brand {
         width: 125px;
     }
-
 
     .nav {
         top: 80px;
@@ -1942,5 +1654,36 @@ h1 span {
     .lightbox-close {
         top: -10px;
         right: -4px;
+    }
+}
+
+
+/* =========================================================
+   VÍDEO DEL HERO: movimiento reducido
+   Quien tenga activado "reducir movimiento" en su dispositivo
+   no descarga ni reproduce el vídeo: ve el color de fondo.
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-video {
+        display: none;
+    }
+}
+
+
+/* =========================================================
+   VÍDEO DEL HERO: que se vea completo en escritorio
+   En pantallas anchas el vídeo se muestra entero (contain) en
+   lugar de recortarse arriba y abajo (cover). Si la pantalla es
+   más ancha que el vídeo, quedan franjas laterales del color de
+   fondo (#1a0202). En móvil se mantiene "cover".
+   Para volver al vídeo a pantalla completa con recorte, borra
+   este bloque.
+   ========================================================= */
+
+@media (min-width: 901px) {
+    .hero-video {
+        object-fit: contain;
+        object-position: center;
     }
 }
