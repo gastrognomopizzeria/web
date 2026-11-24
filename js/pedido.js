@@ -1,4 +1,3 @@
-
 /* =========================================================
     pedido.js · Carrito, personalizar artículo, horas y envío del pedido. Necesita config.js y utils.js.
     ========================================================= */
@@ -88,6 +87,27 @@ const listExtraUnico = document.getElementById("listExtraUnico");
 const selectExtraUnico = document.getElementById("selectExtraUnico");
 const refrescoContainer = document.getElementById("refrescoContainer");
 const selectRefresco = document.getElementById("selectRefresco");
+
+// Desplegable de método de pago (solo visible a domicilio). Se crea aquí para no tocar el HTML.
+let paymentGroup = null;
+let paymentMethodSelect = null;
+
+if (addressGroup) {
+    paymentGroup = document.createElement("div");
+    paymentGroup.id = "paymentGroup";
+    paymentGroup.className = addressGroup.className; // mismo estilo que el cuadro de dirección
+    paymentGroup.style.display = "none";
+    paymentGroup.innerHTML = `
+        <label for="paymentMethod">Método de pago</label>
+        <select id="paymentMethod">
+            <option value="">Selecciona método de pago...</option>
+            <option value="Tarjeta">Tarjeta</option>
+            <option value="Efectivo">Efectivo</option>
+        </select>
+    `;
+    addressGroup.insertAdjacentElement("afterend", paymentGroup);
+    paymentMethodSelect = paymentGroup.querySelector("#paymentMethod");
+}
 
 let currentSelectedPizza = null;
 let currentQuantity = 1;
@@ -386,9 +406,16 @@ if (orderTypeSelect && addressGroup) {
         if (isDomicilio) {
             addressGroup.style.display = "flex";
             document.getElementById("clientAddress").required = true;
+            if (paymentGroup) paymentGroup.style.display = "flex";
+            if (paymentMethodSelect) paymentMethodSelect.required = true;
         } else {
             addressGroup.style.display = "none";
             document.getElementById("clientAddress").required = false;
+            if (paymentGroup) paymentGroup.style.display = "none";
+            if (paymentMethodSelect) {
+                paymentMethodSelect.required = false;
+                paymentMethodSelect.value = "";
+            }
         }
 
         actualizarHorasDisponibles();
@@ -599,6 +626,16 @@ if (checkoutForm) {
             return;
         }
 
+        // Método de pago (solo a domicilio)
+        const metodoPago = (orderType === "domicilio" && paymentMethodSelect)
+            ? paymentMethodSelect.value
+            : "";
+
+        if (orderType === "domicilio" && !metodoPago) {
+            alert("Por favor, elige un método de pago (Tarjeta o Efectivo).");
+            return;
+        }
+
         // Comprobamos que la hora seleccionada siga estando abierta en la base de datos
         const { data: checkAbiertas } = await supabaseClient
             .from('horarios_bloqueados')
@@ -650,6 +687,9 @@ if (checkoutForm) {
         const horaEntregaTexto = `${fecha} a las ${hora}`;
         const tipoEntregaTextoLimpio = orderType === 'domicilio' ? 'DOMICILIO' : 'RECOGER EN LOCAL';
 
+        // Lo que se guarda en la columna tipo_entrega: "domicilio - Tarjeta", "domicilio - Efectivo" o "recoger"
+        const tipoEntregaDB = isDomicilio ? `domicilio - ${metodoPago}` : orderType;
+
         let textoImpresionDirecto = "==========================================\n";
         textoImpresionDirecto += "           GASTROGNOMO PIZZERIA           \n";
         textoImpresionDirecto += "         Ramon y Cajal 22, Villena        \n";
@@ -658,6 +698,11 @@ if (checkoutForm) {
         textoImpresionDirecto += ajustarAnchoPOS80(`Cliente: ${name}`, 42) + "\n";
         textoImpresionDirecto += `Telefono: ${phone}\n`;
         textoImpresionDirecto += ajustarAnchoPOS80(`Direccion: ${direccionTexto}`, 42) + "\n";
+
+        if (isDomicilio) {
+            textoImpresionDirecto += `Pago: ${limpiarTextoParaImpresora(metodoPago).toUpperCase()}\n`;
+        }
+
         textoImpresionDirecto += `Hora Entrega: ${horaEntregaTexto}\n`;
         textoImpresionDirecto += "------------------------------------------\n";
         textoImpresionDirecto += "DETALLE:\n";
@@ -674,7 +719,7 @@ if (checkoutForm) {
         const { data: pedidoIdNuevo, error } = await supabaseClient.rpc('crear_pedido', {
             p_nombre: name,
             p_telefono: phone,
-            p_tipo_entrega: orderType,
+            p_tipo_entrega: tipoEntregaDB,
             p_direccion: direccionTexto,
             p_hora_entrega: horaEntregaTexto,
             p_detalle_pedido: textoImpresionDirecto,
